@@ -1,0 +1,14 @@
+version: "3.8"
+
+services:
+  pdf-analyzer:
+    build: .
+    ports:
+      - "8501:8501"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - ./uploads:/app/uploads
+    environment:
+      - STREAMLIT_SERVER_MAX_UPLOAD_SIZE=200
+    restart: unless-stopped

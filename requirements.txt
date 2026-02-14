@@ -1,9 +1,29 @@
+# Core LangChain
 langchain==0.3.25
 langchain-community==0.3.24
 langchain-core==0.3.60
 langchain-ollama==0.3.3
+
+# Vector store
 faiss-cpu==1.11.0
+
+# UI
 streamlit
+
+# Ollama client
 ollama
+
+# PDF processing
 pypdf
 pdfplumber
+
+# Entity Extraction (Google's LangExtract)
+langextract
+
+# Cross-encoder reranking
+sentence-transformers
+torch
+transformers
+
+# Utilities
+pandas

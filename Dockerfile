@@ -4,6 +4,13 @@ FROM python:3.10-slim
 # Set the working directory inside the container
 WORKDIR /app
 
+# Install system dependencies needed by sentence-transformers / torch
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    git \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
 # Copy all files from your project folder into the container
 COPY . /app
 
