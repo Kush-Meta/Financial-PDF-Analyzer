@@ -1,0 +1,14 @@
+[server]
+maxUploadSize = 25
+# Reload imported project modules reliably without an optional watchdog install.
+fileWatcherType = "poll"
+
+[browser]
+gatherUsageStats = false
+
+[theme]
+primaryColor = "#304CDE"
+backgroundColor = "#F6F7FB"
+secondaryBackgroundColor = "#EDF1FC"
+textColor = "#172040"
+font = "sans serif"

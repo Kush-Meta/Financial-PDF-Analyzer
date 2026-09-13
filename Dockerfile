@@ -18,6 +18,12 @@ COPY . /app
 RUN pip install --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
+RUN useradd --create-home appuser && chown -R appuser:appuser /app
+USER appuser
+
+HEALTHCHECK --interval=30s --timeout=5s --start-period=60s \
+    CMD curl --fail http://localhost:8501/_stcore/health || exit 1
+
 # Expose Streamlit's default port
 EXPOSE 8501
 

@@ -1,119 +1,97 @@
-# 📄 PDF Chat Analyzer v2
+# FinRead
 
-A Streamlit app that lets you chat with financial PDFs (10-K filings, etc.) using a fully local AI pipeline with **upgraded embeddings**, **cross-encoder reranking**, and **LangExtract entity extraction**.
+A local financial document research app built with Streamlit, Ollama, FAISS, and LangExtract. Upload a filing, ask questions, and inspect the page-level evidence behind each answer.
 
-## What's New in v2
+## Run locally
 
-| Feature | v1 | v2 |
-|---------|----|----|
-| **Embedding model** | `llama2` (not an embedding model!) | `mxbai-embed-large` — SOTA for its size, outperforms OpenAI text-embedding-3-large |
-| **LLM** | Mixed `llama2`/`llama3` | Configurable: `llama3`, `mistral`, `gemma2` |
-| **Retrieval** | Basic vector similarity | **Two-stage retrieval with cross-encoder reranking** |
-| **Entity extraction** | None | **Google's LangExtract** — structured financial entity extraction with source grounding |
-| **Prompt** | Default LangChain | Custom financial analyst prompt |
-| **Source transparency** | None | Expandable source chunks shown with every answer |
-| **Architecture** | Single page | Tabbed UI with educational content |
-
-## Prerequisites
-
-1. **Ollama** running on your host machine ([install Ollama](https://ollama.com))
-2. Pull the required models:
+Use Python 3.10 or newer and an existing Ollama installation:
 
 ```bash
-# Embedding model (REQUIRED)
 ollama pull mxbai-embed-large
-
-# LLM for Q&A and extraction (REQUIRED)
 ollama pull llama3
-
-# Optional alternative models
-ollama pull nomic-embed-text
-ollama pull mistral
-ollama pull gemma2
-```
-
-## Quick Start
-
-```bash
-# Clone and run
-docker compose up --build
-
-# Open in browser
-open http://localhost:8501
-```
-
-Or without Docker:
-
-```bash
+python -m venv .venv
+source .venv/bin/activate
 pip install -r requirements.txt
-streamlit run app.py
+streamlit run app.py --server.address=127.0.0.1
 ```
 
-## How Reranking Works
+Open [FinRead](http://localhost:8501). The default reranker downloads its public model weights on first use. Disable **Rerank evidence** to use vector search alone.
 
-This is the key architectural upgrade. The app implements **two-stage retrieval**:
+Alternatively:
 
-```
-PDF → chunk → embed (mxbai-embed-large) → FAISS index
-                                               │
-Query → embed → cosine similarity (top 15) ────┘
-                                               │
-              cross-encoder rerank (top 4) ────→ Llama 3 → Answer
+```bash
+docker compose up --build
 ```
 
-### Stage 1: Vector Search (Fast, Approximate)
-- Embeds query and chunks independently (bi-encoder)
-- Finds top-k candidates by cosine similarity
-- **Fast** (milliseconds) but **lossy** — compresses meaning into a single vector
+Compose binds the app to localhost and routes model calls to the host's Ollama server. The container runs as a non-root user, has an HTTP health check, and excludes uploaded PDFs from its build context. Set `OLLAMA_BASE` for other Ollama endpoints; that endpoint receives document text.
 
-### Stage 2: Cross-Encoder Reranking (Slow, Precise)
-- Takes each (query, chunk) pair and processes them **jointly** through a transformer
-- The model attends across both query and document simultaneously
-- Produces much more accurate relevance scores
-- **Slower** (~200-500ms) but **dramatically more accurate** (20-35% improvement)
+## Research workflow
 
-### Why not skip Stage 1?
-Cross-encoders must evaluate each document individually against the query. For 1000 chunks, that's 1000 forward passes. Vector search narrows it to ~15 candidates first, making the cross-encoder step feasible.
+1. Add a text-based PDF in the source sidebar, or choose **Open Apple’s 2025 10-K** to use the complete 80-page public SEC filing. Links to the SEC original and as-filed PDF remain visible in the source panel. PDFs can contain up to 25 MB and 1,000 pages. Invalid, encrypted, and textless files produce actionable errors.
+2. Type a question in the main conversation box. The first question builds the index; subsequent questions reuse it. Ask follow-up questions naturally in the same box.
+3. Click a source chip such as **S1 · p. 2** to read the complete excerpt in the adjacent **Document details** panel. **Read full page** opens the corresponding page without regenerating the answer.
+4. Open **Document details** and switch to **Pages** to browse text, or **Figures** to extract entities from up to five selected pages. Model and retrieval controls live under **Settings** in the sidebar.
+5. Use **More** to download JSON research or readable Markdown notes with source excerpts. Entity results have their own JSON download.
 
-### Reranker models available:
-- `cross-encoder/ms-marco-MiniLM-L-6-v2` — best speed/accuracy balance
-- `cross-encoder/ms-marco-TinyBERT-L-2-v2` — fastest, slightly less accurate
-- `BAAI/bge-reranker-base` — strong multilingual support
+**More → New conversation** clears chat while retaining the document index. Replacing or removing the source clears its associated research. Failed questions offer a retry button.
 
-## LangExtract Entity Extraction
+Follow-up questions are rewritten into standalone retrieval queries using the last two conversation turns. Answers are instructed to preserve periods, currencies, and units and to show inputs and formulas for calculations. Citation validation checks IDs, not whether a claim is true.
 
-[LangExtract](https://github.com/google/langextract) (by Google) extracts structured financial entities from your PDF:
+## What changed
 
-- **Companies** — names, tickers
-- **Revenue/Income figures** — with fiscal periods
-- **Executives** — names and roles
-- **Risk factors** — key risks mentioned
-- **Fiscal periods** — year-end dates
+- Uploaded files are parsed in memory, without a shared `uploaded.pdf` file.
+- Documents, indexes, chat, and entity results belong to one Streamlit session. Replacing or removing a document clears all associated state.
+- Index construction is atomic: a failed embedding call cannot publish a partially built index or silently substitute an incompatible one.
+- Questions run only on submission. Settings changes and downloads do not submit them again.
+- Model failures preserve prior research and present a retry message without exposing provider payloads.
+- Source metadata is included in the model's evidence, and full excerpts remain available for review.
+- Extraction uses the selected model and full selected pages, retains results across reruns, and reports whether returned offsets exactly match the source.
+- Only the public reranker model is globally cached. See [Streamlit session state](https://docs.streamlit.io/develop/api-reference/caching-and-state/st.session_state) and [resource caching](https://docs.streamlit.io/develop/api-reference/caching-and-state/st.cache_resource).
 
-It uses few-shot prompting with Ollama as the local LLM backend, so no API keys are needed.
+## Architecture
 
-## Configuration
-
-All settings are adjustable in the sidebar:
-
-| Setting | Default | Description |
-|---------|---------|-------------|
-| Embedding model | `mxbai-embed-large` | Local embedding via Ollama |
-| LLM | `llama3` | For Q&A and extraction |
-| Reranking | Enabled | Cross-encoder second-stage retrieval |
-| Reranker model | `ms-marco-MiniLM-L-6-v2` | Lightweight cross-encoder |
-| Initial retrieval k | 15 | Chunks fetched by vector search |
-| Rerank top-n | 4 | Chunks kept after reranking |
-| Chunk size | 1500 | Characters per chunk |
-| Chunk overlap | 200 | Overlap between chunks |
-
-## Project Structure
-
+```text
+PDF bytes → validate + extract pages → session-owned page documents
+                                     ↓ on first question / embedding change
+                             split (1,000 chars, 150 overlap)
+                                     ↓
+                           Ollama embeddings → FAISS
+                                     ↓
+question → resolve follow-up → retrieve → optional cross-encoder → evidence JSON
+                                                                      ↓
+                                                        Ollama answer with [S#]
+                                                                      ↓
+                                                    citation checks + full excerpts
 ```
-.
-├── app.py                 # Main Streamlit application
-├── requirements.txt       # Python dependencies
-├── Dockerfile             # Container build
-├── docker-compose.yml     # Easy deployment
-└── README.md              # This file
+
+- `app.py`: Streamlit UI and user-triggered actions.
+- `ui.py` and `assets/finread.css`: reusable conversation controls and the responsive visual system.
+- `sample_document.py` and `assets/filings/`: the complete Apple FY2025 Form 10-K, original URLs, and a checksum for provenance. The bundled example works without fetching SEC data at runtime.
+- `finread.py`: document validation, session lifecycle, evidence and answer contracts.
+- `services.py`: local embedding, retrieval, reranking, generation, and extraction.
+- `tests/`: deterministic unit and Streamlit interaction tests without model calls.
+- `scripts/smoke_models.py`: opt-in smoke test against installed local models.
+- `.github/workflows/tests.yml`: CI test job using the existing requirements.
+
+## Verification
+
+```bash
+python -m unittest discover -s tests -v
+# Optional: requires Ollama, both default models, and cached reranker weights
+python scripts/smoke_models.py
 ```
+
+The 38-test suite covers page provenance, invalid/encrypted/scanned PDFs, upload bounds, session isolation, index invalidation and failed rebuilds, follow-up retrieval, citation checks, duplicate submissions, settings reruns, retries, persistent extraction results, sample onboarding, direct conversational follow-ups, and source-to-page navigation. See `DESIGN.md` for the redesign's interaction principles and reference projects.
+
+## Production status and next milestones
+
+This is a tested local application foundation, **not yet a hosted multi-user production service**.
+
+1. **Deployment foundation:** define users and hosting, add authentication/authorization, tenant-scoped durable storage, explicit retention/deletion, background indexing jobs, quotas, and deployment observability.
+2. **Financial accuracy:** build a labeled filing evaluation set; measure retrieval recall, citation support, abstention, and period/unit accuracy. Add table-aware extraction, OCR, and deterministic financial calculations before offering computed KPIs.
+3. **Product depth:** saved document libraries, multi-filing comparisons, side-by-side original PDF navigation, and structured financial exports.
+4. **Release hardening:** lock all dependency versions, add dependency/security scans and isolated PDF parsing with resource limits, load-test concurrent model work, and exercise deployment/backup recovery.
+
+Current limitations: refreshes or restarts may clear session data; PDF text extraction may flatten tables; scanned pages require external OCR; financial interpretation is model-generated; prompts are not a security boundary against malicious documents. Timeouts bound model HTTP calls, but there is no durable job queue, cancellation, or per-user rate limiting. Dependencies remain unchanged from the original project.
+
+A legacy `uploaded.pdf` is already tracked in the original repository. The app no longer reads or writes it; build exclusions prevent it entering new container images. Review it separately before publishing a release.

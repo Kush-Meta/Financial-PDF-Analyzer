@@ -1,0 +1,11 @@
+.git
+.venv
+venv
+__pycache__
+.env
+.env.*
+*.pdf
+!assets/filings/apple-2025-10k.pdf
+uploads
+tests
+.github

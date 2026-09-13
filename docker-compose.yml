@@ -1,14 +1,11 @@
-version: "3.8"
-
 services:
   pdf-analyzer:
     build: .
     ports:
-      - "8501:8501"
+      - "127.0.0.1:8501:8501"
     extra_hosts:
       - "host.docker.internal:host-gateway"
-    volumes:
-      - ./uploads:/app/uploads
     environment:
-      - STREAMLIT_SERVER_MAX_UPLOAD_SIZE=200
+      - OLLAMA_BASE=http://host.docker.internal:11434
+      - STREAMLIT_SERVER_MAX_UPLOAD_SIZE=25
     restart: unless-stopped
