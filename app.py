@@ -7,11 +7,13 @@ import time
 
 import streamlit as st
 
-from finread import (DocumentError, answer_question, document_key, ensure_index,
+from finread import (DocumentError, document_key, ensure_index,
                      read_pdf, reset_document)
+from intelligence import research_answer
+from sec_data import ResearchError
 from sample_document import SAMPLE_NAME, SAMPLE_SEC_URL, SAMPLE_PDF_URL, sample_bytes, sample_pages
 from services import build_index, extract_entities, load_reranker, make_llm, make_retriever
-from ui import apply_styles, open_page, queue_question, render_answer, render_source
+from ui import apply_styles, open_page, queue_question, render_answer, render_source, research_notes
 
 logger = logging.getLogger(__name__)
 OLLAMA_BASE = os.environ.get("OLLAMA_BASE", "http://localhost:11434")
@@ -103,6 +105,7 @@ with st.sidebar:
         top_n = st.slider("Evidence excerpts", 1, min(top_k, 6), min(top_k, 4), key="top_n") if top_k > 1 else 1
         st.caption("Research lives in this browser session's server memory. Export anything you want to keep before refreshing.")
         st.caption("Text is sent to your configured Ollama server. Reranker weights may download on first use.")
+        st.caption("Peer questions look up public company identifiers and financials at the SEC. Uploaded PDF text stays with Ollama. The Apple example can use a dated annual-report snapshot if SEC access fails.")
 
 header, actions = st.columns([4, 1], vertical_alignment="center")
 with header:
@@ -117,10 +120,7 @@ with actions:
                 "document": active_name, "sha256": active_key.split(":", 1)[0],
                 "answers": st.session_state.chat_history,
             }, indent=2), file_name="finread-research.json", mime="application/json", width="stretch")
-            transcript = "\n\n---\n\n".join(
-                "## " + e["q"] + "\n\n" + e["a"] + "\n\n" +
-                "\n\n".join(f'[{s["id"]}] {s["file"]}, page {s["page"]}\n\n{s["text"]}' for s in e["sources"])
-                for e in st.session_state.chat_history)
+            transcript = research_notes(st.session_state.chat_history)
             st.download_button("Readable notes", transcript, file_name="finread-research.md",
                                mime="text/markdown", width="stretch")
 
@@ -172,17 +172,19 @@ with chat_column:
         try:
             started = time.monotonic()
             with st.status("Reading the filing…", expanded=True) as status:
-                st.write("Finding the right passages in your document…")
-                index = ensure_index(st.session_state, embed_model, OLLAMA_BASE, build_index)
-                encoder = cached_reranker(rerank_model_name) if enable_reranking else None
-                retriever = make_retriever(index, top_k if encoder else top_n, encoder, top_n)
-                st.write("Preparing an answer with source references…")
-                result = answer_question(question, retriever, make_llm(llm_model, OLLAMA_BASE),
-                                         st.session_state.chat_history)
-                status.update(label="Found your answer", state="complete", expanded=False)
+                def document_retriever():
+                    index = ensure_index(st.session_state, embed_model, OLLAMA_BASE, build_index)
+                    encoder = cached_reranker(rerank_model_name) if enable_reranking else None
+                    return make_retriever(index, top_k if encoder else top_n, encoder, top_n)
+                result = research_answer(question, document_retriever, make_llm(llm_model, OLLAMA_BASE),
+                                         pages, st.session_state.chat_history,
+                                         sample=st.session_state.demo_active, progress=st.write)
+                label = "One detail needed" if result.research.get("status") == "needs_clarification" else "Research complete"
+                status.update(label=label, state="complete", expanded=False)
             st.session_state.chat_history.append({
                 "q": question, "a": result.text, "sources": result.sources,
                 "warnings": result.warnings, "search_query": result.search_query,
+                "research": result.research,
                 "model": llm_model, "seconds": time.monotonic() - started,
             })
             st.session_state.failed_question = None
@@ -191,12 +193,15 @@ with chat_column:
             st.rerun()
         except Exception as exc:
             st.session_state.failed_question = question
-            show_failure("Research", exc)
+            if isinstance(exc, ResearchError):
+                st.error(str(exc))
+            else:
+                show_failure("Research", exc)
             st.button("Retry question", icon=":material/refresh:", key="retry_now",
                       on_click=queue_question, args=(question, "retry_now"))
 
 with evidence_column:
-    with st.expander("Document details", expanded=has_answers):
+    with st.expander("Evidence", expanded=has_answers):
         view = st.radio("Evidence view", ["Sources", "Pages", "Figures"], horizontal=True,
                         key="inspector_view", label_visibility="collapsed")
         if view == "Sources" or view is None:
@@ -207,8 +212,11 @@ with evidence_column:
                 if source:
                     with st.container(height=410, border=False, key="source_scroll"):
                         render_source(source)
-                    st.button(f"Read full page {source['page']}", icon=":material/open_in_new:",
-                              key="read_full_page", on_click=open_page, args=(source["page"],))
+                    if source.get("url"):
+                        st.link_button("Open original report", source["url"], icon=":material/open_in_new:")
+                    elif source.get("page"):
+                        st.button(f"Read full page {source['page']}", icon=":material/open_in_new:",
+                                  key="read_full_page", on_click=open_page, args=(source["page"],))
                     st.caption("Source IDs identify excerpts, not a guarantee that every claim is correct.")
             else:
                 st.caption("Supporting passages appear here after you ask a question.")

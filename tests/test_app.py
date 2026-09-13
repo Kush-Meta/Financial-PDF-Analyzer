@@ -6,6 +6,7 @@ from unittest.mock import Mock, patch
 from streamlit.testing.v1 import AppTest
 
 from finread import Answer
+from intelligence import ResearchPlan
 from helpers import Upload, pdf_bytes
 
 APP = str(Path(__file__).resolve().parents[1] / "app.py")
@@ -20,6 +21,8 @@ class AppBehavior(unittest.TestCase):
         self.stack.enter_context(patch("services.load_reranker", return_value=Mock()))
         self.stack.enter_context(patch("services.make_retriever", return_value=Mock()))
         self.stack.enter_context(patch("services.make_llm", return_value=Mock()))
+        self.planner = self.stack.enter_context(patch("intelligence.plan_question", return_value=ResearchPlan(
+            "document", "", (), "2025-10-31", None, "Revenue?")))
         self.answer = self.stack.enter_context(patch("finread.answer_question", return_value=Answer(
             "Revenue was $42 million [S1].",
             [{"id": "S1", "file": "filing.pdf", "page": 1, "page_label": "1", "text": "Revenue was $42 million."}],
@@ -166,6 +169,22 @@ class AppBehavior(unittest.TestCase):
         self.assert_clean()
         self.assertIsNone(self.at.session_state.pages)
         self.assertEqual(len(self.at.chat_input), 0)
+        self.builder.assert_not_called()
+        self.answer.assert_not_called()
+
+    def test_external_comparison_has_company_sources_and_never_opens_uploaded_page(self):
+        from sec_data import ResearchError
+        self.planner.return_value = ResearchPlan("competitors", "AAPL", ("MSFT",), "2025-10-31", None, "Compare margins")
+        client = Mock()
+        client.resolve.side_effect = ResearchError("SEC denied access from this network.")
+        with patch("intelligence.SecClient", return_value=client):
+            self.at.chat_input[0].set_value("Compare Apple and Microsoft margins").run()
+        self.assert_clean()
+        self.assertEqual(len(self.at.session_state.chat_history[0]["sources"]), 2)
+        self.at.button(key="source_0_S2").click().run()
+        self.assert_clean()
+        self.assertFalse(any(b.key == "read_full_page" for b in self.at.button))
+        self.assertEqual(self.at.get("link_button")[0].proto.url, "https://www.microsoft.com/investor/reports/ar25/index.html")
         self.builder.assert_not_called()
         self.answer.assert_not_called()
 

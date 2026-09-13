@@ -59,6 +59,41 @@ Verified the repaired browser session: the landing page rendered without errors,
 and opening the Apple example displayed all 80 pages, both original-source links,
 the question starters, and the enabled chat composer.
 
+## Competitor research — September 13, 2026
+
+- 73 offline tests passed with the new planner, SEC adapter, snapshot fallback,
+  comparison arithmetic, original-accession and annual-period checks, unit/conflict
+  handling, entity verification, HTTP retry bounds, explicit follow-up state edits,
+  source inspection and exports.
+- `scripts/smoke_research.py` passed against the installed local `llama3`: document
+  questions, implicit margin benchmarking, explicit named peers, quarterly scope
+  clarification, credit-rating scope handling, and an end-to-end comparison with
+  no embedding/index call. Apple and Microsoft snapshot margins round to 31.97%
+  and 45.62% from independently checked report inputs.
+- Live-model follow-up experiments initially failed: the model lost the peer plan
+  on short metric, peer and cutoff edits. Added deterministic state transitions and
+  regression tests for those explicit edits. Free-form planning remains model-dependent.
+- Browser testing caught an unsupported qualitative sentence despite valid source
+  IDs. Removed model-generated narration from the peer tool. The final table and
+  comparison conclusions are deterministic; a test verifies that this tool does
+  not call an answer model. Another verifies that Microsoft's operating income is
+  lower than Apple's while its margin and operating cash flow are higher in the
+  example periods. Document-only answers remain model-generated.
+- Direct SEC requests from this network returned HTTP 403. No access restriction
+  was bypassed. Live JSON behavior is covered with offline fixtures; successful
+  live SEC retrieval is **not verified**. The real-report fallback is explicitly
+  dated and cannot fulfill current-data requests.
+- Docker Compose configuration and `git diff --check` passed. Requirements were
+  unchanged; no additional package or model was installed.
+- Final browser verification: the named Apple/Microsoft margin question displayed
+  the compact sourced table and deterministic comparison, without generated prose.
+  Selecting the Microsoft source showed its figures and linked to Microsoft's
+  report. "And operating cash flow?" retained Microsoft and the historical cutoff,
+  changed the comparison metric, and completed without another planning/model call.
+  "Use Alphabet instead" then replaced Microsoft while retaining the cash-flow
+  metric. The final narrow browser layout displayed a compact table and stacked
+  evidence panel without a page-wide horizontal scrollbar.
+
 ## Remaining validation limits
 
 The subsequent interface simplification was verified in the retained browser on

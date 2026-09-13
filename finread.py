@@ -1,6 +1,6 @@
 """Document handling, session lifecycle, and evidence contracts for FinRead."""
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from hashlib import sha256
 from io import BytesIO
 import json
@@ -97,6 +97,7 @@ class Answer:
     sources: list
     warnings: list
     search_query: str
+    research: dict = field(default_factory=dict)
 
 
 def answer_question(question, retriever, llm, history=()):
