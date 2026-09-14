@@ -2,6 +2,20 @@
 
 A local financial research app built with Streamlit, Ollama, FAISS, and LangExtract. Ask questions about a filing or compare annual company financials, then inspect the evidence behind the answer.
 
+## Documentation
+
+| Guide | Purpose |
+| --- | --- |
+| [Developer and operator guide](DEVELOPMENT.md) | Request flow, configuration, limits, evidence contracts, session ownership and failure recovery |
+| [Roadmap](ROADMAP.md) | Delivered scope, remaining work and release acceptance criteria |
+| [Changelog](CHANGELOG.md) | Completed milestones and implementation commits |
+| [UI design](DESIGN.md) | Interaction decisions and design references |
+| [Intelligence design](INTELLIGENCE.md) | Competitor architecture, research references and future credit methodology |
+| [Validation history](VALIDATION.md) | Checks actually performed, failures and remaining limitations |
+| [Benchmark guide](benchmarks/README.md) | Dataset provenance, commands, scoring and label corrections |
+| [Benchmark results](benchmarks/RESULTS.md) | Current 43/44 result, known unit error and audit records |
+| [Apple filing provenance](assets/filings/README.md) / [peer snapshot sources](assets/filings/PEER_SOURCES.md) | Original documents, dates and fallback restrictions |
+
 ## Run locally
 
 Use Python 3.10 or newer and an existing Ollama installation:
