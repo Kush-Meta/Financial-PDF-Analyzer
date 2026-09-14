@@ -1,7 +1,8 @@
 """Source-checked financial benchmark. No LLM judge and no production fallback.
 
 Offline replays captured SEC responses; model also measures the real router and
-PDF RAG; live fetches SEC again with the HTTP cache disabled. These modes have
+document answers (statement lookup or semantic retrieval); live fetches SEC again
+with the HTTP cache disabled. These modes have
 separate denominators and must never be presented as equivalent evidence.
 """
 from collections import Counter
@@ -239,7 +240,7 @@ def run(mode='offline', llm=None, retriever_factory=None, on_result=lambda resul
                 elif case['kind'] == 'document':
                     answer = research_answer(case['question'], retriever_factory, llm, pages, sample=True, client=recorded)
                     checks = score_document(case, answer)
-                    result.update(answer=answer.text, sources=answer.sources)
+                    result.update(answer=answer.text, sources=answer.sources, research=answer.research)
                 else:
                     plan = plan_question(case['question'], llm, pages, previous_comparison() if case['followup'] else (), True)
                     checks = score_route(case, plan)

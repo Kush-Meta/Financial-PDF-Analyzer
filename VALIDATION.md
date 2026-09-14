@@ -140,3 +140,39 @@ filing URL. Compose configuration, whitespace checks and contact-file exclusion
 from Git-visible files passed. The operator contact is stored locally with mode
 600 and excluded from Git/Docker; no dependencies were changed. CI benchmark
 artifact collection is configured but has not been verified on GitHub in this run.
+
+
+## Numerical evidence — September 14, 2026 UTC
+
+- 142 offline tests passed, including 32 independently authored synthetic
+  adversarial cases and public Apple statement regressions. Tests cover exact
+  units/signs/year columns, wrong rows, currency conflicts, duplicate evidence,
+  missing cells/denominators, scoped/quarterly tables, question qualifiers, and
+  original-question protection against a planner dropping scope.
+- Supported annual figures, operating margin and revenue growth use statement
+  lookup and Decimal arithmetic, with no embedding/index or answer-generation
+  call. Full-scan budget failures cannot certify a selectively retrieved subset.
+  Tests verify this behavior, preserved audit records, UI captions and exports.
+- The full local-planner development benchmark passed 44/44. After fixing a
+  document-report metadata omission, a separate 12/12 document run retained every
+  numerical audit record. Current-code deterministic replay matched all twelve
+  answers and records. No expected financial values or scoring tolerances changed.
+- The former capex failure remains in a committed public regression fixture. The
+  corrected output is $12,715 million ($12.715 billion), with source cell (12,715)
+  and the explicit outflow-magnitude transformation. The original 43/44 report
+  remains intact; these are distinct observations, not a rescoring of old output.
+- No new dependencies or model downloads were required. This is a supported-layout
+  feature; arbitrary model-written numerical claims are not validated. Independent
+  filings/layouts, held-out evaluation, hosted isolation and load testing remain.
+
+See [the numerical contract](NUMERICAL_EVIDENCE.md) and the
+[separate result records](benchmarks/RESULTS.md) for scope and reproducibility.
+
+Final browser verification on port 8502 showed the corrected capex amount, a
+single source chip for PDF page 36, the checked-figures caption, and the original
+negative row in the expanded audit. A screenshot confirmed readable currency
+formatting in the narrow preview. Browser testing had exposed dollar pairs being
+interpreted as inline math; escaping them and restarting the retained preview
+resolved it. The UI regression covers both dollar amounts. `git diff --check`
+passed, and `.sec-user-agent` remains ignored; no local operator identity is
+included in the committed artifacts.

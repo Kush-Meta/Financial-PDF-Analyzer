@@ -49,6 +49,30 @@ class AppBehavior(unittest.TestCase):
         self.assertEqual(self.answer.call_count, 2)
         self.assertEqual(self.builder.call_count, 1)
 
+    def test_figure_checks_render_without_a_peer_trace_and_survive_rerun(self):
+        from finread import statement_answer
+        from sample_document import sample_pages
+        checked = statement_answer('What were capital expenditures in fiscal 2025?', sample_pages())
+        self.answer.return_value = checked
+        self.at.chat_input[0].set_value('What were capital expenditures in fiscal 2025?').run()
+        self.assert_clean()
+        self.assertTrue(any(c.value == 'Figures checked against statement rows' for c in self.at.caption))
+        self.assertTrue(any(e.label == 'Figure checks' for e in self.at.expander))
+        self.assertTrue(any(r'\$12,715 million (\$12.715 billion)' in m.value for m in self.at.markdown))
+        self.assertEqual(self.at.session_state.chat_history[0]['research']['verification']['facts'][0]['raw_value'], '(12,715)')
+        self.at.run()
+        self.assert_clean()
+        self.assertEqual(self.answer.call_count, 1)
+
+    def test_model_interpretation_has_no_checked_figures_badge(self):
+        from dataclasses import replace
+        self.answer.return_value = replace(self.answer.return_value, research={'verification': {
+            'status': 'not_checked', 'facts': [], 'scope': 'Model interpretation'}})
+        self.at.chat_input[0].set_value('Why did revenue grow?').run()
+        self.assert_clean()
+        self.assertTrue(any('figures not numerically checked' in c.value for c in self.at.caption))
+        self.assertFalse(any(e.label == 'Figure checks' for e in self.at.expander))
+
     def test_document_switch_clears_previous_answers_and_index(self):
         self.at.chat_input[0].set_value("Revenue?").run()
         self.upload.return_value = Upload(pdf_bytes(("Another company's filing",)))

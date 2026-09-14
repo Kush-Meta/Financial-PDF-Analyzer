@@ -8,6 +8,14 @@ from intelligence import ResearchPlan, competitor_research
 
 
 class Benchmark(unittest.TestCase):
+    def test_document_reports_retain_the_numerical_audit_record(self):
+        record = {'verification': {'status': 'unavailable', 'facts': [], 'reason': 'Missing period'}}
+        answer = Answer('Missing period', [], [], '', record)
+        with patch('benchmarks.evaluate.research_answer', return_value=answer):
+            report = run(mode='model', only=['document'])
+        self.assertEqual(len(report['results']), 12)
+        self.assertTrue(all(row['research'] == record for row in report['results']))
+
     def test_live_benchmark_cannot_pass_using_the_correct_snapshot_numbers(self):
         class BlockedClient:
             events = []

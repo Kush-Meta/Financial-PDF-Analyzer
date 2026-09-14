@@ -2,6 +2,7 @@
 from html import escape
 from pathlib import Path
 import json
+import re
 
 import streamlit as st
 
@@ -30,7 +31,9 @@ def render_answer(entry, index):
     with st.chat_message("user", avatar=":material/person:"):
         st.write(entry["q"])
     with st.chat_message("assistant", avatar=":material/auto_awesome:"):
-        st.markdown(entry["a"].replace("![", r"\!["))
+        # Financial dollar pairs are currency, not inline LaTeX delimiters.
+        display = re.sub(r"(?<!\\)\$", r"\\$", entry["a"].replace("![", r"\!["))
+        st.markdown(display)
         for warning in entry["warnings"]:
             st.warning(warning)
         if entry["sources"]:
@@ -41,7 +44,22 @@ def render_answer(entry, index):
                               key=f"source_{index}_{source['id']}",
                               help=f"Read the source in {source['file']}",
                               on_click=select_evidence, args=(index, source["id"]))
-        st.caption(f"{len(entry['sources'])} sources · {entry['seconds']:.1f}s")
+        count = len(entry["sources"])
+        st.caption(f"{count} {'source' if count == 1 else 'sources'} · {entry['seconds']:.1f}s")
+        verification = entry.get("research", {}).get("verification")
+        if verification:
+            captions = {"verified": "Figures checked against statement rows",
+                        "unavailable": "Not enough evidence to check these figures",
+                        "not_checked": "Model interpretation · figures not numerically checked"}
+            st.caption(captions.get(verification["status"], "Figures not numerically checked"))
+            if verification["status"] != "not_checked":
+                with st.expander("Figure checks"):
+                    st.caption(verification["scope"])
+                    for fact in verification.get("facts", []):
+                        st.write(f"{fact['metric'].replace('_', ' ').capitalize()} · {fact['year']} · {fact['source_id']}")
+                        st.text(fact["row"])
+                        st.caption(f"{fact['currency']} {fact['scale']} · {fact['raw_value']} as reported")
+                    st.json(verification, expanded=False)
         if entry.get("research", {}).get("trace"):
             with st.expander("Research details"):
                 st.json(entry["research"], expanded=False)

@@ -75,7 +75,10 @@ python scripts/check_sec.py --output evaluation-results/sec-current.json
 selects a subset. The model runner uses the same research entry point as the app,
 with llama3, mxbai-embed-large, the cached MiniLM reranker, k=8 and top_n=4. Set
 `FINREAD_MODEL` and `OLLAMA_BASE` to change the model/server. It does not download
-models. Index construction occurs only if a question takes the document path.
+models. Index construction occurs only for semantic document research. Supported
+statement questions now use the complete statement scan and deterministic answers;
+the model still selects the research route. Reports retain `research.verification`
+so this path is distinguishable from model-generated prose.
 
 JSON reports contain per-case outcomes, timings, source evidence, plans and
 per-dimension scores. JSONL checkpoints preserve completed cases if interrupted.
@@ -96,6 +99,13 @@ coexist with an unsupported explanation. Extra claims, contradictions, correct
 year-to-column binding and abstention for arbitrary document questions still need
 human review or a stronger claim verifier. Errors are included in case outcomes;
 per-dimension denominators include only cases where an answer could be scored.
+
+The numerical-evidence milestone keeps these original labels and scoring rules
+unchanged. Its separate regression tests check exact row/year/base-unit records,
+formulas and unsupported cases; a page-level evidence hit does not substitute for
+those checks. `tests/fixtures/capex-model-failure.json` preserves the original
+wrong answer and public source excerpts. Synthetic adversarial tests establish
+software behavior, not accuracy on an independent filing set.
 
 ## Design references
 

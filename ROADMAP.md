@@ -1,6 +1,6 @@
 # Roadmap and release criteria
 
-Status after implementation commit `6a7372e`. This is a prioritized engineering
+Status after the numerical-evidence milestone. This is a prioritized engineering
 backlog, not a claim that the application is already production-ready.
 
 ## Delivered
@@ -13,27 +13,33 @@ backlog, not a claim that the application is already production-ready.
   a 44-case development benchmark, 96 offline tests and CI replay/report setup.
 - Planner ticker/year handling, bounded original-page context and 16-chunk
   embedding batches, with regression coverage.
+- Direct answers for supported annual statement figures, operating margin and
+  revenue growth, with exact row/year/unit records and deterministic arithmetic.
+  Complete statement lookup skips index creation for these questions. The UI and
+  exports distinguish checked figures, insufficient evidence and unchecked prose.
 
-The measured model result is **43/44**, including a remaining substantive numeric
-error. See [results](benchmarks/RESULTS.md). CI configuration exists; successful
+The development benchmark now passes **44/44** using the real local planner and
+deterministic statement/peer answers. The earlier 43/44 observation and incorrect
+capex answer are preserved. See [results](benchmarks/RESULTS.md). CI configuration exists; successful
 execution of the new job on GitHub was not verified during that milestone.
 
-## 1. Validate numerical claims in document answers
+## 1. Expand numerical coverage
 
-**Problem:** the model can retrieve/cite the correct table and still convert its
-units incorrectly. The recorded capex answer was $12.715 million instead of
-$12,715 million. Citation-ID validation cannot detect this.
+**Delivered first scope:** the recorded capex regression now renders $12,715
+million from the statement cell, and supported annual figures/formulas have
+reviewable source records. Independent synthetic adversarial tests cover wrong
+years, units, rows, currencies, scope, conflicting data and zero denominators.
+See [Numerical evidence](NUMERICAL_EVIDENCE.md).
 
-**Next deliverable:** represent each material numerical claim with its metric,
-period, currency, scale, source row and any formula inputs. Check reported values
-and calculations deterministically; reject or clearly qualify unverified claims.
-Keep reported data distinct from inferred or adjusted values.
+**Remaining gap:** this does not validate arbitrary model-written numerical claims
+or reconstruct unfamiliar PDF tables. Extend source extraction and question
+coverage using additional filings, while retaining explicit unsupported cases.
+Keep reported data distinct from inferred or adjusted values; do not turn the
+current caption into a blanket guarantee about an interpretation.
 
-**Acceptance evidence:** the capex regression passes for the right reason, and
-negative cases catch thousandfold unit errors, prior-year substitutions, wrong
-signs, missing denominators and citations to unrelated rows. Check additional
-filings and held-out questions; a stronger prompt alone is insufficient evidence
-of reliable validation. Preserve the current failing answer as a regression input.
+**Acceptance evidence:** check additional filings and held-out questions, reporting
+coverage and abstention as well as correctness. Preserve all original failures.
+The Apple development set and synthetic tests alone do not meet that broader bar.
 
 ## 2. Establish a held-out financial evaluation set
 

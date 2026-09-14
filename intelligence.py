@@ -373,8 +373,14 @@ def research_answer(question, retriever_factory, llm, pages, history=(), sample=
             [], [], plan.query, {"plan": asdict(plan), "status": "unsupported"})
     if plan.route == "competitors":
         return competitor_research(plan, client, progress)
-    progress("Finding supporting passages in your filing…")
-    retriever = finread.PageContextRetriever(retriever_factory(), pages)
-    answer = finread.answer_question(plan.query, retriever, llm)
+    progress("Checking the filing’s statement rows…")
+    answer = finread.statement_answer(question, pages)
+    if answer is None:
+        progress("Finding supporting passages in your filing…")
+        retriever = finread.PageContextRetriever(retriever_factory(), pages)
+        # The original question controls scope. After a skipped full scan, do
+        # not certify a ranked subset which may omit conflicting statement rows.
+        answer = finread.answer_question(question, retriever, llm, search_query=plan.query, check_numbers=False)
     return finread.Answer(answer.text, answer.sources, answer.warnings, answer.search_query,
-                         {"plan": asdict(plan), "status": "complete"})
+                         {**answer.research, "plan": asdict(plan),
+                          "status": "insufficient_evidence" if answer.research.get("verification", {}).get("status") == "unavailable" else "complete"})

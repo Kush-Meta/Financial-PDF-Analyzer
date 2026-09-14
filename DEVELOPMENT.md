@@ -1,6 +1,6 @@
 # Developer and operator guide
 
-This guide describes the implementation at `6a7372e`. Start with the
+This guide describes the current working-branch implementation. Start with the
 [README](README.md) for installation and usage. Consult the
 [validation record](VALIDATION.md) and [benchmark results](benchmarks/RESULTS.md)
 for what has actually been exercised. FinRead is currently a local application;
@@ -14,15 +14,18 @@ flowchart TD
     B --> C[Submit question with recent conversation]
     C --> D[Apply explicit peer follow-up or validate model plan]
     D --> E{Research route}
-    E -->|Document| F[Build or reuse session FAISS index]
+    E -->|Document| P{Supported statement question and layout?}
+    P -->|Yes| Q[Read cells, check units and periods, execute formulas]
+    P -->|No| F[Build or reuse session FAISS index]
     F --> G[Retrieve chunks and optionally rerank]
     G --> H[Expand to bounded original page context]
-    H --> I[Generate answer and check citation IDs]
+    H --> I[Generate answer; check citation IDs; label figures unchecked]
     E -->|Competitors| J[Resolve companies and fetch SEC annual facts]
     J --> K[Check identity, cutoff, accession, period and units]
     K --> L[Calculate table and comparisons in Python]
     E -->|Credit| M[Explain unsupported methodology scoring]
     I --> N[Store answer, evidence and research trace in session]
+    Q --> N
     L --> N
     M --> N
     N --> O[Inspect sources or export JSON and Markdown]
@@ -30,9 +33,19 @@ flowchart TD
 
 `app.py` owns submissions and session presentation. `research_answer` in
 `intelligence.py` owns routing and orchestration. It receives a retriever factory,
-so the competitor and credit paths do not build a PDF index. The document route
-passes the factory's retriever through `finread.PageContextRetriever` before
-answer generation. Do not move embedding construction ahead of routing.
+so competitor, credit and supported statement questions do not build a PDF index.
+The document route first calls `finread.statement_answer` using complete statement
+pages from the session. A supported but incomplete/ambiguous statement produces an
+explicit abstention. Other questions pass the factory's retriever through
+`finread.PageContextRetriever` before model interpretation. Do not move embedding
+construction ahead of routing or statement lookup.
+
+The original user question controls numerical scope; a planner rewrite cannot
+remove a qualifier and turn the answer into a checked result. After an unsupported
+or over-budget complete scan, the semantic fallback does not certify a ranked
+subset. `Answer.research.verification` retains the precise status and calculation
+record. See [Numerical evidence](NUMERICAL_EVIDENCE.md) for supported grammar,
+source provenance, formulas, and parser limitations.
 
 `finread.ensure_index` keys an index by document hash/name, embedding model,
 Ollama endpoint and chunk settings. `services.build_index` splits pages and embeds
@@ -60,6 +73,7 @@ excerpts; this is not table reconstruction or OCR.
 | Chunking | 1,000 characters with 150-character overlap |
 | Embedding batch | At most 16 chunks |
 | Page context | At most 6,000 characters per expanded page and 18,000 total |
+| Direct statement scan | At most 12 recognized pages, 12,000 characters per page and 60,000 total; exceeding any limit skips the entire scan |
 | Chat submission | At most 4,000 characters in the UI |
 | SEC research | Focal company plus at most three peers; 16 requests and a 75-second budget by default |
 | SEC pacing | At least 0.25 seconds between request starts within one process |
@@ -123,13 +137,13 @@ benchmark fixtures are evaluation inputs, not an expanded production fallback.
 | `ResearchPlan` | Route, focal company, peers, cutoff, optional fiscal year, standalone query, clarification and identity mentions |
 | `AnnualFinancials` | Company/CIK/ticker, start/end/filed dates, accession, source URL, cutoff, facts, warnings, retrieval timestamp, origin and currency |
 | `Answer` | Answer text, source list, warnings, search query and research metadata |
-| Document source | Source ID, filename, one-based PDF page, printed page label when available, and actual excerpt/page text |
+| Document source | Source ID, filename, one-based PDF page, printed page label and actual text; verified sample provenance may also identify currency/entity/fiscal endpoints |
 | Company source | Source ID, `kind=financials`, original report URL and structured financials; no uploaded-PDF page reference |
-| Research metadata | Validated plan, status, peer basis, tool trace, deterministic comparisons, data origin summary and request events when available |
+| Research metadata | Validated plan, status, numerical verification record, peer basis, tool trace, deterministic comparisons, data origin summary and request events when available |
 | Export | Document name/hash plus answer history in JSON; readable notes include evidence and limitations |
 
 Research statuses include `complete`, `partial`, `needs_clarification` and
-`unsupported`. `complete` describes workflow completion, not verified financial
+`unsupported` and `insufficient_evidence`. `complete` describes workflow completion, not verified financial
 truth. Peer `data_status` distinguishes `live_sec`, `snapshot`, `mixed` and
 `unavailable`. A `live_sec` record can originate from the normal public cache;
 request events distinguish `cache_hit` from `network_ok`. The readiness and live
@@ -138,6 +152,10 @@ benchmark commands explicitly disable cache reads.
 Citation IDs are local to an answer. Source selection therefore carries both the
 answer index and source ID. Do not interpret `S1` as a globally unique source.
 A recognized citation ID is not a check that the cited text entails the claim.
+Numerical status `verified` applies only to the displayed supported statement
+figures and formulas; `unavailable` records insufficient/conflicting evidence,
+and `not_checked` identifies model interpretation. It is not an audit of the
+underlying financial statements or a credit opinion.
 
 Uploads are parsed in memory. Parsed pages, FAISS indexes, chat, entity results
 and source selection belong to the Streamlit session. Replacing/removing a
@@ -176,8 +194,8 @@ research you need before restarting.
 | Embedding runner connection reset | Preserve existing research. Stop the failed evaluation/request, inspect the local Ollama process, and restart/unload the affected model if needed. The observed runner recovered after unloading; bounded batches reduce request size but do not prove concurrency readiness. |
 | Reranker weights unavailable | The normal app can download weights, or disable reranking in Settings. The offline-model benchmark requires cached weights. |
 | Encrypted, scanned or invalid PDF | Use an unlocked text PDF or run OCR externally. Partial textless pages are reported in the UI. |
-| Plausible answer with incorrect amount | Inspect the actual source row and unit. A known generated capex answer is wrong by a factor of 1,000; valid citations do not make it safe. |
-| Local model benchmark exits 1 | Inspect per-case checks. The documented 43/44 result includes a real unit error; do not change labels or tolerances merely to make it green. |
+| Plausible answer with incorrect amount | Check whether the answer has a statement-row record or is model interpretation. Inspect its exact row, year and unit. The old 1,000× capex error is retained as a regression fixture. |
+| Local model benchmark exits 1 | Inspect per-case checks and retain the failed output; do not change labels or tolerances merely to make it green. See the original 43/44 report and subsequent milestone results. |
 
 Compose binds host port 8501 to loopback and points to the host's Ollama using
 `host.docker.internal`. The image runs as a non-root user and has an HTTP health

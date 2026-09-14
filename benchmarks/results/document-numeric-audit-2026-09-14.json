@@ -1,0 +1,710 @@
+{
+  "schema_version": 1,
+  "dataset_version": 2,
+  "mode": "model",
+  "data_origin": "recorded_SEC_fixture_replay",
+  "generated_at": "2026-09-14T05:07:15.214052+00:00",
+  "summary": {
+    "counts": {
+      "passed": 12
+    },
+    "dimensions": {
+      "document.numeric_unit": {
+        "passed": 12,
+        "total": 12
+      },
+      "document.period_mentioned": {
+        "passed": 12,
+        "total": 12
+      },
+      "document.retrieval_hit": {
+        "passed": 12,
+        "total": 12
+      },
+      "document.cited_evidence_hit": {
+        "passed": 12,
+        "total": 12
+      },
+      "document.citation_ids": {
+        "passed": 12,
+        "total": 12
+      },
+      "document.route": {
+        "passed": 12,
+        "total": 12
+      }
+    }
+  },
+  "model_config": {
+    "model": "llama3",
+    "temperature": 0,
+    "embedding": "mxbai-embed-large",
+    "reranker": "cross-encoder/ms-marco-MiniLM-L-6-v2",
+    "k": 8,
+    "top_n": 4
+  },
+  "results": [
+    {
+      "id": "document-sales",
+      "kind": "document",
+      "question": "What was Apple's total net sales in fiscal 2025? Give the amount in USD millions and cite the statement.",
+      "answer": "**Revenue (fiscal 2025): $416,161 million ($416.161 billion)** [S1]",
+      "checks": {
+        "numeric_unit": true,
+        "period_mentioned": true,
+        "retrieval_hit": true,
+        "cited_evidence_hit": true,
+        "citation_ids": true,
+        "route": true
+      },
+      "status": "passed",
+      "elapsed_seconds": 13.419,
+      "verification": {
+        "version": 1,
+        "status": "verified",
+        "method": "deterministic_statement_cells",
+        "scope": "Displayed figures and formulas checked against supported statement rows; not a validation of the filing itself.",
+        "facts": [
+          {
+            "metric": "revenue",
+            "year": 2025,
+            "value": "416161000000",
+            "currency": "USD",
+            "scale": "millions",
+            "raw_value": "416,161",
+            "source_id": "S1",
+            "file": "Apple \u00b7 2025 Form 10-K",
+            "page": 32,
+            "row": "Total net sales  416,161  391,035  383,285",
+            "header": "CONSOLIDATED STATEMENTS OF OPERATIONS\n\n(In millions, except number of shares, which are reflected in thousands, and per-share amounts)\nYears ended\nSeptember 27,\n2025\nSeptember 28,\n2024\nSeptember 30,\n2023\nNet sales:",
+            "unit_header": "(In millions, except number of shares, which are reflected in thousands, and per-share amounts)",
+            "period_kind": "annual",
+            "table_id": "S1:0"
+          }
+        ],
+        "calculations": []
+      },
+      "plan": {
+        "route": "document",
+        "company": "AAPL",
+        "peers": [],
+        "cutoff": "2025-10-31",
+        "fiscal_year": 2025,
+        "query": "What was Apple's total net sales in fiscal 2025? Give the amount in USD millions and cite the statement.",
+        "clarification": "",
+        "identities": {
+          "AAPL": "Apple Inc."
+        }
+      }
+    },
+    {
+      "id": "document-sales-prior",
+      "kind": "document",
+      "question": "What was Apple's total net sales in fiscal 2024? Give the amount in USD millions and cite the statement.",
+      "answer": "**Revenue (fiscal 2024): $391,035 million ($391.035 billion)** [S1]",
+      "checks": {
+        "numeric_unit": true,
+        "period_mentioned": true,
+        "retrieval_hit": true,
+        "cited_evidence_hit": true,
+        "citation_ids": true,
+        "route": true
+      },
+      "status": "passed",
+      "elapsed_seconds": 4.036,
+      "verification": {
+        "version": 1,
+        "status": "verified",
+        "method": "deterministic_statement_cells",
+        "scope": "Displayed figures and formulas checked against supported statement rows; not a validation of the filing itself.",
+        "facts": [
+          {
+            "metric": "revenue",
+            "year": 2024,
+            "value": "391035000000",
+            "currency": "USD",
+            "scale": "millions",
+            "raw_value": "391,035",
+            "source_id": "S1",
+            "file": "Apple \u00b7 2025 Form 10-K",
+            "page": 32,
+            "row": "Total net sales  416,161  391,035  383,285",
+            "header": "CONSOLIDATED STATEMENTS OF OPERATIONS\n\n(In millions, except number of shares, which are reflected in thousands, and per-share amounts)\nYears ended\nSeptember 27,\n2025\nSeptember 28,\n2024\nSeptember 30,\n2023\nNet sales:",
+            "unit_header": "(In millions, except number of shares, which are reflected in thousands, and per-share amounts)",
+            "period_kind": "annual",
+            "table_id": "S1:0"
+          }
+        ],
+        "calculations": []
+      },
+      "plan": {
+        "route": "document",
+        "company": "AAPL",
+        "peers": [],
+        "cutoff": "2025-10-31",
+        "fiscal_year": 2024,
+        "query": "What was Apple's total net sales in fiscal 2024? Give the amount in USD millions and cite the statement.",
+        "clarification": "",
+        "identities": {
+          "AAPL": "Apple Inc."
+        }
+      }
+    },
+    {
+      "id": "document-income",
+      "kind": "document",
+      "question": "What was Apple's net income in fiscal 2025? Give the amount in USD millions and cite the statement.",
+      "answer": "**Net income (fiscal 2025): $112,010 million ($112.01 billion)** [S1]",
+      "checks": {
+        "numeric_unit": true,
+        "period_mentioned": true,
+        "retrieval_hit": true,
+        "cited_evidence_hit": true,
+        "citation_ids": true,
+        "route": true
+      },
+      "status": "passed",
+      "elapsed_seconds": 3.321,
+      "verification": {
+        "version": 1,
+        "status": "verified",
+        "method": "deterministic_statement_cells",
+        "scope": "Displayed figures and formulas checked against supported statement rows; not a validation of the filing itself.",
+        "facts": [
+          {
+            "metric": "net_income",
+            "year": 2025,
+            "value": "112010000000",
+            "currency": "USD",
+            "scale": "millions",
+            "raw_value": "112,010",
+            "source_id": "S1",
+            "file": "Apple \u00b7 2025 Form 10-K",
+            "page": 32,
+            "row": "Net income $ 112,010 $ 93,736 $ 96,995",
+            "header": "CONSOLIDATED STATEMENTS OF OPERATIONS\n\n(In millions, except number of shares, which are reflected in thousands, and per-share amounts)\nYears ended\nSeptember 27,\n2025\nSeptember 28,\n2024\nSeptember 30,\n2023\nNet sales:",
+            "unit_header": "(In millions, except number of shares, which are reflected in thousands, and per-share amounts)",
+            "period_kind": "annual",
+            "table_id": "S1:0"
+          }
+        ],
+        "calculations": []
+      },
+      "plan": {
+        "route": "document",
+        "company": "AAPL",
+        "peers": [],
+        "cutoff": "2025-10-31",
+        "fiscal_year": null,
+        "query": "What was Apple's net income in fiscal 2025? Give the amount in USD millions and cite the statement.",
+        "clarification": "",
+        "identities": {
+          "AAPL": "Apple Inc."
+        }
+      }
+    },
+    {
+      "id": "document-operating-income",
+      "kind": "document",
+      "question": "What was Apple's operating income in fiscal 2025? Give the amount in USD millions and cite the statement.",
+      "answer": "**Operating income (fiscal 2025): $133,050 million ($133.05 billion)** [S1]",
+      "checks": {
+        "numeric_unit": true,
+        "period_mentioned": true,
+        "retrieval_hit": true,
+        "cited_evidence_hit": true,
+        "citation_ids": true,
+        "route": true
+      },
+      "status": "passed",
+      "elapsed_seconds": 4.028,
+      "verification": {
+        "version": 1,
+        "status": "verified",
+        "method": "deterministic_statement_cells",
+        "scope": "Displayed figures and formulas checked against supported statement rows; not a validation of the filing itself.",
+        "facts": [
+          {
+            "metric": "operating_income",
+            "year": 2025,
+            "value": "133050000000",
+            "currency": "USD",
+            "scale": "millions",
+            "raw_value": "133,050",
+            "source_id": "S1",
+            "file": "Apple \u00b7 2025 Form 10-K",
+            "page": 32,
+            "row": "Operating income  133,050  123,216  114,301",
+            "header": "CONSOLIDATED STATEMENTS OF OPERATIONS\n\n(In millions, except number of shares, which are reflected in thousands, and per-share amounts)\nYears ended\nSeptember 27,\n2025\nSeptember 28,\n2024\nSeptember 30,\n2023\nNet sales:",
+            "unit_header": "(In millions, except number of shares, which are reflected in thousands, and per-share amounts)",
+            "period_kind": "annual",
+            "table_id": "S1:0"
+          }
+        ],
+        "calculations": []
+      },
+      "plan": {
+        "route": "document",
+        "company": "AAPL",
+        "peers": [],
+        "cutoff": "2025-10-31",
+        "fiscal_year": 2025,
+        "query": "What was Apple's operating income in fiscal 2025? Give the amount in USD millions and cite the statement.",
+        "clarification": "",
+        "identities": {
+          "AAPL": "Apple Inc."
+        }
+      }
+    },
+    {
+      "id": "document-rd",
+      "kind": "document",
+      "question": "What was Apple's research and development expense in fiscal 2025? Give the amount in USD millions and cite the statement.",
+      "answer": "**Research and development (fiscal 2025): $34,550 million ($34.55 billion)** [S1]",
+      "checks": {
+        "numeric_unit": true,
+        "period_mentioned": true,
+        "retrieval_hit": true,
+        "cited_evidence_hit": true,
+        "citation_ids": true,
+        "route": true
+      },
+      "status": "passed",
+      "elapsed_seconds": 3.424,
+      "verification": {
+        "version": 1,
+        "status": "verified",
+        "method": "deterministic_statement_cells",
+        "scope": "Displayed figures and formulas checked against supported statement rows; not a validation of the filing itself.",
+        "facts": [
+          {
+            "metric": "research_and_development",
+            "year": 2025,
+            "value": "34550000000",
+            "currency": "USD",
+            "scale": "millions",
+            "raw_value": "34,550",
+            "source_id": "S1",
+            "file": "Apple \u00b7 2025 Form 10-K",
+            "page": 32,
+            "row": "Research and development  34,550  31,370  29,915",
+            "header": "CONSOLIDATED STATEMENTS OF OPERATIONS\n\n(In millions, except number of shares, which are reflected in thousands, and per-share amounts)\nYears ended\nSeptember 27,\n2025\nSeptember 28,\n2024\nSeptember 30,\n2023\nNet sales:",
+            "unit_header": "(In millions, except number of shares, which are reflected in thousands, and per-share amounts)",
+            "period_kind": "annual",
+            "table_id": "S1:0"
+          }
+        ],
+        "calculations": []
+      },
+      "plan": {
+        "route": "document",
+        "company": "AAPL",
+        "peers": [],
+        "cutoff": "2025-10-31",
+        "fiscal_year": null,
+        "query": "What was Apple's research and development expense in fiscal 2025? Give the amount in USD millions and cite the statement.",
+        "clarification": "",
+        "identities": {
+          "AAPL": "Apple Inc."
+        }
+      }
+    },
+    {
+      "id": "document-services",
+      "kind": "document",
+      "question": "What was Apple's services net sales in fiscal 2025? Give the amount in USD millions and cite the statement.",
+      "answer": "**Services net sales (fiscal 2025): $109,158 million ($109.158 billion)** [S1]",
+      "checks": {
+        "numeric_unit": true,
+        "period_mentioned": true,
+        "retrieval_hit": true,
+        "cited_evidence_hit": true,
+        "citation_ids": true,
+        "route": true
+      },
+      "status": "passed",
+      "elapsed_seconds": 4.025,
+      "verification": {
+        "version": 1,
+        "status": "verified",
+        "method": "deterministic_statement_cells",
+        "scope": "Displayed figures and formulas checked against supported statement rows; not a validation of the filing itself.",
+        "facts": [
+          {
+            "metric": "services_revenue",
+            "year": 2025,
+            "value": "109158000000",
+            "currency": "USD",
+            "scale": "millions",
+            "raw_value": "109,158",
+            "source_id": "S1",
+            "file": "Apple \u00b7 2025 Form 10-K",
+            "page": 32,
+            "row": "Services  109,158  96,169  85,200",
+            "header": "CONSOLIDATED STATEMENTS OF OPERATIONS\n\n(In millions, except number of shares, which are reflected in thousands, and per-share amounts)\nYears ended\nSeptember 27,\n2025\nSeptember 28,\n2024\nSeptember 30,\n2023\nNet sales:",
+            "unit_header": "(In millions, except number of shares, which are reflected in thousands, and per-share amounts)",
+            "period_kind": "annual",
+            "table_id": "S1:0"
+          }
+        ],
+        "calculations": []
+      },
+      "plan": {
+        "route": "document",
+        "company": "AAPL",
+        "peers": [],
+        "cutoff": "2025-10-31",
+        "fiscal_year": 2025,
+        "query": "What was Apple's services net sales in fiscal 2025? Give the amount in USD millions and cite the statement.",
+        "clarification": "",
+        "identities": {
+          "AAPL": "Apple Inc."
+        }
+      }
+    },
+    {
+      "id": "document-cash",
+      "kind": "document",
+      "question": "What was Apple's cash and cash equivalents at year end in fiscal 2025? Give the amount in USD millions and cite the statement.",
+      "answer": "**Cash and cash equivalents (at fiscal year end 2025): $35,934 million ($35.934 billion)** [S3]",
+      "checks": {
+        "numeric_unit": true,
+        "period_mentioned": true,
+        "retrieval_hit": true,
+        "cited_evidence_hit": true,
+        "citation_ids": true,
+        "route": true
+      },
+      "status": "passed",
+      "elapsed_seconds": 3.552,
+      "verification": {
+        "version": 1,
+        "status": "verified",
+        "method": "deterministic_statement_cells",
+        "scope": "Displayed figures and formulas checked against supported statement rows; not a validation of the filing itself.",
+        "facts": [
+          {
+            "metric": "cash_and_equivalents",
+            "year": 2025,
+            "value": "35934000000",
+            "currency": "USD",
+            "scale": "millions",
+            "raw_value": "35,934",
+            "source_id": "S3",
+            "file": "Apple \u00b7 2025 Form 10-K",
+            "page": 34,
+            "row": "Cash and cash equivalents $ 35,934 $ 29,943",
+            "header": "CONSOLIDATED BALANCE SHEETS\n\n(In millions, except number of shares, which are reflected in thousands, and par value)\nSeptember 27,\n2025\nSeptember 28,\n2024\nASSETS:\nCurrent assets:",
+            "unit_header": "(In millions, except number of shares, which are reflected in thousands, and par value)",
+            "period_kind": "year_end",
+            "table_id": "S3:0"
+          }
+        ],
+        "calculations": []
+      },
+      "plan": {
+        "route": "document",
+        "company": "AAPL",
+        "peers": [],
+        "cutoff": "2025-10-31",
+        "fiscal_year": null,
+        "query": "What was Apple's cash and cash equivalents at year end in fiscal 2025? Give the amount in USD millions and cite the statement.",
+        "clarification": "",
+        "identities": {
+          "AAPL": "Apple Inc."
+        }
+      }
+    },
+    {
+      "id": "document-assets",
+      "kind": "document",
+      "question": "What was Apple's total assets at year end in fiscal 2025? Give the amount in USD millions and cite the statement.",
+      "answer": "**Total assets (at fiscal year end 2025): $359,241 million ($359.241 billion)** [S3]",
+      "checks": {
+        "numeric_unit": true,
+        "period_mentioned": true,
+        "retrieval_hit": true,
+        "cited_evidence_hit": true,
+        "citation_ids": true,
+        "route": true
+      },
+      "status": "passed",
+      "elapsed_seconds": 3.533,
+      "verification": {
+        "version": 1,
+        "status": "verified",
+        "method": "deterministic_statement_cells",
+        "scope": "Displayed figures and formulas checked against supported statement rows; not a validation of the filing itself.",
+        "facts": [
+          {
+            "metric": "total_assets",
+            "year": 2025,
+            "value": "359241000000",
+            "currency": "USD",
+            "scale": "millions",
+            "raw_value": "359,241",
+            "source_id": "S3",
+            "file": "Apple \u00b7 2025 Form 10-K",
+            "page": 34,
+            "row": "Total assets $ 359,241 $ 364,980",
+            "header": "CONSOLIDATED BALANCE SHEETS\n\n(In millions, except number of shares, which are reflected in thousands, and par value)\nSeptember 27,\n2025\nSeptember 28,\n2024\nASSETS:\nCurrent assets:",
+            "unit_header": "(In millions, except number of shares, which are reflected in thousands, and par value)",
+            "period_kind": "year_end",
+            "table_id": "S3:0"
+          }
+        ],
+        "calculations": []
+      },
+      "plan": {
+        "route": "document",
+        "company": "AAPL",
+        "peers": [],
+        "cutoff": "2025-10-31",
+        "fiscal_year": 2025,
+        "query": "What was Apple's total assets at year end in fiscal 2025? Give the amount in USD millions and cite the statement.",
+        "clarification": "",
+        "identities": {
+          "AAPL": "Apple Inc."
+        }
+      }
+    },
+    {
+      "id": "document-liabilities",
+      "kind": "document",
+      "question": "What was Apple's total liabilities at year end in fiscal 2025? Give the amount in USD millions and cite the statement.",
+      "answer": "**Total liabilities (at fiscal year end 2025): $285,508 million ($285.508 billion)** [S3]",
+      "checks": {
+        "numeric_unit": true,
+        "period_mentioned": true,
+        "retrieval_hit": true,
+        "cited_evidence_hit": true,
+        "citation_ids": true,
+        "route": true
+      },
+      "status": "passed",
+      "elapsed_seconds": 3.506,
+      "verification": {
+        "version": 1,
+        "status": "verified",
+        "method": "deterministic_statement_cells",
+        "scope": "Displayed figures and formulas checked against supported statement rows; not a validation of the filing itself.",
+        "facts": [
+          {
+            "metric": "total_liabilities",
+            "year": 2025,
+            "value": "285508000000",
+            "currency": "USD",
+            "scale": "millions",
+            "raw_value": "285,508",
+            "source_id": "S3",
+            "file": "Apple \u00b7 2025 Form 10-K",
+            "page": 34,
+            "row": "Total liabilities  285,508  308,030",
+            "header": "CONSOLIDATED BALANCE SHEETS\n\n(In millions, except number of shares, which are reflected in thousands, and par value)\nSeptember 27,\n2025\nSeptember 28,\n2024\nASSETS:\nCurrent assets:",
+            "unit_header": "(In millions, except number of shares, which are reflected in thousands, and par value)",
+            "period_kind": "year_end",
+            "table_id": "S3:0"
+          }
+        ],
+        "calculations": []
+      },
+      "plan": {
+        "route": "document",
+        "company": "AAPL",
+        "peers": [],
+        "cutoff": "2025-10-31",
+        "fiscal_year": 2025,
+        "query": "What was Apple's total liabilities at year end in fiscal 2025? Give the amount in USD millions and cite the statement.",
+        "clarification": "",
+        "identities": {
+          "AAPL": "Apple Inc."
+        }
+      }
+    },
+    {
+      "id": "document-equity",
+      "kind": "document",
+      "question": "What was Apple's total shareholders equity at year end in fiscal 2025? Give the amount in USD millions and cite the statement.",
+      "answer": "**Shareholders\u2019 equity (at fiscal year end 2025): $73,733 million ($73.733 billion)** [S3]",
+      "checks": {
+        "numeric_unit": true,
+        "period_mentioned": true,
+        "retrieval_hit": true,
+        "cited_evidence_hit": true,
+        "citation_ids": true,
+        "route": true
+      },
+      "status": "passed",
+      "elapsed_seconds": 3.575,
+      "verification": {
+        "version": 1,
+        "status": "verified",
+        "method": "deterministic_statement_cells",
+        "scope": "Displayed figures and formulas checked against supported statement rows; not a validation of the filing itself.",
+        "facts": [
+          {
+            "metric": "shareholders_equity",
+            "year": 2025,
+            "value": "73733000000",
+            "currency": "USD",
+            "scale": "millions",
+            "raw_value": "73,733",
+            "source_id": "S3",
+            "file": "Apple \u00b7 2025 Form 10-K",
+            "page": 34,
+            "row": "Total shareholders\u2019 equity  73,733  56,950",
+            "header": "CONSOLIDATED BALANCE SHEETS\n\n(In millions, except number of shares, which are reflected in thousands, and par value)\nSeptember 27,\n2025\nSeptember 28,\n2024\nASSETS:\nCurrent assets:",
+            "unit_header": "(In millions, except number of shares, which are reflected in thousands, and par value)",
+            "period_kind": "year_end",
+            "table_id": "S3:0"
+          }
+        ],
+        "calculations": []
+      },
+      "plan": {
+        "route": "document",
+        "company": "AAPL",
+        "peers": [],
+        "cutoff": "2025-10-31",
+        "fiscal_year": 2025,
+        "query": "What was Apple's total shareholders equity at year end in fiscal 2025? Give the amount in USD millions and cite the statement.",
+        "clarification": "",
+        "identities": {
+          "AAPL": "Apple Inc."
+        }
+      }
+    },
+    {
+      "id": "document-ocf",
+      "kind": "document",
+      "question": "What was Apple's cash generated by operating activities in fiscal 2025? Give the amount in USD millions and cite the statement.",
+      "answer": "**Cash generated by operating activities (fiscal 2025): $111,482 million ($111.482 billion)** [S5]",
+      "checks": {
+        "numeric_unit": true,
+        "period_mentioned": true,
+        "retrieval_hit": true,
+        "cited_evidence_hit": true,
+        "citation_ids": true,
+        "route": true
+      },
+      "status": "passed",
+      "elapsed_seconds": 4.129,
+      "verification": {
+        "version": 1,
+        "status": "verified",
+        "method": "deterministic_statement_cells",
+        "scope": "Displayed figures and formulas checked against supported statement rows; not a validation of the filing itself.",
+        "facts": [
+          {
+            "metric": "operating_cash_flow",
+            "year": 2025,
+            "value": "111482000000",
+            "currency": "USD",
+            "scale": "millions",
+            "raw_value": "111,482",
+            "source_id": "S5",
+            "file": "Apple \u00b7 2025 Form 10-K",
+            "page": 36,
+            "row": "Cash generated by operating activities  111,482  118,254  110,543",
+            "header": "CONSOLIDATED STATEMENTS OF CASH FLOWS\n\n(In millions)\nYears ended\nSeptember 27,\n2025\nSeptember 28,\n2024\nSeptember 30,\n2023\nCash, cash equivalents, and restricted cash and cash equivalents, beginning ",
+            "unit_header": "(In millions)",
+            "period_kind": "annual",
+            "table_id": "S5:0"
+          }
+        ],
+        "calculations": []
+      },
+      "plan": {
+        "route": "document",
+        "company": "AAPL",
+        "peers": [],
+        "cutoff": "2025-10-31",
+        "fiscal_year": 2025,
+        "query": "What was Apple's cash generated by operating activities in fiscal 2025? Give the amount in USD millions and cite the statement.",
+        "clarification": "",
+        "identities": {
+          "AAPL": "Apple Inc."
+        }
+      }
+    },
+    {
+      "id": "document-capex",
+      "kind": "document",
+      "question": "What was Apple's payments for acquisition of property, plant and equipment (outflow magnitude) in fiscal 2025? Give the amount in USD millions and cite the statement.",
+      "answer": "**Payments for property, plant and equipment (fiscal 2025): $12,715 million ($12.715 billion)** cash outflow magnitude [S5]",
+      "checks": {
+        "numeric_unit": true,
+        "period_mentioned": true,
+        "retrieval_hit": true,
+        "cited_evidence_hit": true,
+        "citation_ids": true,
+        "route": true
+      },
+      "status": "passed",
+      "elapsed_seconds": 4.587,
+      "verification": {
+        "version": 1,
+        "status": "verified",
+        "method": "deterministic_statement_cells",
+        "scope": "Displayed figures and formulas checked against supported statement rows; not a validation of the filing itself.",
+        "facts": [
+          {
+            "metric": "capital_expenditure",
+            "year": 2025,
+            "value": "-12715000000",
+            "currency": "USD",
+            "scale": "millions",
+            "raw_value": "(12,715)",
+            "source_id": "S5",
+            "file": "Apple \u00b7 2025 Form 10-K",
+            "page": 36,
+            "row": "Payments for acquisition of property, plant and equipment  (12,715)  (9,447)  (10,959)",
+            "header": "CONSOLIDATED STATEMENTS OF CASH FLOWS\n\n(In millions)\nYears ended\nSeptember 27,\n2025\nSeptember 28,\n2024\nSeptember 30,\n2023\nCash, cash equivalents, and restricted cash and cash equivalents, beginning ",
+            "unit_header": "(In millions)",
+            "period_kind": "annual",
+            "table_id": "S5:0"
+          }
+        ],
+        "calculations": [
+          {
+            "metric": "capital_expenditure_magnitude",
+            "formula": "abs(reported_cash_flow)",
+            "inputs": [
+              {
+                "metric": "capital_expenditure",
+                "year": 2025,
+                "value": "-12715000000",
+                "currency": "USD",
+                "scale": "millions",
+                "raw_value": "(12,715)",
+                "source_id": "S5",
+                "file": "Apple \u00b7 2025 Form 10-K",
+                "page": 36,
+                "row": "Payments for acquisition of property, plant and equipment  (12,715)  (9,447)  (10,959)",
+                "header": "CONSOLIDATED STATEMENTS OF CASH FLOWS\n\n(In millions)\nYears ended\nSeptember 27,\n2025\nSeptember 28,\n2024\nSeptember 30,\n2023\nCash, cash equivalents, and restricted cash and cash equivalents, beginning ",
+                "unit_header": "(In millions)",
+                "period_kind": "annual",
+                "table_id": "S5:0"
+              }
+            ],
+            "result": "12715000000",
+            "unit": "USD"
+          }
+        ]
+      },
+      "plan": {
+        "route": "document",
+        "company": "AAPL",
+        "peers": [],
+        "cutoff": "2025-10-31",
+        "fiscal_year": 2025,
+        "query": "What was Apple's payments for acquisition of property, plant and equipment (outflow magnitude) in fiscal 2025? Give the amount in USD millions and cite the statement.",
+        "clarification": "",
+        "identities": {
+          "AAPL": "Apple Inc."
+        }
+      }
+    }
+  ],
+  "run_notes": "Development-set run with installed llama3 planner and deterministic supported statement/peer answers. Recorded SEC replay, no new live SEC check. No numerical labels or scoring tolerances changed."
+}

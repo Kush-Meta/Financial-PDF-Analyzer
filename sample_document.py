@@ -23,6 +23,11 @@ def sample_pages():
     for page in pages:
         page.metadata["source_url"] = SAMPLE_SEC_URL
         page.metadata["pdf_url"] = SAMPLE_PDF_URL
+        # Provenance applies only to this bundled, known US-dollar filing.
+        # Uploaded PDFs must establish their own currency from their headers.
+        page.metadata["currency"] = "USD"
+        page.metadata["entity_names"] = ["Apple", "Apple Inc.", "AAPL"]
+        page.metadata["fiscal_year_ends"] = {"2025": "September 27, 2025", "2024": "September 28, 2024"}
         # The PDF's cover/contents precede the report's printed page 1.
         footer = re.search(r"Apple Inc\.\s*\|\s*2025 Form 10-K\s*\|\s*(\d+)\s*$",
                            page.page_content)

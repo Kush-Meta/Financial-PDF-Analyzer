@@ -4,6 +4,25 @@ This file records completed development milestones on the working branch. A loca
 commit is not evidence of a merge to `main`, a GitHub release or a deployment.
 See [validation history](VALIDATION.md) for the corresponding checks and limits.
 
+## 2026-09-14 — Statement figures and numerical evidence
+
+- Added complete statement lookup before semantic indexing for supported annual
+  questions, with exact row aliases, year-column binding, local units/currency,
+  signed Decimal values, and explicit incomplete/conflicting-evidence handling.
+- Added deterministic operating-margin and revenue-growth calculations, retaining
+  formulas and source inputs. Preserved the original capex failure as a public
+  regression fixture; the supported answer now reports $12,715 million correctly.
+- Kept original user scope separate from planner query rewrites. Unsupported
+  model interpretations remain explicitly numerically unchecked.
+- Added a quiet checked-figures caption, collapsed row/formula audit, and retained
+  records in JSON/Markdown exports and document benchmark reports. Escaped currency
+  signs so paired dollar amounts do not render as Markdown math.
+- Added independent synthetic adversarial cases, public-filing regressions,
+  no-index and planner-scope tests, UI/export checks and operator documentation.
+- The 44-case development run passed with the installed local planner and
+  deterministic supported answers. This does not establish held-out filing
+  accuracy, a universal claim validator or hosted production readiness.
+
 ## 2026-09-14 — Live-data reliability and financial benchmark
 
 Implementation: `6a7372e`.

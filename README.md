@@ -11,9 +11,10 @@ A local financial research app built with Streamlit, Ollama, FAISS, and LangExtr
 | [Changelog](CHANGELOG.md) | Completed milestones and implementation commits |
 | [UI design](DESIGN.md) | Interaction decisions and design references |
 | [Intelligence design](INTELLIGENCE.md) | Competitor architecture, research references and future credit methodology |
+| [Numerical evidence](NUMERICAL_EVIDENCE.md) | Supported statement figures, formulas, source-cell checks and explicit limits |
 | [Validation history](VALIDATION.md) | Checks actually performed, failures and remaining limitations |
 | [Benchmark guide](benchmarks/README.md) | Dataset provenance, commands, scoring and label corrections |
-| [Benchmark results](benchmarks/RESULTS.md) | Current 43/44 result, known unit error and audit records |
+| [Benchmark results](benchmarks/RESULTS.md) | Current checks, preserved earlier failures and audit records |
 | [Apple filing provenance](assets/filings/README.md) / [peer snapshot sources](assets/filings/PEER_SOURCES.md) | Original documents, dates and fallback restrictions |
 
 ## Run locally
@@ -42,7 +43,7 @@ Compose binds the app to localhost and routes model calls to the host's Ollama s
 ## Research workflow
 
 1. Add a text-based PDF in the source sidebar, or choose **Open Apple’s 2025 10-K** to use the complete 80-page public SEC filing. Links to the SEC original and as-filed PDF remain visible in the source panel. PDFs can contain up to 25 MB and 1,000 pages. Invalid, encrypted, and textless files produce actionable errors.
-2. Type a question in the main conversation box. A validated planner chooses document retrieval or competitor research. The first document-retrieval question builds the index; peer comparisons do not require embeddings. Ask follow-up questions naturally in the same box.
+2. Type a question in the main conversation box. A validated planner chooses document or competitor research. Supported annual-figure questions read statement rows directly. Broader document questions build or reuse the search index; peer comparisons do not require embeddings. Ask follow-up questions naturally in the same box.
 3. Click a source chip such as **S1 · p. 2** or **S2 · MSFT** to inspect evidence in the adjacent **Evidence** panel. Uploaded excerpts open the correct PDF page; external figures link to the corresponding company's original report.
 4. Open **Evidence** and switch to **Pages** to browse text, or **Figures** to extract entities from up to five selected pages. Model and retrieval controls live under **Settings** in the sidebar.
 5. Use **More** to download JSON research or readable Markdown notes with source excerpts. Entity results have their own JSON download.
@@ -50,6 +51,14 @@ Compose binds the app to localhost and routes model calls to the host's Ollama s
 **More → New conversation** clears chat while retaining the document index. Replacing or removing the source clears its associated research. Failed questions offer a retry button.
 
 Follow-up questions are rewritten into standalone retrieval queries using the last two conversation turns. Answers are instructed to preserve periods, currencies, and units and to show inputs and formulas for calculations. Citation validation checks IDs, not whether a claim is true.
+
+## Checked financial figures
+
+Try **“What were capital expenditures in fiscal 2025?”**, **“Calculate operating margin in fiscal 2025”**, or **“What was revenue growth from fiscal 2024 to fiscal 2025?”** with the Apple filing. Supported questions read complete statement pages and calculate answers with decimal arithmetic, without embeddings or answer-generation calls. The research planner still uses the local model.
+
+The small **Figures checked against statement rows** caption identifies this path. Open **Figure checks** to inspect the exact row, year column, signed cell, scale, currency and formula inputs. The same record is preserved in JSON and Markdown downloads. Missing or conflicting evidence produces an explicit explanation instead of a guessed value. Broader model interpretations are labeled **figures not numerically checked**.
+
+This fixes the observed capex scale error by producing **$12,715 million ($12.715 billion)** from the original `(12,715)` cell. It is a narrow supported-layout feature, not a validator of all model-written claims. Explicit years and supported annual metrics are required; unfamiliar tables, narrative explanations, forecasts, adjusted figures, quarterly results and per-share amounts remain outside its scope. Uploaded PDFs must establish their own currency; a `$` sign alone is not assumed to mean USD. See the [full contract](NUMERICAL_EVIDENCE.md).
 
 ## Competitor research
 
@@ -96,7 +105,7 @@ validate annual facts, calculate the comparison, and attach external evidence.
 
 ```text
 PDF bytes → validate + extract pages → session-owned page documents
-                                     ↓ on first question / embedding change
+                                     ↓ for semantic research / embedding change
                              split (1,000 chars, 150 overlap)
                                      ↓
                            Ollama embeddings → FAISS
@@ -110,10 +119,16 @@ question → resolve follow-up → retrieve → optional cross-encoder
                                                     citation checks + full excerpts
 ```
 
+Before semantic retrieval, the document branch scans complete recognized statement
+pages within a separate bounded budget. Supported figures and formulas return
+directly with cell-level evidence; other questions take the diagrammed model path
+and are explicitly marked numerically unchecked.
+
 - `app.py`: Streamlit UI and user-triggered actions.
 - `ui.py` and `assets/finread.css`: reusable conversation controls and the responsive visual system.
 - `sample_document.py` and `assets/filings/`: the complete Apple FY2025 Form 10-K, original URLs, and a checksum for provenance. The bundled example works without fetching SEC data at runtime.
 - `finread.py`: document validation, session lifecycle, evidence and answer contracts.
+- `numeric_evidence.py`: conservative statement/column parsing, exact decimal amounts, supported formulas and numerical audit records.
 - `intelligence.py`: structured query planning, peer research, deterministic comparison and trace.
 - `sec_data.py`: bounded SEC JSON adapter, company resolution, annual-period and fact validation.
 - `peer_snapshot.py`: explicitly dated, verified public annual-report fallback; no invented API responses.
@@ -161,7 +176,7 @@ claim is supported. See [benchmark documentation](benchmarks/README.md) and
 This is a tested local application foundation, **not yet a hosted multi-user production service**.
 
 1. **Deployment foundation:** define users and hosting, add authentication/authorization, tenant-scoped durable storage, explicit retention/deletion, background indexing jobs, quotas, and deployment observability.
-2. **Financial accuracy:** expand the labeled filing evaluation set; measure retrieval recall, citation support, abstention, and period/unit accuracy. Add table-aware extraction, OCR, broader metric definitions, and analyst-reviewed evaluation. Document-answer citation-ID checks do not establish claim entailment.
+2. **Financial accuracy:** independently evaluate additional filings and layouts, extend supported source-cell extraction, and measure coverage as well as correctness. Add OCR, broader metric definitions, and analyst-reviewed evaluation. Checked statement figures do not validate every claim in model interpretations.
 3. **Product depth:** validated peer discovery, richer cross-filing evidence, credit methodology implementation, saved document libraries, and side-by-side original PDF navigation.
 4. **Release hardening:** lock all dependency versions, add dependency/security scans and isolated PDF parsing with resource limits, load-test concurrent model work, and exercise deployment/backup recovery.
 
