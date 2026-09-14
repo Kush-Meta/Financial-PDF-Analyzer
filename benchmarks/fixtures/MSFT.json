@@ -1,0 +1,277 @@
+{
+  "provenance": {
+    "captured_at": "2026-09-14T04:11:56.116371+00:00",
+    "kind": "subset_of_live_SEC_JSON",
+    "profile_url": "https://data.sec.gov/submissions/CIK0000789019.json",
+    "facts_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000789019.json",
+    "normalized_full_profile_sha256": "4f34b0b0b7086fde4e4d322ddfee0e1b3b3544326bb9fae48428076cfdb2a6fb",
+    "normalized_full_facts_sha256": "2d0ede621e10977a5aa7398bdde14b1a2d2b82fac46066a4bcceb0a26b67c0c5",
+    "selection": "All recent 10-K/10-K/A rows; supported concept observations with the reference period end, including other accessions and units."
+  },
+  "profile": {
+    "name": "MICROSOFT CORP",
+    "cik": "0000789019",
+    "sic": "7372",
+    "tickers": [
+      "MSFT"
+    ],
+    "filings": {
+      "recent": {
+        "accessionNumber": [
+          "0001193125-26-323660",
+          "0000950170-25-100235",
+          "0000950170-24-087843",
+          "0000950170-23-035122",
+          "0001564590-22-026876",
+          "0001564590-21-039151",
+          "0001564590-20-034944"
+        ],
+        "filingDate": [
+          "2026-07-29",
+          "2025-07-30",
+          "2024-07-30",
+          "2023-07-27",
+          "2022-07-28",
+          "2021-07-29",
+          "2020-07-30"
+        ],
+        "reportDate": [
+          "2026-06-30",
+          "2025-06-30",
+          "2024-06-30",
+          "2023-06-30",
+          "2022-06-30",
+          "2021-06-30",
+          "2020-06-30"
+        ],
+        "acceptanceDateTime": [
+          "2026-07-29T20:08:01.000Z",
+          "2025-07-30T20:11:40.000Z",
+          "2024-07-30T20:06:22.000Z",
+          "2023-07-27T20:01:56.000Z",
+          "2022-07-28T20:06:19.000Z",
+          "2021-07-29T20:21:55.000Z",
+          "2020-07-31T00:44:46.000Z"
+        ],
+        "act": [
+          "34",
+          "34",
+          "34",
+          "34",
+          "34",
+          "34",
+          "34"
+        ],
+        "form": [
+          "10-K",
+          "10-K",
+          "10-K",
+          "10-K",
+          "10-K",
+          "10-K",
+          "10-K"
+        ],
+        "fileNumber": [
+          "001-37845",
+          "001-37845",
+          "001-37845",
+          "001-37845",
+          "001-37845",
+          "001-37845",
+          "001-37845"
+        ],
+        "filmNumber": [
+          "261217433",
+          "251167157",
+          "241157360",
+          "231118330",
+          "221115247",
+          "211127769",
+          "201063171"
+        ],
+        "items": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "core_type": [
+          "XBRL",
+          "XBRL",
+          "XBRL",
+          "XBRL",
+          "XBRL",
+          "XBRL",
+          "XBRL"
+        ],
+        "size": [
+          36328553,
+          34889671,
+          30375960,
+          40966463,
+          26423137,
+          26907098,
+          27648382
+        ],
+        "isXBRL": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "isInlineXBRL": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "isXBRLNumeric": [
+          1,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "primaryDocument": [
+          "msft-20260630.htm",
+          "msft-20250630.htm",
+          "msft-20240630.htm",
+          "msft-20230630.htm",
+          "msft-10k_20220630.htm",
+          "msft-10k_20210630.htm",
+          "msft-10k_20200630.htm"
+        ],
+        "primaryDocDescription": [
+          "10-K",
+          "10-K",
+          "10-K",
+          "10-K",
+          "10-K",
+          "10-K",
+          "10-K"
+        ]
+      },
+      "files": []
+    }
+  },
+  "companyfacts": {
+    "cik": 789019,
+    "entityName": "MICROSOFT CORPORATION",
+    "facts": {
+      "us-gaap": {
+        "RevenueFromContractWithCustomerExcludingAssessedTax": {
+          "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
+          "description": "Amount, excluding tax collected from customer, of revenue from satisfaction of performance obligation by transferring promised good or service to customer. Tax collected from customer is tax assessed by governmental authority that is both imposed on and concurrent with specific revenue-producing transaction, including, but not limited to, sales, use, value added and excise.",
+          "units": {
+            "USD": [
+              {
+                "start": "2024-07-01",
+                "end": "2025-06-30",
+                "val": 281724000000,
+                "accn": "0000950170-25-100235",
+                "fy": 2025,
+                "fp": "FY",
+                "form": "10-K",
+                "filed": "2025-07-30"
+              },
+              {
+                "start": "2024-07-01",
+                "end": "2025-06-30",
+                "val": 281724000000,
+                "accn": "0001193125-26-323660",
+                "fy": 2026,
+                "fp": "FY",
+                "form": "10-K",
+                "filed": "2026-07-29",
+                "frame": "CY2025"
+              }
+            ]
+          }
+        },
+        "Revenues": {
+          "label": "Revenues",
+          "description": "Amount of revenue recognized from goods sold, services rendered, insurance premiums, or other activities that constitute an earning process. Includes, but is not limited to, investment and interest income before deduction of interest expense when recognized as a component of revenue, and sales and trading gain (loss).",
+          "units": {
+            "USD": []
+          }
+        },
+        "SalesRevenueNet": {
+          "label": "Revenue, Net (Deprecated 2018-01-31)",
+          "description": "Total revenue from sale of goods and services rendered during the reporting period, in the normal course of business, reduced by sales returns and allowances, and sales discounts.",
+          "units": {
+            "USD": []
+          }
+        },
+        "OperatingIncomeLoss": {
+          "label": "Operating Income (Loss)",
+          "description": "The net result for the period of deducting operating expenses from operating revenues.",
+          "units": {
+            "USD": [
+              {
+                "start": "2024-07-01",
+                "end": "2025-06-30",
+                "val": 128528000000,
+                "accn": "0000950170-25-100235",
+                "fy": 2025,
+                "fp": "FY",
+                "form": "10-K",
+                "filed": "2025-07-30"
+              },
+              {
+                "start": "2024-07-01",
+                "end": "2025-06-30",
+                "val": 128528000000,
+                "accn": "0001193125-26-323660",
+                "fy": 2026,
+                "fp": "FY",
+                "form": "10-K",
+                "filed": "2026-07-29",
+                "frame": "CY2025"
+              }
+            ]
+          }
+        },
+        "NetCashProvidedByUsedInOperatingActivities": {
+          "label": "Net Cash Provided by (Used in) Operating Activities",
+          "description": "Amount of cash inflow (outflow) from operating activities, including discontinued operations. Operating activity cash flows include transactions, adjustments, and changes in value not defined as investing or financing activities.",
+          "units": {
+            "USD": [
+              {
+                "start": "2024-07-01",
+                "end": "2025-06-30",
+                "val": 136162000000,
+                "accn": "0000950170-25-100235",
+                "fy": 2025,
+                "fp": "FY",
+                "form": "10-K",
+                "filed": "2025-07-30"
+              },
+              {
+                "start": "2024-07-01",
+                "end": "2025-06-30",
+                "val": 136162000000,
+                "accn": "0001193125-26-323660",
+                "fy": 2026,
+                "fp": "FY",
+                "form": "10-K",
+                "filed": "2026-07-29",
+                "frame": "CY2025"
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

@@ -173,10 +173,10 @@ class AppBehavior(unittest.TestCase):
         self.answer.assert_not_called()
 
     def test_external_comparison_has_company_sources_and_never_opens_uploaded_page(self):
-        from sec_data import ResearchError
+        from sec_data import SecTransportError
         self.planner.return_value = ResearchPlan("competitors", "AAPL", ("MSFT",), "2025-10-31", None, "Compare margins")
         client = Mock()
-        client.resolve.side_effect = ResearchError("SEC denied access from this network.")
+        client.resolve.side_effect = SecTransportError("SEC denied access from this network.", "access_denied")
         with patch("intelligence.SecClient", return_value=client):
             self.at.chat_input[0].set_value("Compare Apple and Microsoft margins").run()
         self.assert_clean()

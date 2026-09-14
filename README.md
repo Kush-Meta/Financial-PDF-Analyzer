@@ -54,9 +54,11 @@ export SEC_USER_AGENT='Your application name your-real-contact@your-domain.com'
 streamlit run app.py --server.address=127.0.0.1
 ```
 
-The default development identity identifies this repository. Requests stay on allowlisted SEC endpoints, verify TLS, reject redirects, and use process-wide spacing, a bounded one-hour public-data cache, request/response limits and limited retries. An operator contact does not guarantee SEC network access. HTTP 403 is reported and never bypassed. Multi-process deployment will need a shared rate limiter.
+For local development, an ignored `.sec-user-agent` file beside `sec_data.py` can contain the same single-line identity; `SEC_USER_AGENT` takes precedence. Keep the file private (mode 600). It is excluded from Git and Docker images. Containers require the environment variable. The default development identity identifies this repository.
 
-If retrieval is unavailable, only requests matching the bundled **2025-10-31** cutoff and supported companies/years may use the small [verified annual-report snapshot](assets/filings/PEER_SOURCES.md). Snapshot use is conspicuous in the answer and exports; current-data requests never silently receive those old figures. Local SEC access returned HTTP 403 during development, so live connectivity remains unverified. Snapshot calculations and the real local-model flow have been exercised.
+Requests stay on allowlisted SEC endpoints, verify TLS, reject redirects, and use process-wide spacing, a bounded one-hour public-data cache, request/response limits and limited retries. HTTP `Retry-After` cooldowns are respected across sessions; a cooldown longer than the remaining research budget returns an actionable error. Transport failures have explicit categories, so data/identity errors cannot accidentally select fallback data based on error-message wording. An operator contact does not guarantee SEC network access. HTTP 403 is reported and never bypassed. Multi-process deployment will need a shared rate limiter.
+
+If retrieval is unavailable, only requests matching the bundled **2025-10-31** cutoff and supported companies/years may use the small [verified annual-report snapshot](assets/filings/PEER_SOURCES.md). Snapshot use is conspicuous in the answer and exports; current-data requests never silently receive those old figures. Initial requests returned HTTP 403; configuring an actual operator contact resolved access on this development network. On September 14, 2026 UTC, fresh SEC retrieval succeeded for Apple, Microsoft, Alphabet, Amazon and NVIDIA. All 20 dated financial benchmark cases matched the independently transcribed report values using live requests with cache reads disabled. This verifies those cases, not universal SEC availability or all accounting treatments.
 
 Credit/S&P methodology scoring is the next phase, **not implemented**. Credit-rating requests state this limitation. No S&P documents or rating matrices are bundled. See [INTELLIGENCE.md](INTELLIGENCE.md) for the researched design, scope, and next steps.
 
@@ -85,7 +87,9 @@ PDF bytes → validate + extract pages → session-owned page documents
                                      ↓
                            Ollama embeddings → FAISS
                                      ↓
-question → resolve follow-up → retrieve → optional cross-encoder → evidence JSON
+question → resolve follow-up → retrieve → optional cross-encoder
+                                     ↓
+                   bounded source-page expansion → evidence JSON
                                                                       ↓
                                                         Ollama answer with [S#]
                                                                       ↓
@@ -99,7 +103,9 @@ question → resolve follow-up → retrieve → optional cross-encoder → evide
 - `intelligence.py`: structured query planning, peer research, deterministic comparison and trace.
 - `sec_data.py`: bounded SEC JSON adapter, company resolution, annual-period and fact validation.
 - `peer_snapshot.py`: explicitly dated, verified public annual-report fallback; no invented API responses.
-- `services.py`: local embedding, retrieval, reranking, generation, and extraction.
+- `services.py`: local embedding in batches of at most 16 chunks, retrieval, reranking, generation, and extraction. Indexes remain unpublished until every embedding batch succeeds.
+- `finread.PageContextRetriever`: expands ranked chunks to their original source pages when within a 6,000-character page / 18,000-character total budget, preserving statement headings and rows. Oversized pages retain ranked excerpts.
+- `benchmarks/`: 44 source-checked development cases and recorded live SEC response subsets. See [benchmark instructions and limits](benchmarks/README.md).
 - `tests/`: deterministic unit and Streamlit interaction tests without model calls.
 - `scripts/smoke_models.py`: opt-in smoke test against installed local models.
 - `.github/workflows/tests.yml`: CI test job using the existing requirements.
@@ -115,6 +121,26 @@ python scripts/smoke_research.py
 ```
 
 The offline suite covers document/session behavior plus research-plan validation, source navigation, comparison arithmetic, data cutoff/period/unit checks, conflicting tags, snapshot restrictions, model failures and exports. The opt-in research smoke script exercises real local-model routing and the comparison flow. It explicitly reports snapshot use; passing it does not prove live SEC connectivity or semantic correctness across all financial questions. See `DESIGN.md` for interaction principles and `INTELLIGENCE.md` for research references.
+
+## Accuracy and live-data checks
+
+```bash
+# Network-free regression benchmark; model-dependent cases are explicitly skipped
+python scripts/evaluate_financials.py --output evaluation-results/offline.json
+# Current operational readiness; no cache reads or fallback
+python scripts/check_sec.py
+# Fresh historical financial comparisons checked against annual reports
+python scripts/evaluate_financials.py --mode live --only financial --output evaluation-results/live.json
+# All 44 cases with installed local models and recorded SEC inputs
+python scripts/evaluate_financials.py --mode model --output evaluation-results/model.json
+```
+
+Reports distinguish live retrieval, recorded response replay and injected failure
+scenarios. They include per-case failures and separate numeric, period, source,
+retrieval and routing checks. This is a development set, not a held-out or
+analyst-certified accuracy claim. Document evidence-hit checks do not prove every
+claim is supported. See [benchmark documentation](benchmarks/README.md) and
+[validation record](VALIDATION.md) for measured outcomes and limitations.
 
 ## Production status and next milestones
 

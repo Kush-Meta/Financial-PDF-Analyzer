@@ -109,3 +109,34 @@ widget positions while CSS changes the presentation after the first answer.
 - Compatibility of every alternative model or a clean install of the unpinned dependencies.
 
 See the production milestones in README.md before treating this as a hosted service.
+
+## Live-data reliability and accuracy benchmark — September 14, 2026 UTC
+
+This section supersedes the earlier live-connectivity limitation. Configuring the
+actual operator contact resolved the SEC 403 on the development network. Fresh
+current annual financials were retrieved for AAPL, MSFT, GOOGL, AMZN and NVDA.
+The live historical benchmark passed all 20 supported metric comparisons against
+separately transcribed report values, with HTTP cache reads disabled.
+
+The new 44-case development benchmark separates financial facts, document answers,
+routing/follow-ups and explicitly injected failures. The final result is **43/44**
+after a documented correction to two accepted source locations. One material
+capital-expenditure unit error remains in generated document answers and fails
+the benchmark. It is not hidden by the 96 passing offline tests. See
+[full results and limitations](benchmarks/RESULTS.md), including original/rescored
+report provenance, and [running instructions](benchmarks/README.md).
+
+Source-page expansion recovered missing statement rows in document research.
+Local Ollama indexing failed during a whole-filing embedding batch; the embedding
+model was unloaded/recovered, and the new 16-chunk batches successfully indexed
+the full Apple filing. Atomic publication, bounded batches and incomplete/failing
+batch behavior have regression coverage. This is not a load/endurance result.
+
+Fresh browser verification on port 8502: the Apple example opened successfully;
+"Compare AAPL with NVDA on operating margin using current data" returned SEC facts
+at the 2026-09-14 cutoff, including NVIDIA's year ended 2026-01-25, without a dated
+snapshot notice. The NVDA chip showed the correct company and its original 2026
+filing URL. Compose configuration, whitespace checks and contact-file exclusion
+from Git-visible files passed. The operator contact is stored locally with mode
+600 and excluded from Git/Docker; no dependencies were changed. CI benchmark
+artifact collection is configured but has not been verified on GitHub in this run.

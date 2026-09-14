@@ -1,0 +1,667 @@
+{
+  "version": 2,
+  "cutoff": "2025-10-31",
+  "companies": {
+    "AAPL": {
+      "name": "Apple Inc.",
+      "cik": 320193,
+      "start": "2024-09-29",
+      "end": "2025-09-27",
+      "filed": "2025-10-31",
+      "accession": "0000320193-25-000079",
+      "values": [
+        416161,
+        133050,
+        111482
+      ],
+      "margin": 31.9708,
+      "document": "aapl-20250927.htm",
+      "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019325000079/aapl-20250927.htm",
+      "reference_url": "https://www.sec.gov/Archives/edgar/data/320193/000032019325000079/aapl-20250927.htm",
+      "locators": [
+        "Consolidated income/operations statement: total revenue/net sales",
+        "Consolidated income/operations statement: operating income",
+        "Consolidated cash flow statement: net cash from operating activities"
+      ]
+    },
+    "MSFT": {
+      "name": "Microsoft Corporation",
+      "cik": 789019,
+      "start": "2024-07-01",
+      "end": "2025-06-30",
+      "filed": "2025-07-30",
+      "accession": "0000950170-25-100235",
+      "values": [
+        281724,
+        128528,
+        136162
+      ],
+      "margin": 45.62197,
+      "document": "msft-20250630.htm",
+      "url": "https://www.sec.gov/Archives/edgar/data/789019/000095017025100235/msft-20250630.htm",
+      "reference_url": "https://www.microsoft.com/investor/reports/ar25/index.html",
+      "locators": [
+        "Consolidated income/operations statement: total revenue/net sales",
+        "Consolidated income/operations statement: operating income",
+        "Consolidated cash flow statement: net cash from operating activities"
+      ]
+    },
+    "GOOGL": {
+      "name": "Alphabet Inc.",
+      "cik": 1652044,
+      "start": "2024-01-01",
+      "end": "2024-12-31",
+      "filed": "2025-02-05",
+      "accession": "0001652044-25-000014",
+      "values": [
+        350018,
+        112390,
+        125299
+      ],
+      "margin": 32.10978,
+      "document": "goog-20241231.htm",
+      "url": "https://www.sec.gov/Archives/edgar/data/1652044/000165204425000014/goog-20241231.htm",
+      "reference_url": "https://www.sec.gov/Archives/edgar/data/1652044/000165204425000014/goog-20241231.htm",
+      "locators": [
+        "Consolidated income/operations statement: total revenue/net sales",
+        "Consolidated income/operations statement: operating income",
+        "Consolidated cash flow statement: net cash from operating activities"
+      ]
+    },
+    "AMZN": {
+      "name": "Amazon.com, Inc.",
+      "cik": 1018724,
+      "start": "2024-01-01",
+      "end": "2024-12-31",
+      "filed": "2025-02-07",
+      "accession": "0001018724-25-000004",
+      "values": [
+        637959,
+        68593,
+        115877
+      ],
+      "margin": 10.75194,
+      "document": "amzn-20241231.htm",
+      "url": "https://www.sec.gov/Archives/edgar/data/1018724/000101872425000004/amzn-20241231.htm",
+      "reference_url": "https://www.sec.gov/Archives/edgar/data/1018724/000101872425000004/amzn-20241231.htm",
+      "locators": [
+        "Consolidated income/operations statement: total revenue/net sales",
+        "Consolidated income/operations statement: operating income",
+        "Consolidated cash flow statement: net cash from operating activities"
+      ]
+    },
+    "NVDA": {
+      "name": "NVIDIA Corporation",
+      "cik": 1045810,
+      "start": "2024-01-29",
+      "end": "2025-01-26",
+      "filed": "2025-02-26",
+      "accession": "0001045810-25-000023",
+      "values": [
+        130497,
+        81453,
+        64089
+      ],
+      "margin": 62.41753,
+      "document": "nvda-20250126.htm",
+      "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000023/nvda-20250126.htm",
+      "reference_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000023/nvda-20250126.htm",
+      "locators": [
+        "Consolidated income/operations statement: total revenue/net sales",
+        "Consolidated income/operations statement: operating income",
+        "Consolidated cash flow statement: net cash from operating activities"
+      ]
+    }
+  },
+  "cases": [
+    {
+      "id": "aapl-revenue",
+      "kind": "financial",
+      "question": "Compare AAPL with MSFT on revenue as of 2025-10-31.",
+      "company": "AAPL",
+      "peers": [
+        "MSFT"
+      ],
+      "cutoff": "2025-10-31",
+      "metric": "revenue",
+      "expected": 416161000000,
+      "tolerance": 0,
+      "reference_url": "https://www.sec.gov/Archives/edgar/data/320193/000032019325000079/aapl-20250927.htm"
+    },
+    {
+      "id": "aapl-operating_income",
+      "kind": "financial",
+      "question": "Compare AAPL with MSFT on operating income as of 2025-10-31.",
+      "company": "AAPL",
+      "peers": [
+        "MSFT"
+      ],
+      "cutoff": "2025-10-31",
+      "metric": "operating_income",
+      "expected": 133050000000,
+      "tolerance": 0,
+      "reference_url": "https://www.sec.gov/Archives/edgar/data/320193/000032019325000079/aapl-20250927.htm"
+    },
+    {
+      "id": "aapl-operating_cash_flow",
+      "kind": "financial",
+      "question": "Compare AAPL with MSFT on operating cash flow as of 2025-10-31.",
+      "company": "AAPL",
+      "peers": [
+        "MSFT"
+      ],
+      "cutoff": "2025-10-31",
+      "metric": "operating_cash_flow",
+      "expected": 111482000000,
+      "tolerance": 0,
+      "reference_url": "https://www.sec.gov/Archives/edgar/data/320193/000032019325000079/aapl-20250927.htm"
+    },
+    {
+      "id": "aapl-operating_margin",
+      "kind": "financial",
+      "question": "Compare AAPL with MSFT on operating margin as of 2025-10-31.",
+      "company": "AAPL",
+      "peers": [
+        "MSFT"
+      ],
+      "cutoff": "2025-10-31",
+      "metric": "operating_margin",
+      "expected": 31.9708,
+      "tolerance": 0.0001,
+      "reference_url": "https://www.sec.gov/Archives/edgar/data/320193/000032019325000079/aapl-20250927.htm"
+    },
+    {
+      "id": "msft-revenue",
+      "kind": "financial",
+      "question": "Compare MSFT with AAPL on revenue as of 2025-10-31.",
+      "company": "MSFT",
+      "peers": [
+        "AAPL"
+      ],
+      "cutoff": "2025-10-31",
+      "metric": "revenue",
+      "expected": 281724000000,
+      "tolerance": 0,
+      "reference_url": "https://www.microsoft.com/investor/reports/ar25/index.html"
+    },
+    {
+      "id": "msft-operating_income",
+      "kind": "financial",
+      "question": "Compare MSFT with AAPL on operating income as of 2025-10-31.",
+      "company": "MSFT",
+      "peers": [
+        "AAPL"
+      ],
+      "cutoff": "2025-10-31",
+      "metric": "operating_income",
+      "expected": 128528000000,
+      "tolerance": 0,
+      "reference_url": "https://www.microsoft.com/investor/reports/ar25/index.html"
+    },
+    {
+      "id": "msft-operating_cash_flow",
+      "kind": "financial",
+      "question": "Compare MSFT with AAPL on operating cash flow as of 2025-10-31.",
+      "company": "MSFT",
+      "peers": [
+        "AAPL"
+      ],
+      "cutoff": "2025-10-31",
+      "metric": "operating_cash_flow",
+      "expected": 136162000000,
+      "tolerance": 0,
+      "reference_url": "https://www.microsoft.com/investor/reports/ar25/index.html"
+    },
+    {
+      "id": "msft-operating_margin",
+      "kind": "financial",
+      "question": "Compare MSFT with AAPL on operating margin as of 2025-10-31.",
+      "company": "MSFT",
+      "peers": [
+        "AAPL"
+      ],
+      "cutoff": "2025-10-31",
+      "metric": "operating_margin",
+      "expected": 45.62197,
+      "tolerance": 0.0001,
+      "reference_url": "https://www.microsoft.com/investor/reports/ar25/index.html"
+    },
+    {
+      "id": "googl-revenue",
+      "kind": "financial",
+      "question": "Compare GOOGL with AAPL on revenue as of 2025-10-31.",
+      "company": "GOOGL",
+      "peers": [
+        "AAPL"
+      ],
+      "cutoff": "2025-10-31",
+      "metric": "revenue",
+      "expected": 350018000000,
+      "tolerance": 0,
+      "reference_url": "https://www.sec.gov/Archives/edgar/data/1652044/000165204425000014/goog-20241231.htm"
+    },
+    {
+      "id": "googl-operating_income",
+      "kind": "financial",
+      "question": "Compare GOOGL with AAPL on operating income as of 2025-10-31.",
+      "company": "GOOGL",
+      "peers": [
+        "AAPL"
+      ],
+      "cutoff": "2025-10-31",
+      "metric": "operating_income",
+      "expected": 112390000000,
+      "tolerance": 0,
+      "reference_url": "https://www.sec.gov/Archives/edgar/data/1652044/000165204425000014/goog-20241231.htm"
+    },
+    {
+      "id": "googl-operating_cash_flow",
+      "kind": "financial",
+      "question": "Compare GOOGL with AAPL on operating cash flow as of 2025-10-31.",
+      "company": "GOOGL",
+      "peers": [
+        "AAPL"
+      ],
+      "cutoff": "2025-10-31",
+      "metric": "operating_cash_flow",
+      "expected": 125299000000,
+      "tolerance": 0,
+      "reference_url": "https://www.sec.gov/Archives/edgar/data/1652044/000165204425000014/goog-20241231.htm"
+    },
+    {
+      "id": "googl-operating_margin",
+      "kind": "financial",
+      "question": "Compare GOOGL with AAPL on operating margin as of 2025-10-31.",
+      "company": "GOOGL",
+      "peers": [
+        "AAPL"
+      ],
+      "cutoff": "2025-10-31",
+      "metric": "operating_margin",
+      "expected": 32.10978,
+      "tolerance": 0.0001,
+      "reference_url": "https://www.sec.gov/Archives/edgar/data/1652044/000165204425000014/goog-20241231.htm"
+    },
+    {
+      "id": "amzn-revenue",
+      "kind": "financial",
+      "question": "Compare AMZN with AAPL on revenue as of 2025-10-31.",
+      "company": "AMZN",
+      "peers": [
+        "AAPL"
+      ],
+      "cutoff": "2025-10-31",
+      "metric": "revenue",
+      "expected": 637959000000,
+      "tolerance": 0,
+      "reference_url": "https://www.sec.gov/Archives/edgar/data/1018724/000101872425000004/amzn-20241231.htm"
+    },
+    {
+      "id": "amzn-operating_income",
+      "kind": "financial",
+      "question": "Compare AMZN with AAPL on operating income as of 2025-10-31.",
+      "company": "AMZN",
+      "peers": [
+        "AAPL"
+      ],
+      "cutoff": "2025-10-31",
+      "metric": "operating_income",
+      "expected": 68593000000,
+      "tolerance": 0,
+      "reference_url": "https://www.sec.gov/Archives/edgar/data/1018724/000101872425000004/amzn-20241231.htm"
+    },
+    {
+      "id": "amzn-operating_cash_flow",
+      "kind": "financial",
+      "question": "Compare AMZN with AAPL on operating cash flow as of 2025-10-31.",
+      "company": "AMZN",
+      "peers": [
+        "AAPL"
+      ],
+      "cutoff": "2025-10-31",
+      "metric": "operating_cash_flow",
+      "expected": 115877000000,
+      "tolerance": 0,
+      "reference_url": "https://www.sec.gov/Archives/edgar/data/1018724/000101872425000004/amzn-20241231.htm"
+    },
+    {
+      "id": "amzn-operating_margin",
+      "kind": "financial",
+      "question": "Compare AMZN with AAPL on operating margin as of 2025-10-31.",
+      "company": "AMZN",
+      "peers": [
+        "AAPL"
+      ],
+      "cutoff": "2025-10-31",
+      "metric": "operating_margin",
+      "expected": 10.75194,
+      "tolerance": 0.0001,
+      "reference_url": "https://www.sec.gov/Archives/edgar/data/1018724/000101872425000004/amzn-20241231.htm"
+    },
+    {
+      "id": "nvda-revenue",
+      "kind": "financial",
+      "question": "Compare NVDA with AAPL on revenue as of 2025-10-31.",
+      "company": "NVDA",
+      "peers": [
+        "AAPL"
+      ],
+      "cutoff": "2025-10-31",
+      "metric": "revenue",
+      "expected": 130497000000,
+      "tolerance": 0,
+      "reference_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000023/nvda-20250126.htm"
+    },
+    {
+      "id": "nvda-operating_income",
+      "kind": "financial",
+      "question": "Compare NVDA with AAPL on operating income as of 2025-10-31.",
+      "company": "NVDA",
+      "peers": [
+        "AAPL"
+      ],
+      "cutoff": "2025-10-31",
+      "metric": "operating_income",
+      "expected": 81453000000,
+      "tolerance": 0,
+      "reference_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000023/nvda-20250126.htm"
+    },
+    {
+      "id": "nvda-operating_cash_flow",
+      "kind": "financial",
+      "question": "Compare NVDA with AAPL on operating cash flow as of 2025-10-31.",
+      "company": "NVDA",
+      "peers": [
+        "AAPL"
+      ],
+      "cutoff": "2025-10-31",
+      "metric": "operating_cash_flow",
+      "expected": 64089000000,
+      "tolerance": 0,
+      "reference_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000023/nvda-20250126.htm"
+    },
+    {
+      "id": "nvda-operating_margin",
+      "kind": "financial",
+      "question": "Compare NVDA with AAPL on operating margin as of 2025-10-31.",
+      "company": "NVDA",
+      "peers": [
+        "AAPL"
+      ],
+      "cutoff": "2025-10-31",
+      "metric": "operating_margin",
+      "expected": 62.41753,
+      "tolerance": 0.0001,
+      "reference_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000023/nvda-20250126.htm"
+    },
+    {
+      "id": "document-sales",
+      "kind": "document",
+      "question": "What was Apple's total net sales in fiscal 2025? Give the amount in USD millions and cite the statement.",
+      "expected": 416161,
+      "unit": "USD millions",
+      "year": 2025,
+      "page": 32,
+      "anchor": "Total net sales",
+      "tolerance": 0.5,
+      "reference_url": "https://www.sec.gov/Archives/edgar/data/320193/000032019325000079/aapl-20250927.htm"
+    },
+    {
+      "id": "document-sales-prior",
+      "kind": "document",
+      "question": "What was Apple's total net sales in fiscal 2024? Give the amount in USD millions and cite the statement.",
+      "expected": 391035,
+      "unit": "USD millions",
+      "year": 2024,
+      "page": 32,
+      "anchor": "Total net sales",
+      "tolerance": 0.5,
+      "reference_url": "https://www.sec.gov/Archives/edgar/data/320193/000032019325000079/aapl-20250927.htm"
+    },
+    {
+      "id": "document-income",
+      "kind": "document",
+      "question": "What was Apple's net income in fiscal 2025? Give the amount in USD millions and cite the statement.",
+      "expected": 112010,
+      "unit": "USD millions",
+      "year": 2025,
+      "page": 32,
+      "anchor": "Net income",
+      "tolerance": 0.5,
+      "reference_url": "https://www.sec.gov/Archives/edgar/data/320193/000032019325000079/aapl-20250927.htm",
+      "accepted_pages": [
+        32,
+        33,
+        35,
+        36
+      ]
+    },
+    {
+      "id": "document-operating-income",
+      "kind": "document",
+      "question": "What was Apple's operating income in fiscal 2025? Give the amount in USD millions and cite the statement.",
+      "expected": 133050,
+      "unit": "USD millions",
+      "year": 2025,
+      "page": 32,
+      "anchor": "Operating income",
+      "tolerance": 0.5,
+      "reference_url": "https://www.sec.gov/Archives/edgar/data/320193/000032019325000079/aapl-20250927.htm"
+    },
+    {
+      "id": "document-rd",
+      "kind": "document",
+      "question": "What was Apple's research and development expense in fiscal 2025? Give the amount in USD millions and cite the statement.",
+      "expected": 34550,
+      "unit": "USD millions",
+      "year": 2025,
+      "page": 32,
+      "anchor": "Research and development",
+      "tolerance": 0.5,
+      "reference_url": "https://www.sec.gov/Archives/edgar/data/320193/000032019325000079/aapl-20250927.htm",
+      "accepted_pages": [
+        27,
+        32
+      ]
+    },
+    {
+      "id": "document-services",
+      "kind": "document",
+      "question": "What was Apple's services net sales in fiscal 2025? Give the amount in USD millions and cite the statement.",
+      "expected": 109158,
+      "unit": "USD millions",
+      "year": 2025,
+      "page": 32,
+      "anchor": "Services",
+      "tolerance": 0.5,
+      "reference_url": "https://www.sec.gov/Archives/edgar/data/320193/000032019325000079/aapl-20250927.htm",
+      "accepted_pages": [
+        26,
+        32
+      ]
+    },
+    {
+      "id": "document-cash",
+      "kind": "document",
+      "question": "What was Apple's cash and cash equivalents at year end in fiscal 2025? Give the amount in USD millions and cite the statement.",
+      "expected": 35934,
+      "unit": "USD millions",
+      "year": 2025,
+      "page": 34,
+      "anchor": "Cash and cash equivalents",
+      "tolerance": 0.5,
+      "reference_url": "https://www.sec.gov/Archives/edgar/data/320193/000032019325000079/aapl-20250927.htm"
+    },
+    {
+      "id": "document-assets",
+      "kind": "document",
+      "question": "What was Apple's total assets at year end in fiscal 2025? Give the amount in USD millions and cite the statement.",
+      "expected": 359241,
+      "unit": "USD millions",
+      "year": 2025,
+      "page": 34,
+      "anchor": "Total assets",
+      "tolerance": 0.5,
+      "reference_url": "https://www.sec.gov/Archives/edgar/data/320193/000032019325000079/aapl-20250927.htm"
+    },
+    {
+      "id": "document-liabilities",
+      "kind": "document",
+      "question": "What was Apple's total liabilities at year end in fiscal 2025? Give the amount in USD millions and cite the statement.",
+      "expected": 285508,
+      "unit": "USD millions",
+      "year": 2025,
+      "page": 34,
+      "anchor": "Total liabilities",
+      "tolerance": 0.5,
+      "reference_url": "https://www.sec.gov/Archives/edgar/data/320193/000032019325000079/aapl-20250927.htm"
+    },
+    {
+      "id": "document-equity",
+      "kind": "document",
+      "question": "What was Apple's total shareholders equity at year end in fiscal 2025? Give the amount in USD millions and cite the statement.",
+      "expected": 73733,
+      "unit": "USD millions",
+      "year": 2025,
+      "page": 34,
+      "anchor": "Total shareholders",
+      "tolerance": 0.5,
+      "reference_url": "https://www.sec.gov/Archives/edgar/data/320193/000032019325000079/aapl-20250927.htm",
+      "accepted_pages": [
+        34,
+        35
+      ]
+    },
+    {
+      "id": "document-ocf",
+      "kind": "document",
+      "question": "What was Apple's cash generated by operating activities in fiscal 2025? Give the amount in USD millions and cite the statement.",
+      "expected": 111482,
+      "unit": "USD millions",
+      "year": 2025,
+      "page": 36,
+      "anchor": "Cash generated by operating activities",
+      "tolerance": 0.5,
+      "reference_url": "https://www.sec.gov/Archives/edgar/data/320193/000032019325000079/aapl-20250927.htm"
+    },
+    {
+      "id": "document-capex",
+      "kind": "document",
+      "question": "What was Apple's payments for acquisition of property, plant and equipment (outflow magnitude) in fiscal 2025? Give the amount in USD millions and cite the statement.",
+      "expected": 12715,
+      "unit": "USD millions",
+      "year": 2025,
+      "page": 36,
+      "anchor": "Payments for acquisition of property",
+      "tolerance": 0.5,
+      "reference_url": "https://www.sec.gov/Archives/edgar/data/320193/000032019325000079/aapl-20250927.htm",
+      "outflow_magnitude": true
+    },
+    {
+      "id": "route-implicit",
+      "kind": "routing",
+      "question": "Is this company's operating margin strong?",
+      "route": "competitors",
+      "clarification": false,
+      "peers": [],
+      "followup": false
+    },
+    {
+      "id": "route-credit",
+      "kind": "routing",
+      "question": "Give Apple an S&P credit rating.",
+      "route": "credit",
+      "clarification": false,
+      "peers": [],
+      "followup": false
+    },
+    {
+      "id": "route-quarterly",
+      "kind": "routing",
+      "question": "Compare Apple and Microsoft on quarterly revenue.",
+      "route": "competitors",
+      "clarification": true,
+      "peers": [
+        "MSFT"
+      ],
+      "followup": false
+    },
+    {
+      "id": "route-unsupported",
+      "kind": "routing",
+      "question": "Compare Apple and Microsoft on free cash flow.",
+      "route": "competitors",
+      "clarification": true,
+      "peers": [
+        "MSFT"
+      ],
+      "followup": false
+    },
+    {
+      "id": "route-metric-edit",
+      "kind": "routing",
+      "question": "And operating cash flow?",
+      "route": "competitors",
+      "clarification": false,
+      "peers": [
+        "MSFT"
+      ],
+      "followup": true
+    },
+    {
+      "id": "route-peer-edit",
+      "kind": "routing",
+      "question": "Use Alphabet instead.",
+      "route": "competitors",
+      "clarification": false,
+      "peers": [
+        "GOOGL"
+      ],
+      "followup": true
+    },
+    {
+      "id": "route-cutoff-edit",
+      "kind": "routing",
+      "question": "Use data as of 2025-09-30.",
+      "route": "competitors",
+      "clarification": false,
+      "peers": [
+        "MSFT"
+      ],
+      "followup": true
+    },
+    {
+      "id": "route-document-route",
+      "kind": "routing",
+      "question": "What risks does Apple disclose in this filing?",
+      "route": "document",
+      "clarification": false,
+      "peers": [],
+      "followup": false
+    },
+    {
+      "id": "abstain-current-outage",
+      "kind": "abstention",
+      "question": "Compare AAPL with MSFT using current financials while SEC is unavailable.",
+      "scenario": "current_outage"
+    },
+    {
+      "id": "abstain-wrong-year",
+      "kind": "abstention",
+      "question": "Compare GOOGL FY2025 with AAPL as of 2025-10-31 while SEC is unavailable.",
+      "scenario": "wrong_year"
+    },
+    {
+      "id": "abstain-missing-revenue",
+      "kind": "abstention",
+      "question": "Compare AAPL and MSFT operating margins when Apple revenue is missing.",
+      "scenario": "missing_revenue"
+    },
+    {
+      "id": "abstain-missing-peer",
+      "kind": "abstention",
+      "question": "Compare AAPL and MSFT when Microsoft cannot be resolved.",
+      "scenario": "missing_peer"
+    }
+  ]
+}

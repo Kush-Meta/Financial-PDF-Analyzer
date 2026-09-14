@@ -1,0 +1,254 @@
+{
+  "provenance": {
+    "captured_at": "2026-09-14T04:11:56.175701+00:00",
+    "kind": "subset_of_live_SEC_JSON",
+    "profile_url": "https://data.sec.gov/submissions/CIK0001018724.json",
+    "facts_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001018724.json",
+    "normalized_full_profile_sha256": "90d238acc3d5382965d0c2210cc002f9dd810dbbbc98795817cd7bfdd6294ec8",
+    "normalized_full_facts_sha256": "3baefcae6d63ed1b730d0a46a8180b3264f77e8f700d502585882fdd419dbb23",
+    "selection": "All recent 10-K/10-K/A rows; supported concept observations with the reference period end, including other accessions and units."
+  },
+  "profile": {
+    "name": "AMAZON COM INC",
+    "cik": "0001018724",
+    "sic": "5961",
+    "tickers": [
+      "AMZN"
+    ],
+    "filings": {
+      "recent": {
+        "accessionNumber": [
+          "0001018724-26-000004",
+          "0001018724-25-000004",
+          "0001018724-24-000008",
+          "0001018724-23-000004",
+          "0001018724-22-000005",
+          "0001018724-21-000004"
+        ],
+        "filingDate": [
+          "2026-02-06",
+          "2025-02-07",
+          "2024-02-02",
+          "2023-02-03",
+          "2022-02-04",
+          "2021-02-03"
+        ],
+        "reportDate": [
+          "2025-12-31",
+          "2024-12-31",
+          "2023-12-31",
+          "2022-12-31",
+          "2021-12-31",
+          "2020-12-31"
+        ],
+        "acceptanceDateTime": [
+          "2026-02-05T23:44:31.000Z",
+          "2025-02-06T23:40:29.000Z",
+          "2024-02-01T23:48:30.000Z",
+          "2023-02-02T23:27:34.000Z",
+          "2022-02-03T23:46:51.000Z",
+          "2021-02-03T00:44:10.000Z"
+        ],
+        "act": [
+          "34",
+          "34",
+          "34",
+          "34",
+          "34",
+          "34"
+        ],
+        "form": [
+          "10-K",
+          "10-K",
+          "10-K",
+          "10-K",
+          "10-K",
+          "10-K"
+        ],
+        "fileNumber": [
+          "000-22513",
+          "000-22513",
+          "000-22513",
+          "000-22513",
+          "000-22513",
+          "000-22513"
+        ],
+        "filmNumber": [
+          "26604493",
+          "25598704",
+          "24588330",
+          "23582822",
+          "22590195",
+          "21583589"
+        ],
+        "items": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "core_type": [
+          "XBRL",
+          "XBRL",
+          "XBRL",
+          "XBRL",
+          "XBRL",
+          "XBRL"
+        ],
+        "size": [
+          12700850,
+          12029913,
+          12110804,
+          12809287,
+          13441589,
+          12093058
+        ],
+        "isXBRL": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "isInlineXBRL": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "isXBRLNumeric": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "primaryDocument": [
+          "amzn-20251231.htm",
+          "amzn-20241231.htm",
+          "amzn-20231231.htm",
+          "amzn-20221231.htm",
+          "amzn-20211231.htm",
+          "amzn-20201231.htm"
+        ],
+        "primaryDocDescription": [
+          "10-K",
+          "10-K",
+          "10-K",
+          "10-K",
+          "10-K",
+          "10-K"
+        ]
+      },
+      "files": []
+    }
+  },
+  "companyfacts": {
+    "cik": 1018724,
+    "entityName": "AMAZON COM INC",
+    "facts": {
+      "us-gaap": {
+        "RevenueFromContractWithCustomerExcludingAssessedTax": {
+          "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
+          "description": "Amount, excluding tax collected from customer, of revenue from satisfaction of performance obligation by transferring promised good or service to customer. Tax collected from customer is tax assessed by governmental authority that is both imposed on and concurrent with specific revenue-producing transaction, including, but not limited to, sales, use, value added and excise.",
+          "units": {
+            "USD": [
+              {
+                "start": "2024-01-01",
+                "end": "2024-12-31",
+                "val": 637959000000,
+                "accn": "0001018724-25-000004",
+                "fy": 2024,
+                "fp": "FY",
+                "form": "10-K",
+                "filed": "2025-02-07"
+              },
+              {
+                "start": "2024-01-01",
+                "end": "2024-12-31",
+                "val": 637959000000,
+                "accn": "0001018724-26-000004",
+                "fy": 2025,
+                "fp": "FY",
+                "form": "10-K",
+                "filed": "2026-02-06",
+                "frame": "CY2024"
+              }
+            ]
+          }
+        },
+        "SalesRevenueNet": {
+          "label": "Revenue, Net (Deprecated 2018-01-31)",
+          "description": "Total revenue from sale of goods and services rendered during the reporting period, in the normal course of business, reduced by sales returns and allowances, and sales discounts.",
+          "units": {
+            "USD": []
+          }
+        },
+        "OperatingIncomeLoss": {
+          "label": "Operating Income (Loss)",
+          "description": "The net result for the period of deducting operating expenses from operating revenues.",
+          "units": {
+            "USD": [
+              {
+                "start": "2024-01-01",
+                "end": "2024-12-31",
+                "val": 68593000000,
+                "accn": "0001018724-25-000004",
+                "fy": 2024,
+                "fp": "FY",
+                "form": "10-K",
+                "filed": "2025-02-07"
+              },
+              {
+                "start": "2024-01-01",
+                "end": "2024-12-31",
+                "val": 68593000000,
+                "accn": "0001018724-26-000004",
+                "fy": 2025,
+                "fp": "FY",
+                "form": "10-K",
+                "filed": "2026-02-06",
+                "frame": "CY2024"
+              }
+            ]
+          }
+        },
+        "NetCashProvidedByUsedInOperatingActivities": {
+          "label": "Net Cash Provided by (Used in) Operating Activities",
+          "description": "Amount of cash inflow (outflow) from operating activities, including discontinued operations. Operating activity cash flows include transactions, adjustments, and changes in value not defined as investing or financing activities.",
+          "units": {
+            "USD": [
+              {
+                "start": "2024-01-01",
+                "end": "2024-12-31",
+                "val": 115877000000,
+                "accn": "0001018724-25-000004",
+                "fy": 2024,
+                "fp": "FY",
+                "form": "10-K",
+                "filed": "2025-02-07"
+              },
+              {
+                "start": "2024-01-01",
+                "end": "2024-12-31",
+                "val": 115877000000,
+                "accn": "0001018724-26-000004",
+                "fy": 2025,
+                "fp": "FY",
+                "form": "10-K",
+                "filed": "2026-02-06",
+                "frame": "CY2024"
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

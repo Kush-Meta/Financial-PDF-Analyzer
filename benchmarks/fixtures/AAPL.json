@@ -1,0 +1,311 @@
+{
+  "provenance": {
+    "captured_at": "2026-09-14T04:11:56.087187+00:00",
+    "kind": "subset_of_live_SEC_JSON",
+    "profile_url": "https://data.sec.gov/submissions/CIK0000320193.json",
+    "facts_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json",
+    "normalized_full_profile_sha256": "5335c7b45c7b82114e9badcf760187642a1cb2412c6511255b4d6fc42fb688ea",
+    "normalized_full_facts_sha256": "6b4380f07cf6045408be419cf7d78a5d90d08c28cb86fef6c78c7105622fd784",
+    "selection": "All recent 10-K/10-K/A rows; supported concept observations with the reference period end, including other accessions and units."
+  },
+  "profile": {
+    "name": "Apple Inc.",
+    "cik": "0000320193",
+    "sic": "3571",
+    "tickers": [
+      "AAPL"
+    ],
+    "filings": {
+      "recent": {
+        "accessionNumber": [
+          "0000320193-25-000079",
+          "0000320193-24-000123",
+          "0000320193-23-000106",
+          "0000320193-22-000108",
+          "0000320193-21-000105",
+          "0000320193-20-000096",
+          "0000320193-19-000119",
+          "0000320193-18-000145",
+          "0000320193-17-000070",
+          "0001628280-16-020309",
+          "0001193125-15-356351"
+        ],
+        "filingDate": [
+          "2025-10-31",
+          "2024-11-01",
+          "2023-11-03",
+          "2022-10-28",
+          "2021-10-29",
+          "2020-10-30",
+          "2019-10-31",
+          "2018-11-05",
+          "2017-11-03",
+          "2016-10-26",
+          "2015-10-28"
+        ],
+        "reportDate": [
+          "2025-09-27",
+          "2024-09-28",
+          "2023-09-30",
+          "2022-09-24",
+          "2021-09-25",
+          "2020-09-26",
+          "2019-09-28",
+          "2018-09-29",
+          "2017-09-30",
+          "2016-09-24",
+          "2015-09-26"
+        ],
+        "acceptanceDateTime": [
+          "2025-10-31T10:01:26.000Z",
+          "2024-11-01T10:01:36.000Z",
+          "2023-11-02T22:08:27.000Z",
+          "2022-10-27T22:01:14.000Z",
+          "2021-10-28T22:04:28.000Z",
+          "2020-10-29T22:06:25.000Z",
+          "2019-10-30T22:12:36.000Z",
+          "2018-11-05T13:01:40.000Z",
+          "2017-11-03T12:01:37.000Z",
+          "2016-10-26T20:42:16.000Z",
+          "2015-10-28T20:31:09.000Z"
+        ],
+        "act": [
+          "34",
+          "34",
+          "34",
+          "34",
+          "34",
+          "34",
+          "34",
+          "34",
+          "34",
+          "34",
+          "34"
+        ],
+        "form": [
+          "10-K",
+          "10-K",
+          "10-K",
+          "10-K",
+          "10-K",
+          "10-K",
+          "10-K",
+          "10-K",
+          "10-K",
+          "10-K",
+          "10-K"
+        ],
+        "fileNumber": [
+          "001-36743",
+          "001-36743",
+          "001-36743",
+          "001-36743",
+          "001-36743",
+          "001-36743",
+          "001-36743",
+          "001-36743",
+          "001-36743",
+          "001-36743",
+          "001-36743"
+        ],
+        "filmNumber": [
+          "251437791",
+          "241416806",
+          "231373899",
+          "221338448",
+          "211359752",
+          "201273977",
+          "191181423",
+          "181158788",
+          "171174673",
+          "161953070",
+          "151180619"
+        ],
+        "items": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "core_type": [
+          "XBRL",
+          "XBRL",
+          "XBRL",
+          "XBRL",
+          "XBRL",
+          "XBRL",
+          "XBRL",
+          "10-K",
+          "10-K",
+          "10-K",
+          "10-K"
+        ],
+        "size": [
+          9392337,
+          9759333,
+          9569569,
+          10332356,
+          10502096,
+          12502600,
+          12861616,
+          12275572,
+          14071062,
+          13277662,
+          9594425
+        ],
+        "isXBRL": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "isInlineXBRL": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "isXBRLNumeric": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "primaryDocument": [
+          "aapl-20250927.htm",
+          "aapl-20240928.htm",
+          "aapl-20230930.htm",
+          "aapl-20220924.htm",
+          "aapl-20210925.htm",
+          "aapl-20200926.htm",
+          "a10-k20199282019.htm",
+          "a10-k20189292018.htm",
+          "a10-k20179302017.htm",
+          "a201610-k9242016.htm",
+          "d17062d10k.htm"
+        ],
+        "primaryDocDescription": [
+          "10-K",
+          "10-K",
+          "10-K",
+          "10-K",
+          "10-K",
+          "10-K",
+          "10-K",
+          "10-K",
+          "10-K",
+          "10-K",
+          "FORM 10-K"
+        ]
+      },
+      "files": []
+    }
+  },
+  "companyfacts": {
+    "cik": 320193,
+    "entityName": "Apple Inc.",
+    "facts": {
+      "us-gaap": {
+        "RevenueFromContractWithCustomerExcludingAssessedTax": {
+          "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
+          "description": "Amount, excluding tax collected from customer, of revenue from satisfaction of performance obligation by transferring promised good or service to customer. Tax collected from customer is tax assessed by governmental authority that is both imposed on and concurrent with specific revenue-producing transaction, including, but not limited to, sales, use, value added and excise.",
+          "units": {
+            "USD": [
+              {
+                "start": "2024-09-29",
+                "end": "2025-09-27",
+                "val": 416161000000,
+                "accn": "0000320193-25-000079",
+                "fy": 2025,
+                "fp": "FY",
+                "form": "10-K",
+                "filed": "2025-10-31",
+                "frame": "CY2025"
+              }
+            ]
+          }
+        },
+        "Revenues": {
+          "label": "Revenues",
+          "description": "Amount of revenue recognized from goods sold, services rendered, insurance premiums, or other activities that constitute an earning process. Includes, but is not limited to, investment and interest income before deduction of interest expense when recognized as a component of revenue, and sales and trading gain (loss).",
+          "units": {
+            "USD": []
+          }
+        },
+        "SalesRevenueNet": {
+          "label": "Revenue, Net (Deprecated 2018-01-31)",
+          "description": "Total revenue from sale of goods and services rendered during the reporting period, in the normal course of business, reduced by sales returns and allowances, and sales discounts.",
+          "units": {
+            "USD": []
+          }
+        },
+        "OperatingIncomeLoss": {
+          "label": "Operating Income (Loss)",
+          "description": "The net result for the period of deducting operating expenses from operating revenues.",
+          "units": {
+            "USD": [
+              {
+                "start": "2024-09-29",
+                "end": "2025-09-27",
+                "val": 133050000000,
+                "accn": "0000320193-25-000079",
+                "fy": 2025,
+                "fp": "FY",
+                "form": "10-K",
+                "filed": "2025-10-31",
+                "frame": "CY2025"
+              }
+            ]
+          }
+        },
+        "NetCashProvidedByUsedInOperatingActivities": {
+          "label": "Net Cash Provided by (Used in) Operating Activities",
+          "description": "Amount of cash inflow (outflow) from operating activities, including discontinued operations. Operating activity cash flows include transactions, adjustments, and changes in value not defined as investing or financing activities.",
+          "units": {
+            "USD": [
+              {
+                "start": "2024-09-29",
+                "end": "2025-09-27",
+                "val": 111482000000,
+                "accn": "0000320193-25-000079",
+                "fy": 2025,
+                "fp": "FY",
+                "form": "10-K",
+                "filed": "2025-10-31",
+                "frame": "CY2025"
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

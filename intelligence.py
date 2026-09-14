@@ -6,7 +6,7 @@ import re
 
 import finread
 from peer_snapshot import SNAPSHOT_CUTOFF, snapshot
-from sec_data import ResearchError, SecClient, iso_date, operating_margin
+from sec_data import ResearchError, SecTransportError, SecClient, iso_date, operating_margin
 
 
 @dataclass(frozen=True)
@@ -19,6 +19,11 @@ class ResearchPlan:
     query: str
     clarification: str = ""
     identities: dict = field(default_factory=dict)
+
+
+def explicit_identifier(identifier, text):
+    # Case-sensitive: the ticker ON must not match the ordinary word "on".
+    return bool(re.search(r"(?<![A-Za-z0-9.-])" + re.escape(identifier) + r"(?![A-Za-z0-9-]|\.[A-Za-z0-9])", text))
 
 
 def peer_followup(question, history):
@@ -142,10 +147,21 @@ def plan_question(question, llm, pages, history=(), sample=False):
         data = json.loads(raw)
         if not isinstance(data, dict) or data.get("route") not in ("document", "competitors", "credit"):
             raise ValueError("route")
+        # Preserve explicit subject order if the planner reverses a named ticker
+        # pair to favor the uploaded company. No additional entities are inferred.
+        pair = re.match(r"\s*(?i:compare|benchmark)\s+([A-Z](?:[A-Z0-9.-]{0,8}[A-Z0-9])?)\s+(?i:with|against|versus|vs\.?)\s+([A-Z](?:[A-Z0-9.-]{0,8}[A-Z0-9])?)(?=\s|[,.?!]|$)", question)
+        if (pair and data["route"] == "competitors" and data.get("company") == pair[2]
+                and isinstance(data.get("peers"), list) and len(data["peers"]) == 1
+                and isinstance(data["peers"][0], dict) and data["peers"][0].get("ticker") == pair[1]):
+            data["company"] = pair[1]
+            data["company_mention"] = pair[1]
+            data["peers"] = [{"ticker": pair[2], "mention": pair[2]}]
         cutoff = data.get("as_of") or default_cutoff
         if iso_date(cutoff) > date.today():
             raise ResearchError("That research cutoff is in the future. Choose a past or current date.")
         year = data.get("fiscal_year")
+        if isinstance(year, str) and re.fullmatch(r"\d{4}", year):
+            year = int(year)
         if year is not None and (type(year) is not int or not 2009 <= year <= date.today().year):
             raise ValueError("year")
         company = str(data.get("company") or ("AAPL" if sample else "")).upper().strip()
@@ -153,6 +169,8 @@ def plan_question(question, llm, pages, history=(), sample=False):
             raise ValueError("company")
         user_text = "\n".join([h["q"] for h in history[-2:]] + [question])
         mention = data.get("company_mention", "")
+        if company and explicit_identifier(company, user_text):
+            mention = company
         identities = {company: "Apple Inc." if sample and company == "AAPL" else mention}
         clarification = data.get("clarification", "")
         if not isinstance(clarification, str) or len(clarification) > 600:
@@ -170,6 +188,8 @@ def plan_question(question, llm, pages, history=(), sample=False):
                 continue
             if not re.fullmatch(r"[A-Z][A-Z0-9.-]{0,9}", ticker):
                 raise ValueError("ticker")
+            if explicit_identifier(ticker, user_text):
+                mention = ticker
             if not isinstance(mention, str) or not mention.strip() or mention.casefold() not in user_text.casefold():
                 raise ValueError("peer not named by user")
             if ticker != company and ticker not in verified:
@@ -272,17 +292,16 @@ def competitor_research(plan, client=None, progress=lambda message: None):
         progress(f"Checking {identifier}'s annual financials…")
         try:
             if unavailable:
-                raise ResearchError(unavailable)
+                raise unavailable
             profile = client.resolve(identifier)
             record = client.annual(profile, plan.cutoff, plan.fiscal_year)
         except ResearchError as exc:
             message = str(exc)
             # Access/network failures apply across companies; do not repeatedly hit
             # a blocked SEC service. Semantic failures only affect this company.
-            if any(term in message for term in ("denied access", "could not be reached", "temporarily unavailable", "HTTP 429")):
-                unavailable = message
-            transport_failure = unavailable or any(term in message for term in (
-                "data is unavailable", "request or time limit", "size limit", "unreadable data"))
+            transport_failure = isinstance(exc, SecTransportError)
+            if transport_failure and exc.code in ("access_denied", "network", "cooldown", "http_429", "http_503", "budget"):
+                unavailable = exc
             record = snapshot(identifier, plan.cutoff, plan.fiscal_year) if transport_failure else None
             if record is None:
                 warnings.append(f"{identifier}: {message}")
@@ -306,6 +325,11 @@ def competitor_research(plan, client=None, progress=lambda message: None):
                       "source": record.url, "filed": record.filed, "period_end": record.end})
     research = {"plan": asdict(plan), "peers": peers, "peer_basis": basis, "trace": trace,
                 "status": "complete" if len(records) == len(peers) + 1 else "partial"}
+    origins = {record.origin for record in records}
+    research["data_status"] = ("unavailable" if not origins else "live_sec" if origins == {"live_sec"}
+                               else "snapshot" if origins == {"bundled_annual_report_snapshot"} else "mixed")
+    if isinstance(getattr(client, "events", None), list):
+        research["requests"] = list(client.events)
     if not records:
         return finread.Answer("I couldn't retrieve the focal company's annual financials, so I can't make a grounded peer comparison yet. Try again when SEC access is available.", [], warnings, plan.query, research)
     if len({(r.start, r.end) for r in records}) > 1:
@@ -350,6 +374,7 @@ def research_answer(question, retriever_factory, llm, pages, history=(), sample=
     if plan.route == "competitors":
         return competitor_research(plan, client, progress)
     progress("Finding supporting passages in your filing…")
-    answer = finread.answer_question(plan.query, retriever_factory(), llm)
+    retriever = finread.PageContextRetriever(retriever_factory(), pages)
+    answer = finread.answer_question(plan.query, retriever, llm)
     return finread.Answer(answer.text, answer.sources, answer.warnings, answer.search_query,
                          {"plan": asdict(plan), "status": "complete"})

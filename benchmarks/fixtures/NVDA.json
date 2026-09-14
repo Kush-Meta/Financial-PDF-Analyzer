@@ -1,0 +1,254 @@
+{
+  "provenance": {
+    "captured_at": "2026-09-14T04:11:56.201995+00:00",
+    "kind": "subset_of_live_SEC_JSON",
+    "profile_url": "https://data.sec.gov/submissions/CIK0001045810.json",
+    "facts_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001045810.json",
+    "normalized_full_profile_sha256": "3c545e7818f18530a153fcfe7c330338b872b5e9d57f02fdd44ddae76a1139bc",
+    "normalized_full_facts_sha256": "a7cf2857c67726f1627299e0e7533670272e37349da086efaebeb5b8a6c7970d",
+    "selection": "All recent 10-K/10-K/A rows; supported concept observations with the reference period end, including other accessions and units."
+  },
+  "profile": {
+    "name": "NVIDIA CORP",
+    "cik": "0001045810",
+    "sic": "3674",
+    "tickers": [
+      "NVDA"
+    ],
+    "filings": {
+      "recent": {
+        "accessionNumber": [
+          "0001045810-26-000021",
+          "0001045810-25-000023",
+          "0001045810-24-000029",
+          "0001045810-23-000017",
+          "0001045810-22-000036",
+          "0001045810-21-000010"
+        ],
+        "filingDate": [
+          "2026-02-25",
+          "2025-02-26",
+          "2024-02-21",
+          "2023-02-24",
+          "2022-03-18",
+          "2021-02-26"
+        ],
+        "reportDate": [
+          "2026-01-25",
+          "2025-01-26",
+          "2024-01-28",
+          "2023-01-29",
+          "2022-01-30",
+          "2021-01-31"
+        ],
+        "acceptanceDateTime": [
+          "2026-02-25T21:42:19.000Z",
+          "2025-02-26T21:48:33.000Z",
+          "2024-02-21T21:36:57.000Z",
+          "2023-02-24T22:23:43.000Z",
+          "2022-03-18T00:33:34.000Z",
+          "2021-02-26T22:03:14.000Z"
+        ],
+        "act": [
+          "34",
+          "34",
+          "34",
+          "34",
+          "34",
+          "34"
+        ],
+        "form": [
+          "10-K",
+          "10-K",
+          "10-K",
+          "10-K",
+          "10-K",
+          "10-K"
+        ],
+        "fileNumber": [
+          "000-23985",
+          "000-23985",
+          "000-23985",
+          "000-23985",
+          "000-23985",
+          "000-23985"
+        ],
+        "filmNumber": [
+          "26679581",
+          "25670928",
+          "24660316",
+          "23668751",
+          "22750748",
+          "21690665"
+        ],
+        "items": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "core_type": [
+          "XBRL",
+          "XBRL",
+          "XBRL",
+          "XBRL",
+          "XBRL",
+          "XBRL"
+        ],
+        "size": [
+          11461765,
+          12325809,
+          11813809,
+          13525180,
+          12667394,
+          11996719
+        ],
+        "isXBRL": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "isInlineXBRL": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "isXBRLNumeric": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "primaryDocument": [
+          "nvda-20260125.htm",
+          "nvda-20250126.htm",
+          "nvda-20240128.htm",
+          "nvda-20230129.htm",
+          "nvda-20220130.htm",
+          "nvda-20210131.htm"
+        ],
+        "primaryDocDescription": [
+          "10-K",
+          "10-K",
+          "10-K",
+          "10-K",
+          "10-K",
+          "FY2021 10-K"
+        ]
+      },
+      "files": []
+    }
+  },
+  "companyfacts": {
+    "cik": 1045810,
+    "entityName": "NVIDIA CORP",
+    "facts": {
+      "us-gaap": {
+        "RevenueFromContractWithCustomerExcludingAssessedTax": {
+          "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
+          "description": "Amount, excluding tax collected from customer, of revenue from satisfaction of performance obligation by transferring promised good or service to customer. Tax collected from customer is tax assessed by governmental authority that is both imposed on and concurrent with specific revenue-producing transaction, including, but not limited to, sales, use, value added and excise.",
+          "units": {
+            "USD": []
+          }
+        },
+        "Revenues": {
+          "label": "Revenues",
+          "description": "Amount of revenue recognized from goods sold, services rendered, insurance premiums, or other activities that constitute an earning process. Includes, but is not limited to, investment and interest income before deduction of interest expense when recognized as a component of revenue, and sales and trading gain (loss).",
+          "units": {
+            "USD": [
+              {
+                "start": "2024-01-29",
+                "end": "2025-01-26",
+                "val": 130497000000,
+                "accn": "0001045810-25-000023",
+                "fy": 2025,
+                "fp": "FY",
+                "form": "10-K",
+                "filed": "2025-02-26"
+              },
+              {
+                "start": "2024-01-29",
+                "end": "2025-01-26",
+                "val": 130497000000,
+                "accn": "0001045810-26-000021",
+                "fy": 2026,
+                "fp": "FY",
+                "form": "10-K",
+                "filed": "2026-02-25",
+                "frame": "CY2024"
+              }
+            ]
+          }
+        },
+        "OperatingIncomeLoss": {
+          "label": "Operating Income (Loss)",
+          "description": "The net result for the period of deducting operating expenses from operating revenues.",
+          "units": {
+            "USD": [
+              {
+                "start": "2024-01-29",
+                "end": "2025-01-26",
+                "val": 81453000000,
+                "accn": "0001045810-25-000023",
+                "fy": 2025,
+                "fp": "FY",
+                "form": "10-K",
+                "filed": "2025-02-26"
+              },
+              {
+                "start": "2024-01-29",
+                "end": "2025-01-26",
+                "val": 81453000000,
+                "accn": "0001045810-26-000021",
+                "fy": 2026,
+                "fp": "FY",
+                "form": "10-K",
+                "filed": "2026-02-25",
+                "frame": "CY2024"
+              }
+            ]
+          }
+        },
+        "NetCashProvidedByUsedInOperatingActivities": {
+          "label": "Net Cash Provided by (Used in) Operating Activities",
+          "description": "Amount of cash inflow (outflow) from operating activities, including discontinued operations. Operating activity cash flows include transactions, adjustments, and changes in value not defined as investing or financing activities.",
+          "units": {
+            "USD": [
+              {
+                "start": "2024-01-29",
+                "end": "2025-01-26",
+                "val": 64089000000,
+                "accn": "0001045810-25-000023",
+                "fy": 2025,
+                "fp": "FY",
+                "form": "10-K",
+                "filed": "2025-02-26"
+              },
+              {
+                "start": "2024-01-29",
+                "end": "2025-01-26",
+                "val": 64089000000,
+                "accn": "0001045810-26-000021",
+                "fy": 2026,
+                "fp": "FY",
+                "form": "10-K",
+                "filed": "2026-02-25",
+                "frame": "CY2024"
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

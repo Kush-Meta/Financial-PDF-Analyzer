@@ -6,7 +6,7 @@ from langchain_core.documents import Document
 
 from intelligence import ResearchPlan, competitor_research, identity_matches, comparison_relationships, peer_followup, plan_question, research_answer
 from peer_snapshot import snapshot
-from sec_data import ResearchError, SecClient, _cache, operating_margin, select_annual
+from sec_data import ResearchError, SecTransportError, SecClient, _cache, operating_margin, select_annual
 from ui import research_notes
 
 
@@ -207,7 +207,7 @@ class CompetitorFlow(unittest.TestCase):
     def setUp(self):
         self.plan = ResearchPlan("competitors", "AAPL", (), "2025-10-31", None, "Compare margins")
         self.client = Mock()
-        self.client.resolve.side_effect = ResearchError("SEC denied access from this network.")
+        self.client.resolve.side_effect = SecTransportError("SEC denied access from this network.", "access_denied")
         self.llm = Mock(invoke=Mock(return_value="Apple's operating margin is below Microsoft's in these annual periods [S1] [S2]."))
 
     def test_real_snapshot_math_provenance_and_period_warning(self):

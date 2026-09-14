@@ -1,0 +1,823 @@
+{
+  "schema_version": 1,
+  "dataset_version": 2,
+  "mode": "model",
+  "data_origin": "recorded_SEC_fixture_replay",
+  "generated_at": "2026-09-14T04:31:45.848153+00:00",
+  "model_config": {
+    "model": "llama3",
+    "temperature": 0,
+    "embedding": "mxbai-embed-large",
+    "reranker": "cross-encoder/ms-marco-MiniLM-L-6-v2",
+    "k": 8,
+    "top_n": 4
+  },
+  "rescored_from_dataset_version": 1,
+  "rescored_at": "2026-09-14T04:32:52.191769+00:00",
+  "summary": {
+    "counts": {
+      "passed": 43,
+      "failed": 1
+    },
+    "dimensions": {
+      "financial.numeric": {
+        "passed": 20,
+        "total": 20
+      },
+      "financial.entities": {
+        "passed": 20,
+        "total": 20
+      },
+      "financial.period": {
+        "passed": 20,
+        "total": 20
+      },
+      "financial.cutoff": {
+        "passed": 20,
+        "total": 20
+      },
+      "financial.unit": {
+        "passed": 20,
+        "total": 20
+      },
+      "financial.citation_ids": {
+        "passed": 20,
+        "total": 20
+      },
+      "financial.complete": {
+        "passed": 20,
+        "total": 20
+      },
+      "financial.source_facts": {
+        "passed": 20,
+        "total": 20
+      },
+      "financial.displayed_numbers": {
+        "passed": 20,
+        "total": 20
+      },
+      "financial.comparison": {
+        "passed": 20,
+        "total": 20
+      },
+      "document.numeric_unit": {
+        "passed": 11,
+        "total": 12
+      },
+      "document.period_mentioned": {
+        "passed": 12,
+        "total": 12
+      },
+      "document.retrieval_hit": {
+        "passed": 12,
+        "total": 12
+      },
+      "document.cited_evidence_hit": {
+        "passed": 12,
+        "total": 12
+      },
+      "document.citation_ids": {
+        "passed": 12,
+        "total": 12
+      },
+      "document.route": {
+        "passed": 12,
+        "total": 12
+      },
+      "routing.route": {
+        "passed": 8,
+        "total": 8
+      },
+      "routing.clarification": {
+        "passed": 8,
+        "total": 8
+      },
+      "routing.peers": {
+        "passed": 8,
+        "total": 8
+      },
+      "routing.company": {
+        "passed": 3,
+        "total": 3
+      },
+      "routing.cutoff": {
+        "passed": 3,
+        "total": 3
+      },
+      "routing.metric": {
+        "passed": 3,
+        "total": 3
+      },
+      "abstention.no_invented_sources": {
+        "passed": 2,
+        "total": 2
+      },
+      "abstention.not_complete": {
+        "passed": 2,
+        "total": 2
+      },
+      "abstention.missing_not_zero": {
+        "passed": 1,
+        "total": 1
+      },
+      "abstention.no_margin": {
+        "passed": 1,
+        "total": 1
+      },
+      "abstention.no_comparison_claim": {
+        "passed": 2,
+        "total": 2
+      },
+      "abstention.warning": {
+        "passed": 1,
+        "total": 1
+      },
+      "abstention.single_company_only": {
+        "passed": 1,
+        "total": 1
+      },
+      "abstention.partial": {
+        "passed": 1,
+        "total": 1
+      }
+    }
+  },
+  "results": [
+    {
+      "id": "aapl-revenue",
+      "kind": "financial",
+      "checks": {
+        "numeric": true,
+        "entities": true,
+        "period": true,
+        "cutoff": true,
+        "unit": true,
+        "citation_ids": true,
+        "complete": true,
+        "source_facts": true,
+        "displayed_numbers": true,
+        "comparison": true
+      },
+      "status": "passed",
+      "elapsed_seconds": 4.49
+    },
+    {
+      "id": "aapl-operating_income",
+      "kind": "financial",
+      "checks": {
+        "numeric": true,
+        "entities": true,
+        "period": true,
+        "cutoff": true,
+        "unit": true,
+        "citation_ids": true,
+        "complete": true,
+        "source_facts": true,
+        "displayed_numbers": true,
+        "comparison": true
+      },
+      "status": "passed",
+      "elapsed_seconds": 4.561
+    },
+    {
+      "id": "aapl-operating_cash_flow",
+      "kind": "financial",
+      "checks": {
+        "numeric": true,
+        "entities": true,
+        "period": true,
+        "cutoff": true,
+        "unit": true,
+        "citation_ids": true,
+        "complete": true,
+        "source_facts": true,
+        "displayed_numbers": true,
+        "comparison": true
+      },
+      "status": "passed",
+      "elapsed_seconds": 4.51
+    },
+    {
+      "id": "aapl-operating_margin",
+      "kind": "financial",
+      "checks": {
+        "numeric": true,
+        "entities": true,
+        "period": true,
+        "cutoff": true,
+        "unit": true,
+        "citation_ids": true,
+        "complete": true,
+        "source_facts": true,
+        "displayed_numbers": true,
+        "comparison": true
+      },
+      "status": "passed",
+      "elapsed_seconds": 4.411
+    },
+    {
+      "id": "msft-revenue",
+      "kind": "financial",
+      "checks": {
+        "numeric": true,
+        "entities": true,
+        "period": true,
+        "cutoff": true,
+        "unit": true,
+        "citation_ids": true,
+        "complete": true,
+        "source_facts": true,
+        "displayed_numbers": true,
+        "comparison": true
+      },
+      "status": "passed",
+      "elapsed_seconds": 4.378
+    },
+    {
+      "id": "msft-operating_income",
+      "kind": "financial",
+      "checks": {
+        "numeric": true,
+        "entities": true,
+        "period": true,
+        "cutoff": true,
+        "unit": true,
+        "citation_ids": true,
+        "complete": true,
+        "source_facts": true,
+        "displayed_numbers": true,
+        "comparison": true
+      },
+      "status": "passed",
+      "elapsed_seconds": 4.494
+    },
+    {
+      "id": "msft-operating_cash_flow",
+      "kind": "financial",
+      "checks": {
+        "numeric": true,
+        "entities": true,
+        "period": true,
+        "cutoff": true,
+        "unit": true,
+        "citation_ids": true,
+        "complete": true,
+        "source_facts": true,
+        "displayed_numbers": true,
+        "comparison": true
+      },
+      "status": "passed",
+      "elapsed_seconds": 4.46
+    },
+    {
+      "id": "msft-operating_margin",
+      "kind": "financial",
+      "checks": {
+        "numeric": true,
+        "entities": true,
+        "period": true,
+        "cutoff": true,
+        "unit": true,
+        "citation_ids": true,
+        "complete": true,
+        "source_facts": true,
+        "displayed_numbers": true,
+        "comparison": true
+      },
+      "status": "passed",
+      "elapsed_seconds": 4.425
+    },
+    {
+      "id": "googl-revenue",
+      "kind": "financial",
+      "checks": {
+        "numeric": true,
+        "entities": true,
+        "period": true,
+        "cutoff": true,
+        "unit": true,
+        "citation_ids": true,
+        "complete": true,
+        "source_facts": true,
+        "displayed_numbers": true,
+        "comparison": true
+      },
+      "status": "passed",
+      "elapsed_seconds": 4.432
+    },
+    {
+      "id": "googl-operating_income",
+      "kind": "financial",
+      "checks": {
+        "numeric": true,
+        "entities": true,
+        "period": true,
+        "cutoff": true,
+        "unit": true,
+        "citation_ids": true,
+        "complete": true,
+        "source_facts": true,
+        "displayed_numbers": true,
+        "comparison": true
+      },
+      "status": "passed",
+      "elapsed_seconds": 4.479
+    },
+    {
+      "id": "googl-operating_cash_flow",
+      "kind": "financial",
+      "checks": {
+        "numeric": true,
+        "entities": true,
+        "period": true,
+        "cutoff": true,
+        "unit": true,
+        "citation_ids": true,
+        "complete": true,
+        "source_facts": true,
+        "displayed_numbers": true,
+        "comparison": true
+      },
+      "status": "passed",
+      "elapsed_seconds": 4.567
+    },
+    {
+      "id": "googl-operating_margin",
+      "kind": "financial",
+      "checks": {
+        "numeric": true,
+        "entities": true,
+        "period": true,
+        "cutoff": true,
+        "unit": true,
+        "citation_ids": true,
+        "complete": true,
+        "source_facts": true,
+        "displayed_numbers": true,
+        "comparison": true
+      },
+      "status": "passed",
+      "elapsed_seconds": 4.478
+    },
+    {
+      "id": "amzn-revenue",
+      "kind": "financial",
+      "checks": {
+        "numeric": true,
+        "entities": true,
+        "period": true,
+        "cutoff": true,
+        "unit": true,
+        "citation_ids": true,
+        "complete": true,
+        "source_facts": true,
+        "displayed_numbers": true,
+        "comparison": true
+      },
+      "status": "passed",
+      "elapsed_seconds": 4.392
+    },
+    {
+      "id": "amzn-operating_income",
+      "kind": "financial",
+      "checks": {
+        "numeric": true,
+        "entities": true,
+        "period": true,
+        "cutoff": true,
+        "unit": true,
+        "citation_ids": true,
+        "complete": true,
+        "source_facts": true,
+        "displayed_numbers": true,
+        "comparison": true
+      },
+      "status": "passed",
+      "elapsed_seconds": 4.473
+    },
+    {
+      "id": "amzn-operating_cash_flow",
+      "kind": "financial",
+      "checks": {
+        "numeric": true,
+        "entities": true,
+        "period": true,
+        "cutoff": true,
+        "unit": true,
+        "citation_ids": true,
+        "complete": true,
+        "source_facts": true,
+        "displayed_numbers": true,
+        "comparison": true
+      },
+      "status": "passed",
+      "elapsed_seconds": 4.468
+    },
+    {
+      "id": "amzn-operating_margin",
+      "kind": "financial",
+      "checks": {
+        "numeric": true,
+        "entities": true,
+        "period": true,
+        "cutoff": true,
+        "unit": true,
+        "citation_ids": true,
+        "complete": true,
+        "source_facts": true,
+        "displayed_numbers": true,
+        "comparison": true
+      },
+      "status": "passed",
+      "elapsed_seconds": 4.458
+    },
+    {
+      "id": "nvda-revenue",
+      "kind": "financial",
+      "checks": {
+        "numeric": true,
+        "entities": true,
+        "period": true,
+        "cutoff": true,
+        "unit": true,
+        "citation_ids": true,
+        "complete": true,
+        "source_facts": true,
+        "displayed_numbers": true,
+        "comparison": true
+      },
+      "status": "passed",
+      "elapsed_seconds": 4.401
+    },
+    {
+      "id": "nvda-operating_income",
+      "kind": "financial",
+      "checks": {
+        "numeric": true,
+        "entities": true,
+        "period": true,
+        "cutoff": true,
+        "unit": true,
+        "citation_ids": true,
+        "complete": true,
+        "source_facts": true,
+        "displayed_numbers": true,
+        "comparison": true
+      },
+      "status": "passed",
+      "elapsed_seconds": 4.42
+    },
+    {
+      "id": "nvda-operating_cash_flow",
+      "kind": "financial",
+      "checks": {
+        "numeric": true,
+        "entities": true,
+        "period": true,
+        "cutoff": true,
+        "unit": true,
+        "citation_ids": true,
+        "complete": true,
+        "source_facts": true,
+        "displayed_numbers": true,
+        "comparison": true
+      },
+      "status": "passed",
+      "elapsed_seconds": 4.499
+    },
+    {
+      "id": "nvda-operating_margin",
+      "kind": "financial",
+      "checks": {
+        "numeric": true,
+        "entities": true,
+        "period": true,
+        "cutoff": true,
+        "unit": true,
+        "citation_ids": true,
+        "complete": true,
+        "source_facts": true,
+        "displayed_numbers": true,
+        "comparison": true
+      },
+      "status": "passed",
+      "elapsed_seconds": 4.574
+    },
+    {
+      "id": "document-sales",
+      "kind": "document",
+      "checks": {
+        "numeric_unit": true,
+        "period_mentioned": true,
+        "retrieval_hit": true,
+        "cited_evidence_hit": true,
+        "citation_ids": true,
+        "route": true
+      },
+      "status": "passed",
+      "elapsed_seconds": 41.684
+    },
+    {
+      "id": "document-sales-prior",
+      "kind": "document",
+      "checks": {
+        "numeric_unit": true,
+        "period_mentioned": true,
+        "retrieval_hit": true,
+        "cited_evidence_hit": true,
+        "citation_ids": true,
+        "route": true
+      },
+      "status": "passed",
+      "elapsed_seconds": 15.012
+    },
+    {
+      "id": "document-income",
+      "kind": "document",
+      "checks": {
+        "numeric_unit": true,
+        "period_mentioned": true,
+        "retrieval_hit": true,
+        "cited_evidence_hit": true,
+        "citation_ids": true,
+        "route": true
+      },
+      "status": "passed",
+      "elapsed_seconds": 13.185
+    },
+    {
+      "id": "document-operating-income",
+      "kind": "document",
+      "checks": {
+        "numeric_unit": true,
+        "period_mentioned": true,
+        "retrieval_hit": true,
+        "cited_evidence_hit": true,
+        "citation_ids": true,
+        "route": true
+      },
+      "status": "passed",
+      "elapsed_seconds": 12.877
+    },
+    {
+      "id": "document-rd",
+      "kind": "document",
+      "checks": {
+        "numeric_unit": true,
+        "period_mentioned": true,
+        "retrieval_hit": true,
+        "cited_evidence_hit": true,
+        "citation_ids": true,
+        "route": true
+      },
+      "status": "passed",
+      "elapsed_seconds": 24.32
+    },
+    {
+      "id": "document-services",
+      "kind": "document",
+      "checks": {
+        "numeric_unit": true,
+        "period_mentioned": true,
+        "retrieval_hit": true,
+        "cited_evidence_hit": true,
+        "citation_ids": true,
+        "route": true
+      },
+      "status": "passed",
+      "elapsed_seconds": 22.431
+    },
+    {
+      "id": "document-cash",
+      "kind": "document",
+      "checks": {
+        "numeric_unit": true,
+        "period_mentioned": true,
+        "retrieval_hit": true,
+        "cited_evidence_hit": true,
+        "citation_ids": true,
+        "route": true
+      },
+      "status": "passed",
+      "elapsed_seconds": 21.615
+    },
+    {
+      "id": "document-assets",
+      "kind": "document",
+      "checks": {
+        "numeric_unit": true,
+        "period_mentioned": true,
+        "retrieval_hit": true,
+        "cited_evidence_hit": true,
+        "citation_ids": true,
+        "route": true
+      },
+      "status": "passed",
+      "elapsed_seconds": 19.998
+    },
+    {
+      "id": "document-liabilities",
+      "kind": "document",
+      "checks": {
+        "numeric_unit": true,
+        "period_mentioned": true,
+        "retrieval_hit": true,
+        "cited_evidence_hit": true,
+        "citation_ids": true,
+        "route": true
+      },
+      "status": "passed",
+      "elapsed_seconds": 20.581
+    },
+    {
+      "id": "document-equity",
+      "kind": "document",
+      "checks": {
+        "numeric_unit": true,
+        "period_mentioned": true,
+        "retrieval_hit": true,
+        "cited_evidence_hit": true,
+        "citation_ids": true,
+        "route": true
+      },
+      "status": "passed",
+      "elapsed_seconds": 15.975
+    },
+    {
+      "id": "document-ocf",
+      "kind": "document",
+      "checks": {
+        "numeric_unit": true,
+        "period_mentioned": true,
+        "retrieval_hit": true,
+        "cited_evidence_hit": true,
+        "citation_ids": true,
+        "route": true
+      },
+      "status": "passed",
+      "elapsed_seconds": 13.911
+    },
+    {
+      "id": "document-capex",
+      "kind": "document",
+      "checks": {
+        "numeric_unit": false,
+        "period_mentioned": true,
+        "retrieval_hit": true,
+        "cited_evidence_hit": true,
+        "citation_ids": true,
+        "route": true
+      },
+      "status": "failed",
+      "elapsed_seconds": 25.939
+    },
+    {
+      "id": "route-implicit",
+      "kind": "routing",
+      "checks": {
+        "route": true,
+        "clarification": true,
+        "peers": true
+      },
+      "status": "passed",
+      "elapsed_seconds": 3.428
+    },
+    {
+      "id": "route-credit",
+      "kind": "routing",
+      "checks": {
+        "route": true,
+        "clarification": true,
+        "peers": true
+      },
+      "status": "passed",
+      "elapsed_seconds": 2.723
+    },
+    {
+      "id": "route-quarterly",
+      "kind": "routing",
+      "checks": {
+        "route": true,
+        "clarification": true,
+        "peers": true
+      },
+      "status": "passed",
+      "elapsed_seconds": 5.011
+    },
+    {
+      "id": "route-unsupported",
+      "kind": "routing",
+      "checks": {
+        "route": true,
+        "clarification": true,
+        "peers": true
+      },
+      "status": "passed",
+      "elapsed_seconds": 4.054
+    },
+    {
+      "id": "route-metric-edit",
+      "kind": "routing",
+      "checks": {
+        "route": true,
+        "clarification": true,
+        "peers": true,
+        "company": true,
+        "cutoff": true,
+        "metric": true
+      },
+      "status": "passed",
+      "elapsed_seconds": 0.01
+    },
+    {
+      "id": "route-peer-edit",
+      "kind": "routing",
+      "checks": {
+        "route": true,
+        "clarification": true,
+        "peers": true,
+        "company": true,
+        "cutoff": true,
+        "metric": true
+      },
+      "status": "passed",
+      "elapsed_seconds": 0.002
+    },
+    {
+      "id": "route-cutoff-edit",
+      "kind": "routing",
+      "checks": {
+        "route": true,
+        "clarification": true,
+        "peers": true,
+        "company": true,
+        "cutoff": true,
+        "metric": true
+      },
+      "status": "passed",
+      "elapsed_seconds": 0.0
+    },
+    {
+      "id": "route-document-route",
+      "kind": "routing",
+      "checks": {
+        "route": true,
+        "clarification": true,
+        "peers": true
+      },
+      "status": "passed",
+      "elapsed_seconds": 2.837
+    },
+    {
+      "id": "abstain-current-outage",
+      "kind": "abstention",
+      "checks": {
+        "no_invented_sources": true,
+        "not_complete": true
+      },
+      "status": "passed",
+      "elapsed_seconds": 0.044
+    },
+    {
+      "id": "abstain-wrong-year",
+      "kind": "abstention",
+      "checks": {
+        "no_invented_sources": true,
+        "not_complete": true
+      },
+      "status": "passed",
+      "elapsed_seconds": 0.015
+    },
+    {
+      "id": "abstain-missing-revenue",
+      "kind": "abstention",
+      "checks": {
+        "missing_not_zero": true,
+        "no_margin": true,
+        "no_comparison_claim": true,
+        "warning": true
+      },
+      "status": "passed",
+      "elapsed_seconds": 0.016
+    },
+    {
+      "id": "abstain-missing-peer",
+      "kind": "abstention",
+      "checks": {
+        "single_company_only": true,
+        "partial": true,
+        "no_comparison_claim": true
+      },
+      "status": "passed",
+      "elapsed_seconds": 0.012
+    }
+  ],
+  "remaining_failure": {
+    "id": "document-capex",
+    "reported_answer": "$12.715 million",
+    "reference_answer": "$12,715 million ($12.715 billion)",
+    "reference_pdf_page": 36,
+    "failed_dimension": "numeric_unit",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/320193/000032019325000079/aapl-20250927.htm"
+  }
+}

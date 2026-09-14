@@ -7,6 +7,22 @@ The first release uses model-based planning with deterministic peer comparisons;
 free-form comparative interpretation is deferred until claim-level validation is
 available. Valid citation IDs alone did not prevent contradictory live-model prose.
 
+## Reliability and evaluation update — September 14, 2026 UTC
+
+Live SEC access now succeeds with the configured operator contact. Fresh current
+annual records were retrieved for five companies, and 20 historical financial
+comparisons matched the original report references. `scripts/check_sec.py` never
+uses fallback or cached responses; the financial benchmark separately evaluates
+live access, recorded SEC inputs and actual local-model behavior.
+
+The 44-case development set is documented in `benchmarks/README.md`. It surfaced
+planner name-expansion/year-format failures and missing financial table context.
+The planner now accepts a user-supplied exact ticker even if the model expands its
+name, normalizes validated four-digit year strings, and preserves explicit ticker
+pair order when the model reverses it. Document retrieval recovers bounded source
+pages after ranking, and embedding requests contain at most 16 chunks. No scoring
+model, new library, or paid data provider was added.
+
 ## Product direction
 
 Build toward a credit research assistant whose conclusions can be checked against

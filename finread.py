@@ -78,6 +78,37 @@ def evidence_context(documents):
     return json.dumps(sources, ensure_ascii=False), sources
 
 
+class PageContextRetriever:
+    """Recover table headers and rows from the same page after chunk ranking.
+
+    Expansion is bounded, session-local and keyed by source as well as page.
+    Oversized pages retain the ranked excerpt rather than silently truncating it.
+    """
+
+    def __init__(self, retriever, pages, max_page_chars=6000, max_context_chars=18000):
+        self.retriever = retriever
+        self.pages = {(p.metadata.get("source"), p.metadata.get("page_number")): p for p in pages}
+        self.max_page_chars = max_page_chars
+        self.max_context_chars = max_context_chars
+
+    def invoke(self, query):
+        ranked = self.retriever.invoke(query)
+        result, expanded, total = [], set(), 0
+        for chunk in ranked:
+            key = (chunk.metadata.get("source"), chunk.metadata.get("page_number"))
+            if key in expanded:
+                continue
+            page = self.pages.get(key)
+            if page is not None and len(page.page_content) <= self.max_page_chars and total + len(page.page_content) <= self.max_context_chars:
+                result.append(page)
+                expanded.add(key)
+                total += len(page.page_content)
+            elif total + len(chunk.page_content) <= self.max_context_chars:
+                result.append(chunk)
+                total += len(chunk.page_content)
+        return result
+
+
 def citation_issues(answer, sources):
     """Check citation IDs only. This does not prove that claims are supported."""
     cited = set(re.findall(r"\[S(\d+)\]", answer))

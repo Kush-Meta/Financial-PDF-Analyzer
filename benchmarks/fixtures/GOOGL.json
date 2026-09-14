@@ -1,0 +1,211 @@
+{
+  "provenance": {
+    "captured_at": "2026-09-14T04:11:56.138153+00:00",
+    "kind": "subset_of_live_SEC_JSON",
+    "profile_url": "https://data.sec.gov/submissions/CIK0001652044.json",
+    "facts_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001652044.json",
+    "normalized_full_profile_sha256": "d61c444b7adbd2bdb77111da9ff115bda8ac559ac1b06ef481f0a9c2307a43da",
+    "normalized_full_facts_sha256": "97baddc6bac26eccd11b4d63007504cb959f123c69945465e1c55a4b1dd86eaa",
+    "selection": "All recent 10-K/10-K/A rows; supported concept observations with the reference period end, including other accessions and units."
+  },
+  "profile": {
+    "name": "Alphabet Inc.",
+    "cik": "0001652044",
+    "sic": "7370",
+    "tickers": [
+      "GOOGL",
+      "GOOG",
+      "GOOGM",
+      "GOOGN"
+    ],
+    "filings": {
+      "recent": {
+        "accessionNumber": [
+          "0001652044-26-000018",
+          "0001652044-25-000014",
+          "0001652044-24-000022"
+        ],
+        "filingDate": [
+          "2026-02-05",
+          "2025-02-05",
+          "2024-01-31"
+        ],
+        "reportDate": [
+          "2025-12-31",
+          "2024-12-31",
+          "2023-12-31"
+        ],
+        "acceptanceDateTime": [
+          "2026-02-05T02:56:03.000Z",
+          "2025-02-05T01:41:40.000Z",
+          "2024-01-31T02:43:43.000Z"
+        ],
+        "act": [
+          "34",
+          "34",
+          "34"
+        ],
+        "form": [
+          "10-K",
+          "10-K",
+          "10-K"
+        ],
+        "fileNumber": [
+          "001-37580",
+          "001-37580",
+          "001-37580"
+        ],
+        "filmNumber": [
+          "26600221",
+          "25590440",
+          "24580445"
+        ],
+        "items": [
+          "",
+          "",
+          ""
+        ],
+        "core_type": [
+          "XBRL",
+          "XBRL",
+          "XBRL"
+        ],
+        "size": [
+          15653193,
+          14773739,
+          13927595
+        ],
+        "isXBRL": [
+          1,
+          1,
+          1
+        ],
+        "isInlineXBRL": [
+          1,
+          1,
+          1
+        ],
+        "isXBRLNumeric": [
+          null,
+          null,
+          null
+        ],
+        "primaryDocument": [
+          "goog-20251231.htm",
+          "goog-20241231.htm",
+          "goog-20231231.htm"
+        ],
+        "primaryDocDescription": [
+          "10-K",
+          "10-K",
+          "10-K"
+        ]
+      },
+      "files": []
+    }
+  },
+  "companyfacts": {
+    "cik": 1652044,
+    "entityName": "Alphabet Inc.",
+    "facts": {
+      "us-gaap": {
+        "RevenueFromContractWithCustomerExcludingAssessedTax": {
+          "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
+          "description": "Amount, excluding tax collected from customer, of revenue from satisfaction of performance obligation by transferring promised good or service to customer. Tax collected from customer is tax assessed by governmental authority that is both imposed on and concurrent with specific revenue-producing transaction, including, but not limited to, sales, use, value added and excise.",
+          "units": {
+            "USD": [
+              {
+                "start": "2024-01-01",
+                "end": "2024-12-31",
+                "val": 350018000000,
+                "accn": "0001652044-25-000014",
+                "fy": 2024,
+                "fp": "FY",
+                "form": "10-K",
+                "filed": "2025-02-05",
+                "frame": "CY2024"
+              }
+            ]
+          }
+        },
+        "Revenues": {
+          "label": "Revenues",
+          "description": "Amount of revenue recognized from goods sold, services rendered, insurance premiums, or other activities that constitute an earning process. Includes, but is not limited to, investment and interest income before deduction of interest expense when recognized as a component of revenue, and sales and trading gain (loss).",
+          "units": {
+            "USD": [
+              {
+                "start": "2024-01-01",
+                "end": "2024-12-31",
+                "val": 350018000000,
+                "accn": "0001652044-26-000018",
+                "fy": 2025,
+                "fp": "FY",
+                "form": "10-K",
+                "filed": "2026-02-05",
+                "frame": "CY2024"
+              }
+            ]
+          }
+        },
+        "OperatingIncomeLoss": {
+          "label": "Operating Income (Loss)",
+          "description": "The net result for the period of deducting operating expenses from operating revenues.",
+          "units": {
+            "USD": [
+              {
+                "start": "2024-01-01",
+                "end": "2024-12-31",
+                "val": 112390000000,
+                "accn": "0001652044-25-000014",
+                "fy": 2024,
+                "fp": "FY",
+                "form": "10-K",
+                "filed": "2025-02-05"
+              },
+              {
+                "start": "2024-01-01",
+                "end": "2024-12-31",
+                "val": 112390000000,
+                "accn": "0001652044-26-000018",
+                "fy": 2025,
+                "fp": "FY",
+                "form": "10-K",
+                "filed": "2026-02-05",
+                "frame": "CY2024"
+              }
+            ]
+          }
+        },
+        "NetCashProvidedByUsedInOperatingActivities": {
+          "label": "Net Cash Provided by (Used in) Operating Activities",
+          "description": "Amount of cash inflow (outflow) from operating activities, including discontinued operations. Operating activity cash flows include transactions, adjustments, and changes in value not defined as investing or financing activities.",
+          "units": {
+            "USD": [
+              {
+                "start": "2024-01-01",
+                "end": "2024-12-31",
+                "val": 125299000000,
+                "accn": "0001652044-25-000014",
+                "fy": 2024,
+                "fp": "FY",
+                "form": "10-K",
+                "filed": "2025-02-05"
+              },
+              {
+                "start": "2024-01-01",
+                "end": "2024-12-31",
+                "val": 125299000000,
+                "accn": "0001652044-26-000018",
+                "fy": 2025,
+                "fp": "FY",
+                "form": "10-K",
+                "filed": "2026-02-05",
+                "frame": "CY2024"
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

@@ -13,3 +13,11 @@ jobs:
           cache: pip
       - run: pip install -r requirements.txt
       - run: python -m unittest discover -s tests -v
+      - name: Replay independently checked financial benchmark
+        run: python scripts/evaluate_financials.py --output evaluation-results/ci.json
+      - name: Keep benchmark results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: financial-benchmark
+          path: evaluation-results/ci.*

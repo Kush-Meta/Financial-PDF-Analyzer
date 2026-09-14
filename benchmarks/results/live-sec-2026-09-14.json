@@ -1,0 +1,102 @@
+{
+  "historical_benchmark": {
+    "mode": "live",
+    "generated_at": "2026-09-14T04:15:26.855599+00:00",
+    "data_origin": "live_SEC_no_cache",
+    "summary": {
+      "counts": {
+        "passed": 20
+      },
+      "dimensions": {
+        "financial.numeric": {
+          "passed": 20,
+          "total": 20
+        },
+        "financial.entities": {
+          "passed": 20,
+          "total": 20
+        },
+        "financial.period": {
+          "passed": 20,
+          "total": 20
+        },
+        "financial.cutoff": {
+          "passed": 20,
+          "total": 20
+        },
+        "financial.unit": {
+          "passed": 20,
+          "total": 20
+        },
+        "financial.citation_ids": {
+          "passed": 20,
+          "total": 20
+        },
+        "financial.complete": {
+          "passed": 20,
+          "total": 20
+        },
+        "financial.source_facts": {
+          "passed": 20,
+          "total": 20
+        },
+        "financial.displayed_numbers": {
+          "passed": 20,
+          "total": 20
+        },
+        "financial.comparison": {
+          "passed": 20,
+          "total": 20
+        },
+        "financial.live_network": {
+          "passed": 20,
+          "total": 20
+        }
+      }
+    }
+  },
+  "current_readiness": {
+    "checked_at": "2026-09-14T04:14:44.900225+00:00",
+    "cutoff": "2026-09-14",
+    "passed": true,
+    "cache_reads": false,
+    "snapshot_allowed": false
+  },
+  "companies": [
+    {
+      "ticker": "AAPL",
+      "status": "verified_live",
+      "period_end": "2025-09-27",
+      "filed": "2025-10-31",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/320193/000032019325000079/aapl-20250927.htm"
+    },
+    {
+      "ticker": "MSFT",
+      "status": "verified_live",
+      "period_end": "2026-06-30",
+      "filed": "2026-07-29",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/789019/000119312526323660/msft-20260630.htm"
+    },
+    {
+      "ticker": "GOOGL",
+      "status": "verified_live",
+      "period_end": "2025-12-31",
+      "filed": "2026-02-05",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/1652044/000165204426000018/goog-20251231.htm"
+    },
+    {
+      "ticker": "AMZN",
+      "status": "verified_live",
+      "period_end": "2025-12-31",
+      "filed": "2026-02-06",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/1018724/000101872426000004/amzn-20251231.htm"
+    },
+    {
+      "ticker": "NVDA",
+      "status": "verified_live",
+      "period_end": "2026-01-25",
+      "filed": "2026-02-25",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/nvda-20260125.htm"
+    }
+  ]
+}

@@ -9,3 +9,5 @@ __pycache__
 uploads
 tests
 .github
+.sec-user-agent
+evaluation-results/

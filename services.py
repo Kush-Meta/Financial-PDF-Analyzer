@@ -11,7 +11,18 @@ def build_index(pages, model, base_url):
     splitter = RecursiveCharacterTextSplitter(chunk_size=CHUNK_SIZE, chunk_overlap=CHUNK_OVERLAP)
     chunks = splitter.split_documents([p for p in pages if p.page_content.strip()])
     embeddings = OllamaEmbeddings(model=model, base_url=base_url, client_kwargs={"timeout": 120})
-    return FAISS.from_documents(chunks, embeddings)
+    texts = [chunk.page_content for chunk in chunks]
+    vectors = []
+    # A whole filing in one embedding request can crash the local model runner.
+    # Keep batches small; publish the index only after every batch succeeds.
+    for start in range(0, len(texts), 16):
+        batch = texts[start:start + 16]
+        embedded = embeddings.embed_documents(batch)
+        if len(embedded) != len(batch):
+            raise ValueError("Embedding service returned an incomplete batch.")
+        vectors.extend(embedded)
+    return FAISS.from_embeddings(zip(texts, vectors), embeddings,
+                                 metadatas=[chunk.metadata for chunk in chunks])
 
 
 def load_reranker(model_name):

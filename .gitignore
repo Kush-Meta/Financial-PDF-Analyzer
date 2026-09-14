@@ -9,3 +9,5 @@ uploads/
 *.pdf
 !assets/filings/apple-2025-10k.pdf
 .DS_Store
+.sec-user-agent
+evaluation-results/
