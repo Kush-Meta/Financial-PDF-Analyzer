@@ -1,0 +1,37 @@
+{
+  "id": "alphabet-fy2024-statements",
+  "issuer": "Alphabet Inc.",
+  "entity_names": ["Alphabet", "Alphabet Inc.", "Google"],
+  "filing": "Alphabet FY2024 Form 10-K",
+  "accession": "0001652044-25-000014",
+  "source_url": "https://www.sec.gov/Archives/edgar/data/1652044/000165204425000014/goog-20241231.htm",
+  "provenance": "Flattened Consolidated Statements of Income and Cash Flows transcribed from Alphabet's FY2024 Form 10-K (filed 2025-02-05). FY2024 Revenues 350,018, Income from operations 112,390, and Net cash provided by operating activities 125,299 match assets/filings/PEER_SOURCES.md. Comparative 2022–2023 columns are from the same statement pages and are used only to exercise year binding.",
+  "expected": {
+    "revenue_2024_base_usd": "350018000000",
+    "operating_income_2024_base_usd": "112390000000",
+    "operating_cash_flow_2024_base_usd": "125299000000",
+    "net_income_2024_base_usd": "100118000000",
+    "capital_expenditure_2024_base_usd": "-52535000000",
+    "operating_margin_2024_display": "32.11%"
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "file": "Alphabet · 2024 Form 10-K",
+      "page": 53,
+      "page_label": "53",
+      "currency": "USD",
+      "entity_names": ["Alphabet", "Alphabet Inc.", "Google"],
+      "text": "Alphabet Inc.\nCONSOLIDATED STATEMENTS OF INCOME\n(in millions, except per share amounts)\nYear Ended December 31,\n2022\n2023\n2024\nRevenues 282,836 307,394 350,018\nCosts and expenses:\nCost of revenues 126,203 133,332 146,306\nResearch and development 39,500 45,427 49,326\nSales and marketing 26,567 27,917 27,808\nGeneral and administrative 15,724 16,425 14,188\nTotal costs and expenses 207,994 223,101 237,628\nIncome from operations 74,842 84,293 112,390\nOther income (expense), net (3,514) 1,424 7,425\nIncome before income taxes 71,328 85,717 119,815\nProvision for income taxes 11,356 11,922 19,697\nNet income 59,972 73,795 100,118\nSee accompanying Notes to Consolidated Financial Statements."
+    },
+    {
+      "id": "S2",
+      "file": "Alphabet · 2024 Form 10-K",
+      "page": 55,
+      "page_label": "55",
+      "currency": "USD",
+      "entity_names": ["Alphabet", "Alphabet Inc.", "Google"],
+      "text": "Alphabet Inc.\nCONSOLIDATED STATEMENTS OF CASH FLOWS\n(in millions)\nYear Ended December 31,\n2022\n2023\n2024\nOperating activities\nNet income 59,972 73,795 100,118\nAdjustments:\nDepreciation of property and equipment 13,475 11,946 15,311\nStock-based compensation expense 19,362 22,460 22,979\nNet cash provided by operating activities 91,495 101,746 125,299\nInvesting activities\nPurchases of property and equipment (31,485) (32,251) (52,535)\nNet cash used in investing activities (20,298) (27,063) (45,536)\nFinancing activities\nNet cash used in financing activities (69,757) (72,093) (79,733)\nSee accompanying Notes to Consolidated Financial Statements."
+    }
+  ]
+}
