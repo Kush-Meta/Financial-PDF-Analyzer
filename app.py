@@ -49,7 +49,13 @@ def use_sample():
 
 
 with st.sidebar:
-    st.html('<div class="brand"><div class="brand-name">finread</div></div>')
+    st.html(
+        '<div class="brand">'
+        '<div class="brand-kicker">Financial research</div>'
+        '<div class="brand-name">finread</div>'
+        '<div class="brand-sub">Ask a filing. Inspect the evidence.</div>'
+        '</div>'
+    )
     upload_container = st.expander("Change document") if st.session_state.get("pages") else st.container()
     with upload_container:
         pdf = st.file_uploader("Upload a PDF", type="pdf",
@@ -110,8 +116,12 @@ with st.sidebar:
 header, actions = st.columns([4, 1], vertical_alignment="center")
 with header:
     title = active_name if pages else "Your research workspace"
-    st.html(f'<div class="workspace-header"><div>'
-            f'<div class="workspace-title">{escape(title)}</div></div></div>')
+    st.html(
+        f'<div class="workspace-header"><div>'
+        f'<div class="workspace-kicker">Workspace</div>'
+        f'<div class="workspace-title">{escape(title)}</div>'
+        f'</div></div>'
+    )
 with actions:
     if pages and st.session_state.chat_history:
         with st.popover("More", icon=":material/more_horiz:", width="stretch"):
@@ -131,8 +141,15 @@ if document_error:
 
 if not pages:
     with st.container(key="welcome"):
-        st.html('<div class="welcome-copy"><h1>Start with a filing.</h1>'
-                '<p>Upload your PDF, or open Apple’s annual report.</p></div>')
+        st.html(
+            '<div class="welcome-shell">'
+            '<div class="welcome-brand">finread</div>'
+            '<div class="welcome-copy">'
+            '<h1>Start with a filing.</h1>'
+            '<p>Upload your PDF, or open Apple’s annual report and ask in plain language.</p>'
+            '</div>'
+            '</div>'
+        )
         left, center, right = st.columns([1, 2, 1])
         with center:
             st.button("Open Apple’s 2025 10-K", type="primary",
