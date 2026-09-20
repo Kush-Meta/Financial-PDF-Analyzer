@@ -7,8 +7,8 @@ fileWatcherType = "poll"
 gatherUsageStats = false
 
 [theme]
-primaryColor = "#304CDE"
-backgroundColor = "#F6F7FB"
-secondaryBackgroundColor = "#EDF1FC"
-textColor = "#172040"
+primaryColor = "#2F4FE0"
+backgroundColor = "#EEF1F8"
+secondaryBackgroundColor = "#FFFFFF"
+textColor = "#10182B"
 font = "sans serif"

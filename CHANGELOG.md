@@ -4,6 +4,16 @@ This file records completed development milestones on the working branch. A loca
 commit is not evidence of a merge to `main`, a GitHub release or a deployment.
 See [validation history](VALIDATION.md) for the corresponding checks and limits.
 
+## 2026-09-15 — Research-desk UI refresh
+
+- Redesigned the Streamlit visual system: Fraunces + Plus Jakarta Sans, cool mist
+  canvas with a faint grid, frosted conversation/evidence panels, and stronger
+  cobalt primary actions.
+- Enriched welcome, brand, and workspace chrome while preserving the NotebookLM-
+  style source / conversation / evidence layout and all interaction contracts.
+- Updated Streamlit theme tokens to match the new palette. Pipeline behavior and
+  offline UI tests remain unchanged.
+
 ## 2026-09-14 — Statement figures and numerical evidence
 
 - Added complete statement lookup before semantic indexing for supported annual
@@ -15,7 +25,7 @@ See [validation history](VALIDATION.md) for the corresponding checks and limits.
 - Kept original user scope separate from planner query rewrites. Unsupported
   model interpretations remain explicitly numerically unchecked.
 - Added a quiet checked-figures caption, collapsed row/formula audit, and retained
-  records in JSON/Markdown exports and document benchmark reports. Escaped currency
+  records in JSON and Markdown exports and document benchmark reports. Escaped currency
   signs so paired dollar amounts do not render as Markdown math.
 - Added independent synthetic adversarial cases, public-filing regressions,
   no-index and planner-scope tests, UI/export checks and operator documentation.
