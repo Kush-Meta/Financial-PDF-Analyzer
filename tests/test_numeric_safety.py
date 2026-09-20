@@ -245,6 +245,36 @@ class NumericEvidenceSafety(unittest.TestCase):
                 self.assert_not_verified(quantitative_answer(
                     "What was revenue in fiscal 2025 in USD millions?", [source(row)]))
 
+    def test_net_cash_from_operations_alias_does_not_claim_investing_cash(self):
+        evidence = source(
+            "Net cash from operations 136,162 118,548\n"
+            "Net cash used in investing activities (45,000) (30,000)",
+            statement="CONSOLIDATED STATEMENTS OF CASH FLOWS",
+        )
+        answer = quantitative_answer("What was net cash from operations in fiscal 2025?", [evidence])
+        self.assertIsNotNone(answer)
+        self.assertEqual(answer["verification"]["status"], "verified")
+        self.assert_fact_value(answer["verification"]["facts"], "operating_cash_flow", 2025, "136162000000")
+        self.assertNotIn("45,000", answer["text"])
+
+    def test_microsoft_style_income_statements_heading_remains_unsupported(self):
+        # Issuer HTML sometimes uses "Financial Statements: Income Statements"
+        # rather than "Consolidated Statements of Income". Keep that layout
+        # explicitly out of scope until heading recognition is carefully expanded.
+        evidence = source(
+            "Total revenue 281,724 245,122\nOperating income 128,528 109,204",
+            statement="Financial Statements: Income Statements",
+        )
+        self.assertFalse(table_facts([evidence]))
+        self.assert_not_verified(quantitative_answer(
+            "What was total revenue in fiscal 2025?", [evidence]))
+
+    def test_bare_income_statements_heading_is_not_a_recognized_statement(self):
+        evidence = source("Total revenue 281,724 245,122", statement="Income Statements")
+        self.assertFalse(table_facts([evidence]))
+        self.assert_not_verified(quantitative_answer(
+            "What was total revenue in fiscal 2025?", [evidence]))
+
 
 if __name__ == "__main__":
     unittest.main()
