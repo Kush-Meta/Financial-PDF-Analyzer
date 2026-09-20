@@ -145,6 +145,42 @@ class NumericIntegration(unittest.TestCase):
         self.assertEqual(answer.research['verification']['status'], 'not_checked')
         llm.invoke.assert_called_once()
 
+    def test_alphabet_fy2024_statement_fixture_covers_second_issuer_layout(self):
+        fixture = json.loads((Path(__file__).parent / 'fixtures/alphabet-2024-statements.json').read_text())
+        sources = fixture['sources']
+        expected = fixture['expected']
+
+        revenue = quantitative_answer("What was Alphabet's revenue in fiscal 2024?", sources)
+        self.assertEqual(revenue['verification']['status'], 'verified')
+        self.assertEqual(revenue['verification']['facts'][0]['value'], expected['revenue_2024_base_usd'])
+        self.assertEqual(revenue['verification']['facts'][0]['year'], 2024)
+        self.assertIn('Revenues', revenue['verification']['facts'][0]['row'])
+
+        income = quantitative_answer('What was income from operations in fiscal 2024?', sources)
+        self.assertEqual(income['verification']['status'], 'verified')
+        self.assertEqual(income['verification']['facts'][0]['value'],
+                         expected['operating_income_2024_base_usd'])
+
+        cash = quantitative_answer(
+            'What was net cash provided by operating activities in fiscal 2024?', sources)
+        self.assertEqual(cash['verification']['status'], 'verified')
+        self.assertEqual(cash['verification']['facts'][0]['value'],
+                         expected['operating_cash_flow_2024_base_usd'])
+        self.assertEqual(cash['verification']['facts'][0]['page'], 55)
+
+        margin = quantitative_answer('What was operating margin in fiscal 2024?', sources)
+        self.assertEqual(margin['verification']['status'], 'verified')
+        self.assertIn(expected['operating_margin_2024_display'], margin['text'])
+        self.assertIn('$112,390 million ÷ $350,018 million', margin['text'])
+
+        # Year columns must not silently shift: 2023 OCF is present but distinct.
+        prior = quantitative_answer(
+            'What was net cash provided by operating activities in fiscal 2023?', sources)
+        self.assertEqual(prior['verification']['status'], 'verified')
+        self.assertEqual(prior['verification']['facts'][0]['value'], '101746000000')
+        self.assertNotEqual(prior['verification']['facts'][0]['value'],
+                            expected['operating_cash_flow_2024_base_usd'])
+
 
 if __name__ == '__main__':
     unittest.main()
