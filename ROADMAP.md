@@ -31,15 +31,24 @@ reviewable source records. Independent synthetic adversarial tests cover wrong
 years, units, rows, currencies, scope, conflicting data and zero denominators.
 See [Numerical evidence](NUMERICAL_EVIDENCE.md).
 
-**Remaining gap:** this does not validate arbitrary model-written numerical claims
-or reconstruct unfamiliar PDF tables. Extend source extraction and question
-coverage using additional filings, while retaining explicit unsupported cases.
-Keep reported data distinct from inferred or adjusted values; do not turn the
-current caption into a blanket guarantee about an interpretation.
+**Delivered second-issuer slice:** an offline Alphabet FY2024 statement fixture
+covers consolidated income and cash-flow layouts (`Revenues`, `Income from
+operations`, `Net cash provided by operating activities`), including operating
+margin from those cells. Operating-cash-flow aliases now include Microsoft-style
+`net cash from operations`, with counterexamples so investing cash and
+issuer-HTML headings such as `Financial Statements: Income Statements` remain
+unsupported. See `tests/fixtures/alphabet-2024-statements.json`.
+
+**Remaining gap:** this still does not validate arbitrary model-written numerical
+claims or reconstruct unfamiliar PDF tables. Extend source extraction and question
+coverage using additional filings and held-out layouts, while retaining explicit
+unsupported cases. Keep reported data distinct from inferred or adjusted values;
+do not turn the current caption into a blanket guarantee about an interpretation.
 
 **Acceptance evidence:** check additional filings and held-out questions, reporting
 coverage and abstention as well as correctness. Preserve all original failures.
-The Apple development set and synthetic tests alone do not meet that broader bar.
+The Apple development set, Alphabet fixture and synthetic tests alone do not meet
+that broader bar.
 
 ## 2. Establish a held-out financial evaluation set
 

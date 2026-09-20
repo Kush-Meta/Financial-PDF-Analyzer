@@ -4,6 +4,16 @@ This file records completed development milestones on the working branch. A loca
 commit is not evidence of a merge to `main`, a GitHub release or a deployment.
 See [validation history](VALIDATION.md) for the corresponding checks and limits.
 
+## 2026-09-20 — Second-issuer numerical coverage
+
+- Added an Alphabet FY2024 consolidated statement fixture with verified income and
+  cash-flow cells, plus integration coverage for revenue, operating income,
+  operating cash flow, margin and year-column binding.
+- Extended operating-cash-flow aliases with Microsoft-style “net cash from
+  operations”, with adversarial tests so investing cash and unsupported
+  issuer-HTML statement headings still abstain.
+- Documented the slice in numerical-evidence notes and the roadmap remaining gap.
+
 ## 2026-09-15 — Research-desk UI refresh
 
 - Redesigned the Streamlit visual system: Fraunces + Plus Jakarta Sans, cool mist
@@ -25,7 +35,7 @@ See [validation history](VALIDATION.md) for the corresponding checks and limits.
 - Kept original user scope separate from planner query rewrites. Unsupported
   model interpretations remain explicitly numerically unchecked.
 - Added a quiet checked-figures caption, collapsed row/formula audit, and retained
-  records in JSON and Markdown exports and document benchmark reports. Escaped currency
+  records in JSON/Markdown exports and document benchmark reports. Escaped currency
   signs so paired dollar amounts do not render as Markdown math.
 - Added independent synthetic adversarial cases, public-filing regressions,
   no-index and planner-scope tests, UI/export checks and operator documentation.
