@@ -35,11 +35,14 @@ These are interaction references, not copied assets or product integrations.
 
 ## Visual language
 
-Use a plain finread wordmark with no letter-in-a-blue-square symbol. Reserve
-cobalt for the primary action and composer focus; use white working surfaces and
-navy text. Omit decorative badges, slogans, and feature grids. Native Streamlit controls retain their
-keyboard and accessibility semantics. Styling includes visible focus treatment,
-small-screen rules, and reduced-motion support.
+Use a plain finread wordmark with no letter-in-a-blue-square symbol. The brand
+appears as display typography (Fraunces) with a quiet research kicker; Plus Jakarta
+Sans carries UI chrome. Reserve cobalt for the primary action and composer focus.
+The canvas uses a cool mist gradient with a faint grid, then white frosted panels
+for conversation and evidence. Omit decorative badges, slogans, and feature grids.
+Native Streamlit controls retain their keyboard and accessibility semantics.
+Styling includes visible focus treatment, small-screen rules, and reduced-motion
+support.
 
 Keep the distinction between reported evidence and model interpretation visible.
 No fabricated portfolios, fake recent documents, placeholder answers, or decorative
