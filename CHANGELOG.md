@@ -4,6 +4,17 @@ This file records completed development milestones on the working branch. A loca
 commit is not evidence of a merge to `main`, a GitHub release or a deployment.
 See [validation history](VALIDATION.md) for the corresponding checks and limits.
 
+## 2026-09-23 — Free cash flow, net margin, Microsoft layouts
+
+- Added checked formulas for free cash flow
+  (`operating_cash_flow - abs(capital_expenditure)`) and net margin
+  (`net_income / revenue * 100`), with missing-input and adjusted-scope abstentions.
+- Recognized Microsoft-style `Income Statements` / `Cash Flows Statements`
+  headings (including a `Financial Statements:` prefix); segment/adjusted headings
+  still abstain. Capex aliases include `additions to property and equipment`.
+- Added a Microsoft FY2025 statement fixture and integration coverage for revenue,
+  OCF, margins and free cash flow.
+
 ## 2026-09-20 — Second-issuer numerical coverage
 
 - Added an Alphabet FY2024 consolidated statement fixture with verified income and
