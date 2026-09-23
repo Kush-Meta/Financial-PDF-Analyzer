@@ -87,7 +87,7 @@ def render_answer(entry, index):
         st.write(entry["q"])
     with st.chat_message("assistant", avatar=":material/auto_awesome:"):
         # Financial dollar pairs are currency, not inline LaTeX delimiters.
-        display = re.sub(r"(?<!\\)\$", r"\\\$", entry["a"].replace("![", r"\\!["))
+        display = re.sub(r"(?<!\\)\$", r"\\$", entry["a"].replace("![", r"\!["))
         st.markdown(display)
         for warning in entry["warnings"]:
             st.warning(warning)

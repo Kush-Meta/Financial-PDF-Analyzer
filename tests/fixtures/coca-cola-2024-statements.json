@@ -11,22 +11,22 @@
     "operating_income_2024_base_usd": "9992000000",
     "current_assets_2024_base_usd": "25997000000",
     "current_liabilities_2024_base_usd": "25249000000",
-    "current_ratio_2024_display": "1.03\u00d7",
+    "current_ratio_2024_display": "1.03×",
     "operating_margin_2024_display": "21.23%"
   },
   "sources": [
     {
       "id": "S1",
-      "file": "Coca-Cola \u00b7 2024 Form 10-K",
+      "file": "Coca-Cola · 2024 Form 10-K",
       "page": 62,
       "page_label": "62",
       "currency": "USD",
       "entity_names": ["Coca-Cola", "The Coca-Cola Company", "KO"],
-      "text": "THE COCA-COLA COMPANY AND SUBSIDIARIES\nCONSOLIDATED STATEMENTS OF INCOME\n(In millions except per share data)\nYear Ended December 31,\n2024\n2023\n2022\nNet Operating Revenues 47,061 45,754 43,004\nCost of goods sold 18,324 18,520 18,000\nGross Profit 28,737 27,234 25,004\nSelling, general and administrative expenses 14,582 13,972 12,880\nOther operating charges 4,163 1,951 1,215\nOperating Income 9,992 11,311 10,909\nInterest income 988 907 449\nInterest expense 1,656 1,527 882\nEquity income (loss) \u2014 net 1,770 1,691 1,472\nOther income (loss) \u2014 net 1,992 570 (262)\nIncome Before Income Taxes 13,086 12,952 11,686\nIncome taxes 2,437 2,249 2,115\nConsolidated Net Income 10,649 10,703 9,571\nLess: Net income (loss) attributable to noncontrolling interests 18 (11) 29\nNet Income Attributable to Shareowners of The Coca-Cola Company 10,631 10,714 9,542\nSee accompanying Notes to Consolidated Financial Statements."
+      "text": "THE COCA-COLA COMPANY AND SUBSIDIARIES\nCONSOLIDATED STATEMENTS OF INCOME\n(In millions except per share data)\nYear Ended December 31,\n2024\n2023\n2022\nNet Operating Revenues 47,061 45,754 43,004\nCost of goods sold 18,324 18,520 18,000\nGross Profit 28,737 27,234 25,004\nSelling, general and administrative expenses 14,582 13,972 12,880\nOther operating charges 4,163 1,951 1,215\nOperating Income 9,992 11,311 10,909\nInterest income 988 907 449\nInterest expense 1,656 1,527 882\nEquity income (loss) — net 1,770 1,691 1,472\nOther income (loss) — net 1,992 570 (262)\nIncome Before Income Taxes 13,086 12,952 11,686\nIncome taxes 2,437 2,249 2,115\nConsolidated Net Income 10,649 10,703 9,571\nLess: Net income (loss) attributable to noncontrolling interests 18 (11) 29\nNet Income Attributable to Shareowners of The Coca-Cola Company 10,631 10,714 9,542\nSee accompanying Notes to Consolidated Financial Statements."
     },
     {
       "id": "S2",
-      "file": "Coca-Cola \u00b7 2024 Form 10-K",
+      "file": "Coca-Cola · 2024 Form 10-K",
       "page": 64,
       "page_label": "64",
       "currency": "USD",
@@ -35,7 +35,7 @@
         "2024": "December 31, 2024",
         "2023": "December 31, 2023"
       },
-      "text": "THE COCA-COLA COMPANY AND SUBSIDIARIES\nCONSOLIDATED BALANCE SHEETS\n(In millions except par value)\nDecember 31,\n2024\nDecember 31,\n2023\nASSETS\nCurrent Assets\nCash and cash equivalents 10,828 9,366\nShort-term investments 2,020 2,997\nMarketable securities 1,723 1,300\nTrade accounts receivable, less allowances 3,569 3,410\nInventories 4,728 4,424\nPrepaid expenses and other current assets 3,129 5,235\nTotal Current Assets 25,997 26,732\nEquity method investments 18,087 19,671\nDeferred income tax assets 1,319 1,561\nProperty, plant and equipment \u2014 net 10,303 9,236\nTrademarks with indefinite lives 13,301 14,349\nGoodwill 18,139 18,358\nOther noncurrent assets 13,403 7,796\nTotal Assets 100,549 97,703\nLIABILITIES AND EQUITY\nCurrent Liabilities\nAccounts payable and accrued expenses 21,715 15,485\nLoans and notes payable 1,499 4,557\nCurrent maturities of long-term debt 648 1,960\nAccrued income taxes 1,387 1,569\nTotal Current Liabilities 25,249 23,571\nLong-term debt 42,375 35,547\nOther noncurrent liabilities 4,084 8,466\nDeferred income tax liabilities 2,469 2,639\nThe Coca-Cola Company Shareowners' Equity\nCommon stock 1,760 1,760\nCapital surplus 19,801 19,209\nReinvested earnings 76,054 73,782\nAccumulated other comprehensive income (loss) (16,843) (14,275)\nTreasury stock (55,916) (54,535)\nEquity Attributable to Shareowners of The Coca-Cola Company 24,856 25,941\nEquity attributable to noncontrolling interests 1,516 1,539\nTotal Equity 26,372 27,480\nTotal Liabilities and Equity 100,549 97,703\nSee accompanying Notes to Consolidated Financial Statements."
+      "text": "THE COCA-COLA COMPANY AND SUBSIDIARIES\nCONSOLIDATED BALANCE SHEETS\n(In millions except par value)\nDecember 31,\n2024\nDecember 31,\n2023\nASSETS\nCurrent Assets\nCash and cash equivalents 10,828 9,366\nShort-term investments 2,020 2,997\nMarketable securities 1,723 1,300\nTrade accounts receivable, less allowances 3,569 3,410\nInventories 4,728 4,424\nPrepaid expenses and other current assets 3,129 5,235\nTotal Current Assets 25,997 26,732\nEquity method investments 18,087 19,671\nDeferred income tax assets 1,319 1,561\nProperty, plant and equipment — net 10,303 9,236\nTrademarks with indefinite lives 13,301 14,349\nGoodwill 18,139 18,358\nOther noncurrent assets 13,403 7,796\nTotal Assets 100,549 97,703\nLIABILITIES AND EQUITY\nCurrent Liabilities\nAccounts payable and accrued expenses 21,715 15,485\nLoans and notes payable 1,499 4,557\nCurrent maturities of long-term debt 648 1,960\nAccrued income taxes 1,387 1,569\nTotal Current Liabilities 25,249 23,571\nLong-term debt 42,375 35,547\nOther noncurrent liabilities 4,084 8,466\nDeferred income tax liabilities 2,469 2,639\nThe Coca-Cola Company Shareowners' Equity\nCommon stock 1,760 1,760\nCapital surplus 19,801 19,209\nReinvested earnings 76,054 73,782\nAccumulated other comprehensive income (loss) (16,843) (14,275)\nTreasury stock (55,916) (54,535)\nEquity Attributable to Shareowners of The Coca-Cola Company 24,856 25,941\nEquity attributable to noncontrolling interests 1,516 1,539\nTotal Equity 26,372 27,480\nTotal Liabilities and Equity 100,549 97,703\nSee accompanying Notes to Consolidated Financial Statements."
     }
   ]
 }
