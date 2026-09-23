@@ -405,7 +405,20 @@ button:focus-visible, textarea:focus-visible, input:focus-visible {
 .chat-empty p {
   font-size: 1rem;
   color: #626c80;
-  margin: .55rem 0 0;
+  margin: .55rem 0 1rem;
+}
+.st-key-workspace_chat:has(.chat-empty) [data-testid="stButton"] button {
+  justify-content: flex-start;
+  text-align: left;
+  font-weight: 500;
+  border: 1px solid #d7dceb;
+  background: rgba(255, 255, 255, 0.72);
+  color: #1d2433;
+  margin-bottom: .35rem;
+}
+.st-key-workspace_chat:has(.chat-empty) [data-testid="stButton"] button:hover {
+  border-color: #8494d9;
+  background: #f4f6ff;
 }
 
 .st-key-workspace_chat:has(.chat-empty) {
