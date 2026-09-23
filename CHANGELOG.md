@@ -4,6 +4,12 @@ This file records completed development milestones on the working branch. A loca
 commit is not evidence of a merge to `main`, a GitHub release or a deployment.
 See [validation history](VALIDATION.md) for the corresponding checks and limits.
 
+## 2026-09-23 — Statement answers before planner LLM
+
+- Supported statement figures and formulas (including free cash flow and net
+  margin) now answer before `plan_question`, so Ollama outages no longer block
+  checked annual numbers. Peer follow-ups still use the planner.
+
 ## 2026-09-23 — Free cash flow, net margin, Microsoft layouts
 
 - Added checked formulas for free cash flow
