@@ -73,3 +73,118 @@ def _row(line):
     if not cells or suffix[end:].strip():
         return None
     return match[1], cells
+
+
+def _units(header, source):
+    # Only the leading monetary scale applies. Share counts and per-share
+    # exceptions never set the money scale, and EPS is not a supported metric.
+    unit_lines = [line for line in header.splitlines()
+                  if re.search(r"\b(?:thousands|millions|billions|USD|EUR|GBP|CAD|AUD|JPY|CNY|RMB|INR|CHF|HKD|SGD|dollars|euros)\b", line, re.I)]
+    if len(unit_lines) != 1:
+        return None
+    leading = re.split(r"\bexcept\b", unit_lines[0], maxsplit=1, flags=re.I)[0]
+    scales = re.findall(r"\b(thousands|millions|billions)\b", leading.lower())
+    if len(set(scales)) > 1:
+        return None
+    codes = set(code.upper() for code in CURRENCIES.findall(leading))
+    if re.search(r"\b(?:U\.?S\.?|United States) dollars\b", leading, re.I):
+        codes.add("USD")
+    if re.search(r"\beuros\b", leading, re.I):
+        codes.add("EUR")
+    if len(codes) > 1:
+        return None
+    currency = next(iter(codes), source.get("currency"))
+    # A bare '$' does not distinguish US, Canadian or Australian dollars.
+    if not scales and not codes:
+        return None
+    return (scales[0] if scales else "units"), currency, unit_lines[0]
+
+
+def table_facts(sources):
+    """Extract supported cells, preserving duplicates for conflict detection."""
+    facts = []
+    for source in sources:
+        text = source.get("text", "")
+        starts = list(STATEMENT.finditer(text))
+        for index, match in enumerate(starts):
+            region = text[match.end():starts[index + 1].start() if index + 1 < len(starts) else len(text)]
+            lines = region.splitlines()
+            first_row = next((i for i, line in enumerate(lines) if _row(line)), None)
+            if first_row is None:
+                continue
+            header = match[0].strip() + "\n" + "\n".join(lines[:first_row])
+            balance = "balance sheet" in match[0].lower()
+            cash = "cash flow" in match[0].lower()
+            if UNSUPPORTED_TABLE.search(header):
+                continue
+            # A fiscal year label alone cannot establish an annual flow period.
+            if re.search(r"\b(?:months?|quarters?)\b", header, re.I):
+                continue
+            if not balance and not re.search(r"\b(?:years? ended|annual)\b", header, re.I):
+                continue
+            years = [int(year) for year in YEAR.findall(header)]
+            if not 1 <= len(years) <= 3 or len(years) != len(set(years)):
+                continue
+            units = _units(header, source)
+            if units is None:
+                continue
+            scale, currency, unit_header = units
+            group = next((normalized(line) for line in reversed(lines[:first_row])
+                          if line.strip().endswith(":")), None)
+            pending = []
+            for line in lines[first_row:]:
+                # Never let a later table/footnote inherit this table's header.
+                if UNSUPPORTED_TABLE.search(line):
+                    break
+                if re.search(r"(?:see accompanying|notes to|form 10-k\s*\||\b(?:in|USD|EUR|GBP|CAD|AUD) (?:thousands|millions|billions)\b|\b(?:quarterly|supplemental|months? ended|years? ended)\b)", line, re.I):
+                    break
+                if line.strip().endswith(":"):
+                    group, pending = normalized(line), []
+                    continue
+                row = _row(line)
+                raw = line
+                if row and pending:
+                    # Support a wrapped label only when its combined text is
+                    # exactly a known alias; a prior row never joins this one.
+                    combined = _row(" ".join(pending + [line.strip()]))
+                    if combined and any(normalized(combined[0]) in aliases for aliases in ALIASES.values()):
+                        row, raw = combined, "\n".join(pending + [line])
+                if not row:
+                    pending = (pending + [line.strip()])[-2:] if line.strip() else []
+                    continue
+                pending = []
+                label, cells = row
+                symbols = {symbol for symbol in SYMBOL_CURRENCIES if symbol in raw}
+                if len(symbols) > 1 or (currency and any(currency not in SYMBOL_CURRENCIES[s] for s in symbols)):
+                    continue  # a row-level currency conflict is never erased
+                metric = next((key for key, aliases in ALIASES.items() if normalized(label) in aliases), None)
+                if normalized(label) == "services" and group in ("net sales", "revenue", "revenues"):
+                    metric = "services_revenue"
+                if metric is None or len(cells) != len(years):
+                    continue
+                if metric in BALANCE_METRICS and not balance:
+                    continue
+                if metric in CASH_METRICS and not cash:
+                    continue
+                if metric not in BALANCE_METRICS | CASH_METRICS | {"net_income"} and (balance or cash):
+                    continue
+                for year, cell in zip(years, cells):
+                    if cell in ("\u2014", "\u2013", "-") or cell.upper() == "N/A":
+                        continue
+                    signed = cell.replace(",", "").replace("\u2212", "-").replace(" ", "")
+                    value = Decimal(signed.strip("()")) * (-1 if signed.startswith("(") else 1)
+                    annual_balance = bool(re.search(r"\b(?:years? ended|annual)\b", header, re.I))
+                    # Known sample fiscal endpoints are explicit provenance;
+                    # arbitrary uploaded balance sheets get no such assumption.
+                    endpoints = source.get("fiscal_year_ends", {})
+                    endpoint = endpoints.get(str(year))
+                    if endpoint and normalized(endpoint) in normalized(header):
+                        annual_balance = True
+                    facts.append({"metric": metric, "year": year,
+                                  "value": str(value * SCALES[scale]), "currency": currency,
+                                  "scale": scale, "raw_value": cell, "source_id": source["id"],
+                                  "file": source.get("file", ""), "page": source.get("page"),
+                                  "row": raw.strip(), "header": header, "unit_header": unit_header,
+                                  "period_kind": ("year_end" if annual_balance else "as_of") if balance else "annual",
+                                  "table_id": f"{source['id']}:{index}"})
+    return facts
