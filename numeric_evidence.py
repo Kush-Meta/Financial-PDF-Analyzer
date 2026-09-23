@@ -188,3 +188,257 @@ def table_facts(sources):
                                   "period_kind": ("year_end" if annual_balance else "as_of") if balance else "annual",
                                   "table_id": f"{source['id']}:{index}"})
     return facts
+
+
+def _request(question, sources):
+    """Recognize a small grammar; leftover scope words require normal analysis.
+
+    We intentionally do not strip arbitrary company names or qualifiers. A
+    request for Europe, adjusted/organic figures, forecasts or explanations
+    must not silently become a consolidated reported-number answer.
+    """
+    query = normalized(question)
+    if re.search(r"\bas of\b", query):
+        return None  # availability cutoffs require a different evidence contract
+    identities = {tuple(sorted(normalized(n) for n in s.get("entity_names", []))) for s in sources}
+    if len(identities) > 1:
+        return None  # do not transfer identity between retrieved sources
+    years = [int(year) for year in re.findall(r"\b(?:fy)?((?:19|20)\d{2})\b", query)]
+    if not 1 <= len(years) <= 2 or len(set(years)) != len(years):
+        return None
+    formula = None
+    if "operating margin" in query:
+        formula, query = "operating_margin", query.replace("operating margin", " ")
+        metrics = ["operating_income", "revenue"]
+    elif "net margin" in query:
+        formula, query = "net_margin", query.replace("net margin", " ")
+        metrics = ["net_income", "revenue"]
+    elif "return on equity" in query or re.search(r"\broe\b", query):
+        formula, query = "roe", re.sub(r"\breturn on equity\b|\broe\b", " ", query)
+        metrics = ["net_income", "shareholders_equity"]
+    elif "current ratio" in query:
+        formula, query = "current_ratio", query.replace("current ratio", " ")
+        metrics = ["current_assets", "current_liabilities"]
+    elif "free cash flow" in query or re.search(r"\bfcf\b", query):
+        formula, query = "free_cash_flow", re.sub(r"\bfree cash flow\b|\bfcf\b", " ", query)
+        metrics = ["operating_cash_flow", "capital_expenditure"]
+    elif "growth" in query:
+        formula, query = "metric_growth", query.replace("growth", " ")
+        metrics = []
+    else:
+        metrics = []
+    # Longest match first prevents 'services net sales' becoming total revenue.
+    choices = sorted(((alias, metric) for metric, aliases in ALIASES.items() for alias in aliases), key=lambda item: len(item[0]), reverse=True)
+    for alias, metric in choices:
+        pattern = r"(?<!\w)" + re.escape(alias) + r"(?!\w)"
+        if re.search(pattern, query):
+            metrics.append(metric)
+            query = re.sub(pattern, " ", query)
+    metrics = list(dict.fromkeys(metrics))
+    if not metrics or len(metrics) > 3:
+        return None
+    for name in {n for s in sources for n in s.get("entity_names", [])}:
+        query = re.sub(r"\b" + re.escape(normalized(name)) + r"(?:s)?\b", " ", query)
+    requested_codes = set(code.upper() for code in CURRENCIES.findall(query))
+    if len(requested_codes) > 1:
+        return None
+    query = CURRENCIES.sub(" ", query)
+    query = re.sub(r"\b(?:fy)?(?:19|20)\d{2}\b", " ", query)
+    query = re.sub(r"[^a-z]+", " ", query)
+    allowed = set("what was were is are how much did the this company companys reported report annual fiscal year years end at in for from to and of amount amounts give show me please calculate compute cite statement filing document usd million millions billion billions thousand thousands dollars outflow magnitude on during with sources source percentage percent free cash flow flows fcf net margin margins return equity roe current ratio assets liabilities growth".split())
+    if set(query.split()) - allowed:
+        return None
+    if formula in ("operating_margin", "net_margin", "free_cash_flow", "roe", "current_ratio") and len(metrics) != 2:
+        return None
+    if formula == "metric_growth" and (len(years) != 2 or years[1] <= years[0] or len(metrics) != 1):
+        return None
+    return metrics, years, formula, next(iter(requested_codes), None)
+
+
+def _unavailable(reason):
+    return {"text": "I couldn’t check this figure against the retrieved statement rows. " + reason,
+            "warnings": [], "verification": {"version": VERSION, "status": "unavailable",
+            "scope": "Supported annual statement figures only", "reason": reason, "facts": [], "calculations": []}}
+
+
+def _number(value):
+    value = format(value, ",f")
+    return value.rstrip("0").rstrip(".") if "." in value else value
+
+
+def _money(value, currency, scale="millions"):
+    prefix = "$" if currency == "USD" else f"{currency} "
+    unit = "" if scale == "units" else " " + scale.rstrip("s")
+    return prefix + _number(value / SCALES[scale]) + unit
+
+
+def quantitative_answer(question, sources):
+    """Return deterministic output, an explicit abstention, or None for prose."""
+    request = _request(question, sources)
+    if request is None or not any(STATEMENT.search(s.get("text", "")) for s in sources):
+        return None
+    metrics, years, formula, requested_currency = request
+    facts = table_facts(sources)
+    selected = []
+    for metric in metrics:
+        for year in years:
+            matches = [f for f in facts if f["metric"] == metric and f["year"] == year]
+            if not matches:
+                return _unavailable(f"A complete {year} {LABELS[metric].lower()} row with an explicit period and scale is missing. Open the sources to inspect the table.")
+            # Margin/ROE formulas need the income-statement net income row, not a
+            # cash-flow restatement, so the income inputs stay on one table.
+            if formula in ("operating_margin", "net_margin", "roe") and metric == "net_income":
+                income_rows = [f for f in matches if "cash flow" not in f["header"].lower()]
+                if income_rows:
+                    matches = income_rows
+            if formula == "roe" and metric == "shareholders_equity":
+                year_end = [f for f in matches if f["period_kind"] == "year_end"]
+                if year_end:
+                    matches = year_end
+            if formula == "current_ratio" and metric in ("current_assets", "current_liabilities"):
+                year_end = [f for f in matches if f["period_kind"] == "year_end"]
+                if year_end:
+                    matches = year_end
+            if formula in ("operating_margin", "net_margin") and metric != "net_income":
+                income_rows = [f for f in matches if "cash flow" not in f["header"].lower()]
+                if income_rows:
+                    matches = income_rows
+            values = {(Decimal(f["value"]), f["currency"], f["period_kind"], f["file"]) for f in matches}
+            if len(values) != 1:
+                return _unavailable(f"The retrieved rows disagree about {year} {LABELS[metric].lower()}. Resolve the conflicting statements before using this figure.")
+            fact = matches[0]
+            if fact["period_kind"] == "as_of" and re.search(r"\byear[ -]end\b", question, re.I):
+                return _unavailable("The balance-sheet dates do not establish the company's fiscal year end. The header must identify that reporting period.")
+            if formula == "roe" and metric == "shareholders_equity" and fact["period_kind"] != "year_end":
+                return _unavailable("Return on equity needs shareholders’ equity at fiscal year end, not an interim balance.")
+            if formula == "current_ratio" and fact["period_kind"] != "year_end":
+                return _unavailable("Current ratio needs year-end current assets and current liabilities, not interim balances.")
+            if not fact["currency"] or (requested_currency and fact["currency"] != requested_currency):
+                return _unavailable("The statement does not establish the requested currency. A dollar symbol alone is not enough to identify USD; no currency conversion was performed.")
+            selected.append(fact)
+    verification = {"version": VERSION, "status": "verified", "method": "deterministic_statement_cells",
+                    "scope": "Displayed figures and formulas checked against supported statement rows; not a validation of the filing itself.",
+                    "facts": selected, "calculations": []}
+    lines = []
+    if formula:
+        currencies = {f["currency"] for f in selected}
+        if len(currencies) != 1:
+            return _unavailable("The calculation needs compatible inputs from the same currency.")
+        # ROE intentionally joins an income statement with a year-end balance sheet.
+        if formula != "roe" and len({f["table_id"] for f in selected}) != 1:
+            return _unavailable("The calculation needs compatible inputs from the same statement and currency.")
+        if formula == "roe" and len({f["file"] for f in selected}) != 1:
+            return _unavailable("Return on equity needs net income and equity from the same filing.")
+        pairs = {(f["metric"], f["year"]): f for f in selected}
+        if formula == "free_cash_flow":
+            year = years[-1]
+            cash = pairs[("operating_cash_flow", year)]
+            capex = pairs[("capital_expenditure", year)]
+            top, outflow = Decimal(cash["value"]), abs(Decimal(capex["value"]))
+            with localcontext() as context:
+                context.prec = 28
+                result = top - outflow
+            expression = "operating_cash_flow - abs(capital_expenditure)"
+            amount = _money(result, cash["currency"])
+            if abs(result) >= SCALES["billions"]:
+                amount += f" ({_money(result, cash['currency'], 'billions')})"
+            lines.append(
+                f"**Free cash flow (fiscal {year}): {amount}** [{cash['source_id']}]\n\n"
+                f"{expression.replace('_', ' ')} = "
+                f"{_money(top, cash['currency'])} − {_money(outflow, capex['currency'])}."
+            )
+            verification["calculations"].append({
+                "metric": formula, "year": year, "formula": expression,
+                "inputs": [cash, capex], "result": str(result), "unit": cash["currency"],
+            })
+        elif formula == "current_ratio":
+            year = years[-1]
+            assets = pairs[("current_assets", year)]
+            liabilities = pairs[("current_liabilities", year)]
+            top, bottom = Decimal(assets["value"]), Decimal(liabilities["value"])
+            if bottom <= 0:
+                return _unavailable("The calculation requires a positive denominator; the reported value is zero or negative.")
+            with localcontext() as context:
+                context.prec = 28
+                result = top / bottom
+            expression = "current_assets / current_liabilities"
+            lines.append(
+                f"**Current ratio (fiscal {year}): {result:.2f}×** [{assets['source_id']}]\n\n"
+                f"{expression.replace('_', ' ')} = "
+                f"{_money(top, assets['currency'])} ÷ {_money(bottom, liabilities['currency'])}."
+            )
+            verification["calculations"].append({
+                "metric": formula, "year": year, "formula": expression,
+                "inputs": [assets, liabilities], "result": str(result),
+                "unit": "ratio", "display_decimals": 2,
+            })
+        elif formula == "metric_growth":
+            metric = metrics[0]
+            current, prior = pairs[(metric, years[-1])], pairs[(metric, years[0])]
+            top, bottom = Decimal(current["value"]), Decimal(prior["value"])
+            if bottom == 0:
+                return _unavailable("The calculation requires a non-zero prior-year denominator; the reported value is zero.")
+            with localcontext() as context:
+                context.prec = 28
+                result = (top - bottom) / bottom * 100
+            expression = f"(current_{metric} - prior_{metric}) / prior_{metric} * 100"
+            title = f"{LABELS[metric]} growth"
+            lines.append(
+                f"**{title} (fiscal {years[0]} to {years[-1]}): {result:.2f}%** [{current['source_id']}]\n\n"
+                f"{expression.replace('_', ' ')} = "
+                f"({_money(top, current['currency'])} − {_money(bottom, prior['currency'])}) ÷ "
+                f"{_money(bottom, prior['currency'])} × 100."
+            )
+            verification["calculations"].append({
+                "metric": formula, "year": years[-1], "formula": expression,
+                "inputs": [current, prior], "result": str(result),
+                "unit": "percent", "display_decimals": 2,
+            })
+        else:
+            periods = years if formula in ("operating_margin", "net_margin", "roe") else [years[-1]]
+            for year in periods:
+                if formula == "operating_margin":
+                    numerator, denominator = pairs[("operating_income", year)], pairs[("revenue", year)]
+                    expression = "operating_income / revenue * 100"
+                    title = "Operating margin"
+                elif formula == "net_margin":
+                    numerator, denominator = pairs[("net_income", year)], pairs[("revenue", year)]
+                    expression = "net_income / revenue * 100"
+                    title = "Net margin"
+                else:
+                    numerator, denominator = pairs[("net_income", year)], pairs[("shareholders_equity", year)]
+                    expression = "net_income / shareholders_equity * 100"
+                    title = "Return on equity"
+                top, bottom = Decimal(numerator["value"]), Decimal(denominator["value"])
+                if bottom <= 0:
+                    return _unavailable("The calculation requires a positive denominator; the reported value is zero or negative.")
+                with localcontext() as context:
+                    context.prec = 28
+                    result = (top / bottom) * 100
+                citations = numerator["source_id"]
+                if denominator["source_id"] != numerator["source_id"]:
+                    citations = f"{numerator['source_id']}, {denominator['source_id']}"
+                lines.append(
+                    f"**{title} (fiscal {year}): {result:.2f}%** [{citations}]\n\n"
+                    f"{expression.replace('_', ' ')} = "
+                    f"{_money(top, numerator['currency'])} ÷ {_money(bottom, denominator['currency'])} × 100."
+                )
+                verification["calculations"].append({
+                    "metric": formula, "year": year, "formula": expression,
+                    "inputs": [numerator, denominator], "result": str(result),
+                    "unit": "percent", "display_decimals": 2,
+                })
+    else:
+        for fact in selected:
+            value = Decimal(fact["value"])
+            outflow = fact["metric"] == "capital_expenditure"
+            shown = abs(value) if outflow else value
+            amount = _money(shown, fact["currency"])
+            if abs(shown) >= SCALES["billions"]:
+                amount += f" ({_money(shown, fact['currency'], 'billions')})"
+            when = {"year_end": "at fiscal year end", "as_of": "reported balance in", "annual": "fiscal"}[fact["period_kind"]]
+            lines.append(f"**{LABELS[fact['metric']]} ({when} {fact['year']}): {amount}**" +
+                         (" cash outflow magnitude" if outflow else "") + f" [{fact['source_id']}]")
+            if outflow:
+                verification["calculations"].append({"metric": "capital_expenditure_magnitude", "formula": "abs(reported_cash_flow)", "inputs": [fact], "result": str(shown), "unit": fact["currency"]})
+    return {"text": "\n\n".join(lines), "warnings": [], "verification": verification}
