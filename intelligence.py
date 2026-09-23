@@ -363,7 +363,30 @@ def competitor_research(plan, client=None, progress=lambda message: None):
 
 def research_answer(question, retriever_factory, llm, pages, history=(), sample=False, progress=lambda message: None, client=None):
     progress("Choosing the evidence needed for your question…")
-    plan = plan_question(question, llm, pages, history, sample)
+    # Peer follow-ups and competitor routing still need the planner. Supported
+    # statement figures and formulas do not: answer them before any LLM call so
+    # Ollama outages cannot block checked annual numbers.
+    followup = peer_followup(question, history)
+    if followup is None and pages:
+        progress("Checking the filing’s statement rows…")
+        checked = finread.statement_answer(question, pages)
+        if checked is not None:
+            plan = ResearchPlan(
+                "document",
+                "AAPL" if sample else "",
+                (),
+                SNAPSHOT_CUTOFF if sample else date.today().isoformat(),
+                None,
+                question,
+            )
+            status = ("insufficient_evidence"
+                      if checked.research.get("verification", {}).get("status") == "unavailable"
+                      else "complete")
+            return finread.Answer(
+                checked.text, checked.sources, checked.warnings, checked.search_query,
+                {**checked.research, "plan": asdict(plan), "status": status},
+            )
+    plan = followup or plan_question(question, llm, pages, history, sample)
     if plan.clarification:
         return finread.Answer(plan.clarification, [], [], plan.query, {"plan": asdict(plan), "status": "needs_clarification"})
     if plan.route == "credit":
@@ -373,14 +396,11 @@ def research_answer(question, retriever_factory, llm, pages, history=(), sample=
             [], [], plan.query, {"plan": asdict(plan), "status": "unsupported"})
     if plan.route == "competitors":
         return competitor_research(plan, client, progress)
-    progress("Checking the filing’s statement rows…")
-    answer = finread.statement_answer(question, pages)
-    if answer is None:
-        progress("Finding supporting passages in your filing…")
-        retriever = finread.PageContextRetriever(retriever_factory(), pages)
-        # The original question controls scope. After a skipped full scan, do
-        # not certify a ranked subset which may omit conflicting statement rows.
-        answer = finread.answer_question(question, retriever, llm, search_query=plan.query, check_numbers=False)
+    progress("Finding supporting passages in your filing…")
+    retriever = finread.PageContextRetriever(retriever_factory(), pages)
+    # The original question controls scope. After a skipped full scan, do
+    # not certify a ranked subset which may omit conflicting statement rows.
+    answer = finread.answer_question(question, retriever, llm, search_query=plan.query, check_numbers=False)
     return finread.Answer(answer.text, answer.sources, answer.warnings, answer.search_query,
                          {**answer.research, "plan": asdict(plan),
                           "status": "insufficient_evidence" if answer.research.get("verification", {}).get("status") == "unavailable" else "complete"})
