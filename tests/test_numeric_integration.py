@@ -69,6 +69,15 @@ class NumericIntegration(unittest.TestCase):
         self.assertIn('6.43%', growth['text'])
         self.assertIn('($416,161 million − $391,035 million) ÷ $391,035 million', growth['text'])
         self.assertEqual(len(growth['verification']['calculations'][0]['inputs']), 2)
+        self.assertEqual(growth['verification']['calculations'][0]['formula'],
+                         '(current_revenue - prior_revenue) / prior_revenue * 100')
+
+        income_growth = quantitative_answer(
+            'What was operating income growth from fiscal 2024 to fiscal 2025?', sources)
+        self.assertEqual(income_growth['verification']['status'], 'verified')
+        self.assertIn('operating income', income_growth['text'].lower())
+        self.assertEqual(income_growth['verification']['calculations'][0]['formula'],
+                         '(current_operating_income - prior_operating_income) / prior_operating_income * 100')
 
     def test_fy_abbreviation_retains_explicit_year(self):
         _, sources = evidence_context([self.pages[31]])
