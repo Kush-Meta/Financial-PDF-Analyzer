@@ -55,7 +55,7 @@ Follow-up questions are rewritten into standalone retrieval queries using the la
 
 ## Checked financial figures
 
-Try **“What were capital expenditures in fiscal 2025?”**, **“Calculate operating margin in fiscal 2025”**, or **“What was revenue growth from fiscal 2024 to fiscal 2025?”** with the Apple filing. Supported questions read complete statement pages and calculate answers with decimal arithmetic, without embeddings or answer-generation calls. The research planner still uses the local model.
+Try **“What were capital expenditures in fiscal 2025?”**, **“What was current ratio in fiscal 2025?”**, or **“What was revenue growth from fiscal 2024 to fiscal 2025?”** with the Apple filing. Supported questions read complete statement pages and calculate answers with decimal arithmetic, without embeddings or answer-generation calls. The research planner still uses the local model.
 
 The small **Figures checked against statement rows** caption identifies this path. Open **Figure checks** to inspect the exact row, year column, signed cell, scale, currency and formula inputs. The same record is preserved in JSON and Markdown downloads. Missing or conflicting evidence produces an explicit explanation instead of a guessed value. Broader model interpretations are labeled **figures not numerically checked**.
 
