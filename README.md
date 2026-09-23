@@ -12,6 +12,7 @@ A local financial research app built with Streamlit, Ollama, FAISS, and LangExtr
 | [UI design](DESIGN.md) | Interaction decisions and design references |
 | [Intelligence design](INTELLIGENCE.md) | Competitor architecture, research references and future credit methodology |
 | [Numerical evidence](NUMERICAL_EVIDENCE.md) | Supported statement figures, formulas, source-cell checks and explicit limits |
+| [Open-source survey](OPEN_SOURCE.md) | Comparable projects and which user-facing patterns FinRead adopted |
 | [Validation history](VALIDATION.md) | Checks actually performed, failures and remaining limitations |
 | [Benchmark guide](benchmarks/README.md) | Dataset provenance, commands, scoring and label corrections |
 | [Benchmark results](benchmarks/RESULTS.md) | Current checks, preserved earlier failures and audit records |
