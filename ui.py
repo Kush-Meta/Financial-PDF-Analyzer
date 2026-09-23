@@ -80,3 +80,80 @@ def checked_figures_csv(history):
                 fact.get("page", ""), formula, result,
             ])
     return buffer.getvalue()
+
+
+def render_answer(entry, index):
+    with st.chat_message("user", avatar=":material/person:"):
+        st.write(entry["q"])
+    with st.chat_message("assistant", avatar=":material/auto_awesome:"):
+        # Financial dollar pairs are currency, not inline LaTeX delimiters.
+        display = re.sub(r"(?<!\\)\$", r"\\\$", entry["a"].replace("![", r"\\!["))
+        st.markdown(display)
+        for warning in entry["warnings"]:
+            st.warning(warning)
+        if entry["sources"]:
+            with st.container(horizontal=True, key=f"citations_{index}"):
+                for source in entry["sources"]:
+                    label = source.get("financials", {}).get("ticker") or f"p. {source['page']}"
+                    st.button(f"{source['id']} · {label}",
+                              key=f"source_{index}_{source['id']}",
+                              help=f"Read the source in {source['file']}",
+                              on_click=select_evidence, args=(index, source["id"]))
+        count = len(entry["sources"])
+        st.caption(f"{count} {'source' if count == 1 else 'sources'} · {entry['seconds']:.1f}s")
+        verification = entry.get("research", {}).get("verification")
+        if verification:
+            captions = {"verified": "Figures checked against statement rows",
+                        "unavailable": "Not enough evidence to check these figures",
+                        "not_checked": "Model interpretation · figures not numerically checked"}
+            st.caption(captions.get(verification["status"], "Figures not numerically checked"))
+            if verification["status"] != "not_checked":
+                with st.expander("Figure checks"):
+                    st.caption(verification["scope"])
+                    for fact in verification.get("facts", []):
+                        st.write(f"{fact['metric'].replace('_', ' ').capitalize()} · {fact['year']} · {fact['source_id']}")
+                        st.text(fact["row"])
+                        st.caption(f"{fact['currency']} {fact['scale']} · {fact['raw_value']} as reported")
+                    st.json(verification, expanded=False)
+        if entry.get("research", {}).get("trace"):
+            with st.expander("Research details"):
+                st.json(entry["research"], expanded=False)
+
+
+def render_source(source):
+    location = "ANNUAL FINANCIALS" if source.get("kind") == "financials" else f'PAGE {source["page"]}'
+    st.html(f'<span class="evidence-badge">{escape(source["id"])} · {escape(location)}</span>')
+    st.write(source["file"])
+    if source.get("financials"):
+        facts = source["financials"]
+        st.caption(f"{facts['start']} to {facts['end']} · {facts['currency']} · filed {facts['filed']}")
+        st.caption("Bundled annual-report snapshot" if facts["origin"] != "live_sec" else "Retrieved from SEC")
+        rows = ["| Reported figure | USD |", "| --- | ---: |"]
+        rows.extend(f"| {metric.replace('_', ' ').capitalize()} | {value['value']:,.0f} |"
+                    for metric, value in facts["facts"].items())
+        st.markdown("\n".join(rows))
+        if facts.get("operating_margin_pct") is not None:
+            st.caption(f"Operating margin: {facts['operating_margin_pct']:.2f}% · operating income ÷ revenue × 100")
+        with st.expander("Source data"):
+            st.json(facts, expanded=False)
+        return
+    if source["page_label"] and source["page_label"] != str(source["page"]):
+        st.caption(f'Printed page label: {source["page_label"]}')
+    st.text(source["text"])
+
+
+def research_notes(history):
+    entries = []
+    for entry in history:
+        sources = []
+        for source in entry["sources"]:
+            location = source.get("url") or f"page {source['page']}"
+            sources.append(f"[{source['id']}] {source['file']} · {location}\n\n{source['text']}")
+        notes = "## " + entry["q"] + "\n\n" + entry["a"]
+        if entry.get("warnings"):
+            notes += "\n\nResearch limitations:\n" + "\n".join("- " + w for w in entry["warnings"])
+        notes += "\n\n" + "\n\n".join(sources)
+        if entry.get("research"):
+            notes += "\n\nResearch record:\n\n```json\n" + json.dumps(entry["research"], indent=2) + "\n```"
+        entries.append(notes)
+    return "\n\n---\n\n".join(entries)
