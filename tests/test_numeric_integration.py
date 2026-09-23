@@ -232,6 +232,43 @@ class NumericIntegration(unittest.TestCase):
         self.assertIn(expected['free_cash_flow_2025_display'], free_cash['text'])
         self.assertEqual(free_cash['verification']['facts'][1]['raw_value'], '(64,551)')
 
+    def test_coca_cola_fy2024_consumer_staples_layout_and_current_ratio(self):
+        fixture = json.loads((Path(__file__).parent / 'fixtures/coca-cola-2024-statements.json').read_text())
+        sources = fixture['sources']
+        expected = fixture['expected']
+
+        revenue = quantitative_answer("What was Coca-Cola's net operating revenues in fiscal 2024?", sources)
+        self.assertEqual(revenue['verification']['status'], 'verified')
+        self.assertEqual(revenue['verification']['facts'][0]['value'], expected['revenue_2024_base_usd'])
+        self.assertIn('Net Operating Revenues', revenue['verification']['facts'][0]['row'])
+
+        assets = quantitative_answer('What was total current assets in fiscal 2024?', sources)
+        self.assertEqual(assets['verification']['status'], 'verified')
+        self.assertEqual(assets['verification']['facts'][0]['value'],
+                         expected['current_assets_2024_base_usd'])
+        self.assertEqual(assets['verification']['facts'][0]['period_kind'], 'year_end')
+
+        ratio = quantitative_answer('What was current ratio in fiscal 2024?', sources)
+        self.assertEqual(ratio['verification']['status'], 'verified')
+        self.assertIn(expected['current_ratio_2024_display'], ratio['text'])
+        self.assertEqual(ratio['verification']['calculations'][0]['formula'],
+                         'current_assets / current_liabilities')
+        self.assertIn('$25,997 million ÷ $25,249 million', ratio['text'])
+
+        margin = quantitative_answer('What was operating margin in fiscal 2024?', sources)
+        self.assertEqual(margin['verification']['status'], 'verified')
+        self.assertIn(expected['operating_margin_2024_display'], margin['text'])
+
+        # Other current assets must not silently become total current assets.
+        other_only = [dict(sources[1])]
+        other_only[0] = dict(sources[1])
+        other_only[0]['text'] = sources[1]['text'].replace(
+            'Total Current Assets 25,997 26,732', 'Other current assets 3,129 5,235')
+        self.assertEqual(
+            quantitative_answer('What was current ratio in fiscal 2024?',
+                                [sources[0], other_only[0]])['verification']['status'],
+            'unavailable')
+
 
 if __name__ == '__main__':
     unittest.main()
