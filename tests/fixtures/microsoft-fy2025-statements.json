@@ -1,1 +1,39 @@
-PLACEHOLDER
+{
+  "id": "microsoft-fy2025-statements",
+  "issuer": "Microsoft Corporation",
+  "entity_names": ["Microsoft", "Microsoft Corporation"],
+  "filing": "Microsoft FY2025 Form 10-K",
+  "accession": "0000950170-25-100235",
+  "source_url": "https://www.sec.gov/Archives/edgar/data/789019/000095017025100235/msft-20250630.htm",
+  "provenance": "Flattened Income Statements and Cash Flows Statements transcribed from Microsoft's FY2025 Form 10-K (filed 2025-07-30). FY2025 Total revenue 281,724, Operating income 128,528, and Net cash from operations 136,162 match assets/filings/PEER_SOURCES.md. Comparative 2023–2024 columns and Additions to property and equipment are from the same statement pages.",
+  "expected": {
+    "revenue_2025_base_usd": "281724000000",
+    "operating_income_2025_base_usd": "128528000000",
+    "net_income_2025_base_usd": "101832000000",
+    "operating_cash_flow_2025_base_usd": "136162000000",
+    "capital_expenditure_2025_base_usd": "-64551000000",
+    "operating_margin_2025_display": "45.62%",
+    "net_margin_2025_display": "36.15%",
+    "free_cash_flow_2025_display": "$71,611 million"
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "file": "Microsoft · 2025 Form 10-K",
+      "page": 50,
+      "page_label": "50",
+      "currency": "USD",
+      "entity_names": ["Microsoft", "Microsoft Corporation"],
+      "text": "Microsoft Corporation\nINCOME STATEMENTS\n(In millions, except per share amounts)\nYear Ended June 30,\n2025\n2024\n2023\nRevenue:\nProduct 63,946 64,773 64,699\nService and other 217,778 180,349 147,216\nTotal revenue 281,724 245,122 211,915\nCost of revenue:\nProduct 13,501 15,272 17,804\nService and other 74,330 58,842 48,059\nTotal cost of revenue 87,831 74,114 65,863\nGross margin 193,893 171,008 146,052\nResearch and development 32,488 29,510 27,195\nSales and marketing 25,654 24,456 22,759\nGeneral and administrative 7,223 7,609 7,575\nOperating income 128,528 109,433 88,523\nOther income (expense), net (4,901) (1,646) 788\nIncome before income taxes 123,627 107,787 89,311\nProvision for income taxes 21,795 19,651 16,950\nNet income 101,832 88,136 72,361"
+    },
+    {
+      "id": "S2",
+      "file": "Microsoft · 2025 Form 10-K",
+      "page": 53,
+      "page_label": "53",
+      "currency": "USD",
+      "entity_names": ["Microsoft", "Microsoft Corporation"],
+      "text": "Microsoft Corporation\nCASH FLOWS STATEMENTS\n(In millions)\nYear Ended June 30,\n2025\n2024\n2023\nOperations\nNet income 101,832 88,136 72,361\nNet cash from operations 136,162 118,548 87,582\nInvesting\nAdditions to property and equipment (64,551) (44,477) (28,107)"
+    }
+  ]
+}
