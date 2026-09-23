@@ -92,11 +92,8 @@ class NumericIntegration(unittest.TestCase):
 
     def test_verification_survives_research_and_both_export_formats(self):
         question = 'What was revenue in fiscal 2025?'
-        plan = ResearchPlan('document', 'AAPL', (), '2025-10-31', None, question)
         llm = Mock()
-        retriever = Mock(invoke=Mock(return_value=[self.pages[31]]))
-        with patch('intelligence.plan_question', return_value=plan):
-            answer = research_answer(question, lambda: retriever, llm, self.pages)
+        answer = research_answer(question, Mock(), llm, self.pages, sample=True)
         self.assertEqual(answer.research['status'], 'complete')
         self.assertEqual(answer.research['verification']['status'], 'verified')
         entry = {'q': question, 'a': answer.text, 'sources': answer.sources,
@@ -111,13 +108,24 @@ class NumericIntegration(unittest.TestCase):
     def test_supported_statement_question_does_not_build_or_retrieve_an_index(self):
         question = 'What was revenue in fiscal 2025?'
         factory, llm = Mock(), Mock()
-        plan = ResearchPlan('document', 'AAPL', (), '2025-10-31', None, question)
-        with patch('intelligence.plan_question', return_value=plan):
-            answer = research_answer(question, factory, llm, self.pages)
+        answer = research_answer(question, factory, llm, self.pages, sample=True)
         self.assertEqual(answer.research['verification']['status'], 'verified')
         self.assertEqual(len(answer.sources), 1)
+        self.assertEqual(answer.research['plan']['route'], 'document')
         factory.assert_not_called()
         llm.invoke.assert_not_called()
+
+    def test_checked_formulas_do_not_require_the_planner_llm(self):
+        llm = Mock(side_effect=AssertionError('planner llm must not run for checked formulas'))
+        factory = Mock(side_effect=AssertionError('index must not run for checked formulas'))
+        free_cash = research_answer('What was free cash flow in fiscal 2025?', factory, llm, self.pages, sample=True)
+        self.assertEqual(free_cash.research['verification']['status'], 'verified')
+        self.assertIn('$98,767 million', free_cash.text)
+        net_margin = research_answer('What was net margin in fiscal 2025?', factory, llm, self.pages, sample=True)
+        self.assertEqual(net_margin.research['verification']['status'], 'verified')
+        self.assertIn('26.92%', net_margin.text)
+        llm.invoke.assert_not_called()
+        factory.assert_not_called()
 
     def test_statement_scan_does_not_silently_omit_oversized_candidates(self):
         from langchain_core.documents import Document
@@ -127,11 +135,8 @@ class NumericIntegration(unittest.TestCase):
 
     def test_missing_year_is_explicitly_insufficient_and_never_guessed_by_model(self):
         question = 'What was revenue in fiscal 2022?'
-        plan = ResearchPlan('document', 'AAPL', (), '2025-10-31', None, question)
         llm = Mock()
-        retriever = Mock(invoke=Mock(return_value=[self.pages[31]]))
-        with patch('intelligence.plan_question', return_value=plan):
-            answer = research_answer(question, lambda: retriever, llm, self.pages)
+        answer = research_answer(question, Mock(), llm, self.pages, sample=True)
         self.assertEqual(answer.research['status'], 'insufficient_evidence')
         self.assertEqual(answer.research['verification']['status'], 'unavailable')
         self.assertIn('2022', answer.text)
@@ -180,6 +185,43 @@ class NumericIntegration(unittest.TestCase):
         self.assertEqual(prior['verification']['facts'][0]['value'], '101746000000')
         self.assertNotEqual(prior['verification']['facts'][0]['value'],
                             expected['operating_cash_flow_2024_base_usd'])
+
+        free_cash = quantitative_answer('What was free cash flow in fiscal 2024?', sources)
+        self.assertEqual(free_cash['verification']['status'], 'verified')
+        self.assertIn('$72,764 million', free_cash['text'])
+        self.assertEqual(free_cash['verification']['calculations'][0]['formula'],
+                         'operating_cash_flow - abs(capital_expenditure)')
+
+        net_margin = quantitative_answer('What was net margin in fiscal 2024?', sources)
+        self.assertEqual(net_margin['verification']['status'], 'verified')
+        self.assertIn('28.60%', net_margin['text'])
+
+    def test_microsoft_fy2025_issuer_html_headings_and_formulas(self):
+        fixture = json.loads((Path(__file__).parent / 'fixtures/microsoft-fy2025-statements.json').read_text())
+        sources = fixture['sources']
+        expected = fixture['expected']
+
+        revenue = quantitative_answer("What was Microsoft's total revenue in fiscal 2025?", sources)
+        self.assertEqual(revenue['verification']['status'], 'verified')
+        self.assertEqual(revenue['verification']['facts'][0]['value'], expected['revenue_2025_base_usd'])
+
+        cash = quantitative_answer('What was net cash from operations in fiscal 2025?', sources)
+        self.assertEqual(cash['verification']['status'], 'verified')
+        self.assertEqual(cash['verification']['facts'][0]['value'],
+                         expected['operating_cash_flow_2025_base_usd'])
+
+        margin = quantitative_answer('What was operating margin in fiscal 2025?', sources)
+        self.assertEqual(margin['verification']['status'], 'verified')
+        self.assertIn(expected['operating_margin_2025_display'], margin['text'])
+
+        net_margin = quantitative_answer('What was net margin in fiscal 2025?', sources)
+        self.assertEqual(net_margin['verification']['status'], 'verified')
+        self.assertIn(expected['net_margin_2025_display'], net_margin['text'])
+
+        free_cash = quantitative_answer('What was free cash flow in fiscal 2025?', sources)
+        self.assertEqual(free_cash['verification']['status'], 'verified')
+        self.assertIn(expected['free_cash_flow_2025_display'], free_cash['text'])
+        self.assertEqual(free_cash['verification']['facts'][1]['raw_value'], '(64,551)')
 
 
 if __name__ == '__main__':
