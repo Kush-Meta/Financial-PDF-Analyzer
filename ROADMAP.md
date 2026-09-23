@@ -46,6 +46,13 @@ checked formulas (`net_income / revenue * 100` and
 `additions to property and equipment`. See
 `tests/fixtures/microsoft-fy2025-statements.json`.
 
+**Delivered liquidity + non-tech slice:** current assets / current liabilities
+rows and current ratio (`current_assets / current_liabilities`, year-end only)
+are checked formulas. Revenue aliases include `net operating revenues`. A Coca-Cola
+FY2024 consumer-staples fixture covers calendar-year income and balance-sheet
+layouts distinct from the technology filings. See
+`tests/fixtures/coca-cola-2024-statements.json`.
+
 **Remaining gap:** this still does not validate arbitrary model-written numerical
 claims or reconstruct unfamiliar PDF tables. Extend source extraction and question
 coverage using additional filings and held-out layouts, while retaining explicit
@@ -54,8 +61,8 @@ do not turn the current caption into a blanket guarantee about an interpretation
 
 **Acceptance evidence:** check additional filings and held-out questions, reporting
 coverage and abstention as well as correctness. Preserve all original failures.
-The Apple development set, Alphabet/Microsoft fixtures and synthetic tests alone
-do not meet that broader bar.
+The Apple development set, Alphabet/Microsoft/Coca-Cola fixtures and synthetic
+tests alone do not meet that broader bar.
 
 ## 2. Establish a held-out financial evaluation set
 

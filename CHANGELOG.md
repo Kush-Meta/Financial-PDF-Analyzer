@@ -4,6 +4,15 @@ This file records completed development milestones on the working branch. A loca
 commit is not evidence of a merge to `main`, a GitHub release or a deployment.
 See [validation history](VALIDATION.md) for the corresponding checks and limits.
 
+## 2026-09-23 — Current ratio and Coca-Cola consumer-staples coverage
+
+- Added checked current ratio (`current_assets / current_liabilities`) with
+  year-end balance requirements, plus `total current assets` /
+  `total current liabilities` aliases that do not accept “other current assets”.
+- Extended revenue aliases with `net operating revenues`.
+- Added a Coca-Cola FY2024 income/balance fixture (calendar-year consumer staples)
+  and starter prompts for current ratio.
+
 ## 2026-09-23 — Adopted open-source UX and ratio/growth patterns
 
 - Surveyed comparable projects (sec-filing-agent, FinSight, FinDocIntel, FinQA,
