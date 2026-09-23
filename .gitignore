@@ -11,3 +11,8 @@ uploads/
 .DS_Store
 .sec-user-agent
 evaluation-results/
+
+# Local manual-test artifacts
+formula-test-screenshots/
+retest-screenshots/
+.agents/
