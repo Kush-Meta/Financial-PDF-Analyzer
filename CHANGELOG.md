@@ -4,6 +4,13 @@ This file records completed development milestones on the working branch. A loca
 commit is not evidence of a merge to `main`, a GitHub release or a deployment.
 See [validation history](VALIDATION.md) for the corresponding checks and limits.
 
+## 2026-09-23 — Adopted open-source UX and ratio/growth patterns
+
+- Surveyed comparable projects (sec-filing-agent, FinSight, FinDocIntel, FinQA,
+  financial-rag-chatbot, EdgarTools); see [OPEN_SOURCE.md](OPEN_SOURCE.md).
+- Added one-click starter prompts for checked figures, return on equity, YoY
+  growth for any supported metric, and CSV export of checked figures.
+
 ## 2026-09-23 — Statement answers before planner LLM
 
 - Supported statement figures and formulas (including free cash flow and net
