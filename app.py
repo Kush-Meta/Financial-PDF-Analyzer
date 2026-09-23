@@ -13,7 +13,8 @@ from intelligence import research_answer
 from sec_data import ResearchError
 from sample_document import SAMPLE_NAME, SAMPLE_SEC_URL, SAMPLE_PDF_URL, sample_bytes, sample_pages
 from services import build_index, extract_entities, load_reranker, make_llm, make_retriever
-from ui import apply_styles, open_page, queue_question, render_answer, render_source, research_notes
+from ui import (apply_styles, checked_figures_csv, open_page, queue_question,
+                render_answer, render_source, research_notes, starter_prompts)
 
 logger = logging.getLogger(__name__)
 OLLAMA_BASE = os.environ.get("OLLAMA_BASE", "http://localhost:11434")
@@ -133,6 +134,10 @@ with actions:
             transcript = research_notes(st.session_state.chat_history)
             st.download_button("Readable notes", transcript, file_name="finread-research.md",
                                mime="text/markdown", width="stretch")
+            figures_csv = checked_figures_csv(st.session_state.chat_history)
+            st.download_button("Checked figures CSV", figures_csv, file_name="finread-figures.csv",
+                               mime="text/csv", width="stretch",
+                               disabled=not figures_csv.strip() or figures_csv.count("\n") <= 1)
 
 if document_error:
     st.error(document_error)
@@ -170,7 +175,10 @@ with chat_column:
         with conversation:
             if not has_answers:
                 st.html('<div class="chat-empty"><h1>What would you like to know?</h1>'
-                        '<p>Ask about this filing in your own words.</p></div>')
+                        '<p>Ask about this filing in your own words, or try one of these.</p></div>')
+                for i, prompt in enumerate(starter_prompts(st.session_state.demo_active)):
+                    st.button(prompt, key=f"starter_{i}", width="stretch",
+                              on_click=queue_question, args=(prompt, f"starter_{i}"))
             else:
                 for i, entry in enumerate(st.session_state.chat_history):
                     render_answer(entry, i)
