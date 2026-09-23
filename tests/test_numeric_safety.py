@@ -346,6 +346,55 @@ class NumericEvidenceSafety(unittest.TestCase):
         self.assert_not_verified(quantitative_answer(
             "What was adjusted free cash flow in fiscal 2025?", [evidence]))
 
+    def test_current_ratio_uses_year_end_current_assets_over_liabilities(self):
+        balance = source(
+            "Other current assets 14,585 14,287\n"
+            "Total current assets 147,957 152,987\n"
+            "Total current liabilities 165,631 176,392\n"
+            "Total liabilities 285,508 308,030",
+            statement="CONSOLIDATED BALANCE SHEETS",
+            years="September 27,\n2025\nSeptember 28,\n2024",
+        )
+        balance["fiscal_year_ends"] = {"2025": "September 27, 2025", "2024": "September 28, 2024"}
+        answer = quantitative_answer("What was current ratio in fiscal 2025?", [balance])
+        self.assertIsNotNone(answer)
+        self.assertEqual(answer["verification"]["status"], "verified")
+        self.assertIn("0.89×", answer["text"])
+        self.assertEqual(answer["verification"]["calculations"][0]["formula"],
+                         "current_assets / current_liabilities")
+        self.assertEqual(answer["verification"]["facts"][0]["metric"], "current_assets")
+        self.assertEqual(answer["verification"]["facts"][0]["value"], "147957000000")
+
+    def test_other_current_assets_cannot_substitute_for_total_current_assets(self):
+        balance = source(
+            "Other current assets 14,585 14,287\nTotal current liabilities 165,631 176,392",
+            statement="CONSOLIDATED BALANCE SHEETS",
+            years="September 27,\n2025\nSeptember 28,\n2024",
+        )
+        balance["fiscal_year_ends"] = {"2025": "September 27, 2025", "2024": "September 28, 2024"}
+        self.assert_not_verified(quantitative_answer(
+            "What was current ratio in fiscal 2025?", [balance]))
+
+    def test_interim_balances_cannot_verify_current_ratio(self):
+        balance = source(
+            "Total current assets 147,957 152,987\nTotal current liabilities 165,631 176,392",
+            statement="CONSOLIDATED BALANCE SHEETS",
+            years="June 28,\n2025\nSeptember 28,\n2024",
+        )
+        balance["text"] = balance["text"].replace("Years ended\n", "")
+        self.assert_not_verified(quantitative_answer(
+            "What was current ratio in fiscal 2025?", [balance]))
+
+    def test_adjusted_current_ratio_is_not_verified(self):
+        balance = source(
+            "Total current assets 147,957 152,987\nTotal current liabilities 165,631 176,392",
+            statement="CONSOLIDATED BALANCE SHEETS",
+            years="September 27,\n2025\nSeptember 28,\n2024",
+        )
+        balance["fiscal_year_ends"] = {"2025": "September 27, 2025", "2024": "September 28, 2024"}
+        self.assert_not_verified(quantitative_answer(
+            "What was adjusted current ratio in fiscal 2025?", [balance]))
+
 
 if __name__ == "__main__":
     unittest.main()
