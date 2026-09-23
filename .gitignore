@@ -15,4 +15,6 @@ evaluation-results/
 # Local manual-test artifacts
 formula-test-screenshots/
 retest-screenshots/
+starter-features-screenshots/
+current-ratio-screenshots/
 .agents/
