@@ -26,13 +26,14 @@ adopted.
    statement metric (e.g. operating income, net income).
 3. **Standard ratios with explicit formulas** — ratio tools are central in
    finance-grade agents. **Adopted:** return on equity
-   (`net_income / shareholders_equity × 100`) as a checked cross-statement formula.
+   (`net_income / shareholders_equity × 100`) and current ratio
+   (`current_assets / current_liabilities`) as checked formulas.
 4. **CSV export of metrics** — `sec-filing-agent` exposes `/export`. FinRead had
    JSON/Markdown research exports only. **Adopted:** CSV of checked figures from
    the conversation.
 5. **Deferred for later** — multi-PDF workspaces, XBRL-live tools for arbitrary
-   tickers, side-by-side PDF compare tabs, and full ratio packs (current ratio,
-   leverage). Those need broader ingestion or accounting contracts than this slice.
+   tickers, side-by-side PDF compare tabs, and full leverage/credit packs (those
+   need broader debt accounting contracts than this slice).
 
 ## Design constraints we keep
 

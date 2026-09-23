@@ -12,6 +12,7 @@ class UiHelpers(unittest.TestCase):
         self.assertEqual(prompts, SAMPLE_STARTERS)
         self.assertTrue(any("free cash flow" in p for p in prompts))
         self.assertTrue(any("return on equity" in p for p in prompts))
+        self.assertTrue(any("current ratio" in p for p in prompts))
         self.assertTrue(any("growth" in p for p in prompts))
 
     def test_checked_figures_csv_exports_verified_rows(self):
