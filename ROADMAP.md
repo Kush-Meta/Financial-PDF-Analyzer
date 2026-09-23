@@ -36,8 +36,15 @@ covers consolidated income and cash-flow layouts (`Revenues`, `Income from
 operations`, `Net cash provided by operating activities`), including operating
 margin from those cells. Operating-cash-flow aliases now include Microsoft-style
 `net cash from operations`, with counterexamples so investing cash and
-issuer-HTML headings such as `Financial Statements: Income Statements` remain
-unsupported. See `tests/fixtures/alphabet-2024-statements.json`.
+unsupported segment/adjusted income-statement headings still abstain. See
+`tests/fixtures/alphabet-2024-statements.json`.
+
+**Delivered third-issuer + formula slice:** Microsoft FY2025 Income Statements /
+Cash Flows Statements headings are recognized; net margin and free cash flow are
+checked formulas (`net_income / revenue * 100` and
+`operating_cash_flow - abs(capital_expenditure)`). Capex aliases include
+`additions to property and equipment`. See
+`tests/fixtures/microsoft-fy2025-statements.json`.
 
 **Remaining gap:** this still does not validate arbitrary model-written numerical
 claims or reconstruct unfamiliar PDF tables. Extend source extraction and question
@@ -47,8 +54,8 @@ do not turn the current caption into a blanket guarantee about an interpretation
 
 **Acceptance evidence:** check additional filings and held-out questions, reporting
 coverage and abstention as well as correctness. Preserve all original failures.
-The Apple development set, Alphabet fixture and synthetic tests alone do not meet
-that broader bar.
+The Apple development set, Alphabet/Microsoft fixtures and synthetic tests alone
+do not meet that broader bar.
 
 ## 2. Establish a held-out financial evaluation set
 
